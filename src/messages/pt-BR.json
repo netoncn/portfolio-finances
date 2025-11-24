@@ -168,11 +168,44 @@
   },
   "dashboard": {
     "title": "Meu Dashboard",
-    "welcome": "Bem-vindo ao Dashboard!",
+    "welcome": "Olá",
     "memberSince": "Membro desde",
     "lastLogin": "Último acesso",
     "now": "Agora",
-    "sessionInfo": "Sua sessão está protegida e criptografada"
+    "sessionInfo": "Sua sessão está protegida e criptografada",
+    "welcomeMessage": "Bem-vindo ao seu painel de controle financeiro",
+    "stats": {
+      "totalAccounts": "Total de Contas",
+      "creditCards": "Cartões de Crédito",
+      "availableCredit": "Crédito Disponível",
+      "bankAccounts": "Contas Bancárias",
+      "totalLimit": "Limite total",
+      "creditUsage": "utilizado",
+      "noUsage": "Sem uso",
+      "activeAndFunctional": "Ativas e funcionais",
+      "viewAll": "Ver todas"
+    },
+    "recentAccounts": {
+      "title": "Contas Recentes",
+      "description": "Suas contas cadastradas mais recentemente",
+      "empty": {
+        "title": "Nenhuma conta cadastrada",
+        "description": "Comece adicionando sua primeira conta"
+      }
+    },
+    "quickActions": {
+      "title": "Ações Rápidas",
+      "description": "Acesse rapidamente as principais funcionalidades",
+      "manageAccounts": "Gerenciar Contas",
+      "transactions": "Transações",
+      "investments": "Investimentos",
+      "reports": "Relatórios",
+      "comingSoon": "Em breve"
+    },
+    "tip": {
+      "title": "Dica",
+      "content": "Mantenha suas contas atualizadas para ter um controle financeiro mais preciso. Use o botão no header para alternar entre tema claro e escuro."
+    }
   },
   "errors": {
     "404": {
@@ -194,6 +227,162 @@
         "home": "Voltar para Home",
         "support": "Se o problema persistir, entre em contato com o suporte"
       }
+    }
+  },
+  "accounts": {
+    "title": "Minhas Contas",
+    "description": "Gerencie suas contas bancárias e cartões",
+    "emptyState": {
+      "title": "Nenhuma conta cadastrada",
+      "description": "Comece adicionando sua primeira conta"
+    },
+    "actions": {
+      "new": "Nova Conta",
+      "add": "Adicionar Conta",
+      "edit": "Editar",
+      "archive": "Arquivar",
+      "unarchive": "Desarquivar",
+      "delete": "Excluir"
+    },
+    "stats": {
+      "total": "Total de Contas",
+      "creditCards": "Cartões de Crédito",
+      "bankAccounts": "Contas Bancárias",
+      "availableCredit": "Crédito Disponível",
+      "totalLimit": "Limite total",
+      "activeAndFunctional": "Ativas e funcionais",
+      "creditUsage": "utilizado",
+      "noUsage": "Sem uso"
+    },
+    "table": {
+      "name": "Nome",
+      "type": "Tipo",
+      "issuer": "Emissor",
+      "lastDigits": "Últimos Dígitos",
+      "limit": "Limite",
+      "available": "Disponível",
+      "status": "Status",
+      "actions": "Ações",
+      "noResults": "Nenhuma conta encontrada",
+      "adjustFilters": "Tente ajustar os filtros de busca",
+      "showing": "Mostrando",
+      "of": "de",
+      "accounts": "conta(s)"
+    },
+    "filters": {
+      "search": "Buscar por nome, emissor ou últimos dígitos...",
+      "type": "Tipo",
+      "status": "Status",
+      "allTypes": "Todos os tipos",
+      "all": "Todos",
+      "active": "Ativas",
+      "archived": "Arquivadas"
+    },
+    "types": {
+      "card_credit": "Cartão de Crédito",
+      "card_debit": "Cartão de Débito",
+      "prepaid": "Pré-pago",
+      "wallet_cash": "Carteira",
+      "bank_checking": "Conta Corrente",
+      "bank_savings": "Conta Poupança"
+    },
+    "brands": {
+      "visa": "Visa",
+      "mastercard": "Mastercard",
+      "amex": "American Express",
+      "elo": "Elo",
+      "hipercard": "Hipercard",
+      "vr": "VR",
+      "sodexo": "Sodexo",
+      "alelo": "Alelo",
+      "other": "Outro"
+    },
+    "form": {
+      "create": {
+        "title": "Nova Conta",
+        "description": "Adicione uma nova conta bancária ou cartão"
+      },
+      "edit": {
+        "title": "Editar Conta",
+        "description": "Edite as informações da conta"
+      },
+      "sections": {
+        "basicInfo": "Informações Básicas",
+        "cardInfo": "Informações do Cartão",
+        "billing": "Faturamento",
+        "benefits": "Benefícios (Opcional)"
+      },
+      "fields": {
+        "name": {
+          "label": "Nome da Conta",
+          "placeholder": "Ex: Nubank Gold",
+          "required": "Nome deve ter no mínimo 2 caracteres"
+        },
+        "type": {
+          "label": "Tipo de Conta",
+          "placeholder": "Selecione o tipo"
+        },
+        "issuer": {
+          "label": "Emissor",
+          "placeholder": "Ex: Nubank, Itaú, Banco Inter",
+          "description": "Banco ou instituição financeira"
+        },
+        "brand": {
+          "label": "Bandeira",
+          "placeholder": "Selecione a bandeira",
+          "required": "Cartões devem ter a bandeira especificada"
+        },
+        "lastDigits": {
+          "label": "Últimos Dígitos",
+          "placeholder": "1234",
+          "description": "2 a 4 últimos dígitos do cartão"
+        },
+        "closingDay": {
+          "label": "Dia do Fechamento"
+        },
+        "dueDay": {
+          "label": "Dia do Vencimento"
+        },
+        "creditLimit": {
+          "label": "Limite de Crédito",
+          "description": "O crédito disponível será calculado automaticamente com base nas suas transações"
+        },
+        "airline": {
+          "label": "Programa de Milhas",
+          "placeholder": "Ex: LATAM Pass, Smiles"
+        },
+        "cashback": {
+          "label": "Cashback (%)",
+          "placeholder": "0.01 (1%)",
+          "description": "Valor de 0 a 1 (ex: 0.01 = 1%)"
+        },
+        "fxFee": {
+          "label": "Taxa IOF (%)",
+          "placeholder": "0.038 (3.8%)",
+          "description": "Valor de 0 a 1 (ex: 0.038 = 3.8%)"
+        }
+      },
+      "actions": {
+        "create": "Criar Conta",
+        "update": "Salvar Alterações",
+        "cancel": "Cancelar"
+      },
+      "messages": {
+        "createSuccess": "Conta criada com sucesso!",
+        "updateSuccess": "Conta atualizada com sucesso!",
+        "createError": "Erro ao criar conta",
+        "updateError": "Erro ao atualizar conta",
+        "validationError": "Verifique os campos do formulário",
+        "archiveSuccess": "Conta arquivada com sucesso!",
+        "archiveError": "Erro ao arquivar conta",
+        "unarchiveSuccess": "Conta desarquivada com sucesso!",
+        "unarchiveError": "Erro ao desarquivar conta"
+      }
+    },
+    "recentAccounts": {
+      "title": "Contas Recentes",
+      "description": "Suas contas cadastradas mais recentemente",
+      "viewAll": "Ver todas"
     }
   }
 }

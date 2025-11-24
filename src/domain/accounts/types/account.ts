@@ -40,4 +40,6 @@ export interface Account extends BaseEntity {
     creditLimit?: number;
     availableCredit?: number;
   };
+  archived?: boolean;
+  archivedAt?: number;
 }

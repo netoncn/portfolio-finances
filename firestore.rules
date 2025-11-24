@@ -61,10 +61,124 @@ service cloud.firestore {
     }
 
     /* -------------------- Accounts (carteiras/contas) -------------------- */
+
+    // Valida tipos de conta permitidos
+    function isValidAccountType(type) {
+      return type in [
+        'card_credit',
+        'card_debit',
+        'prepaid',
+        'wallet_cash',
+        'bank_checking',
+        'bank_savings'
+      ];
+    }
+
+    // Valida bandeiras de cartão permitidas
+    function isValidCardBrand(brand) {
+      return brand in [
+        'visa',
+        'mastercard',
+        'amex',
+        'elo',
+        'hipercard',
+        'vr',
+        'sodexo',
+        'alelo',
+        'other'
+      ];
+    }
+
+    // Verifica se é um tipo de cartão
+    function isCardType(type) {
+      return type in ['card_credit', 'card_debit', 'prepaid'];
+    }
+
+    // Verifica se é cartão de crédito
+    function isCreditCard(type) {
+      return type == 'card_credit';
+    }
+
+    // Verifica se é conta bancária ou carteira
+    function isBankOrWallet(type) {
+      return type in ['wallet_cash', 'bank_checking', 'bank_savings'];
+    }
+
+    // Valida campos obrigatórios de account
+    function hasRequiredAccountFields(data) {
+      return data.keys().hasAll(['userId', 'name', 'accountType', 'currency', 'createdAt', 'updatedAt', 'archived'])
+        && data.userId is string
+        && data.name is string
+        && data.name.size() >= 2
+        && isValidAccountType(data.accountType)
+        && data.currency == 'BRL'
+        && data.createdAt is int
+        && data.updatedAt is int
+        && data.archived is bool;
+    }
+
+    // Valida billing para cartão de crédito
+    function hasValidBilling(data) {
+      return data.billing is map
+        && data.billing.keys().hasAll(['closingDay', 'dueDay'])
+        && data.billing.closingDay is int
+        && data.billing.closingDay >= 1
+        && data.billing.closingDay <= 28
+        && data.billing.dueDay is int
+        && data.billing.dueDay >= 1
+        && data.billing.dueDay <= 28
+        && data.billing.closingDay != data.billing.dueDay
+        && (!data.billing.keys().hasAny(['creditLimit']) || data.billing.creditLimit is int)
+        && (!data.billing.keys().hasAny(['availableCredit']) || data.billing.availableCredit is int);
+    }
+
+    // Valida coerência de campos baseado no tipo de conta
+    function accountFieldsAreCoherent(data) {
+      let accountType = data.accountType;
+      let isCard = isCardType(accountType);
+      let isCredit = isCreditCard(accountType);
+      let isBankWallet = isBankOrWallet(accountType);
+
+      return (
+        // Cartões devem ter cardBrand
+        (!isCard || (data.keys().hasAny(['cardBrand']) && isValidCardBrand(data.cardBrand)))
+        // Cartões de crédito devem ter billing
+        && (!isCredit || (data.keys().hasAny(['billing']) && hasValidBilling(data)))
+        // Contas bancárias/carteiras não devem ter billing
+        && (!isBankWallet || !data.keys().hasAny(['billing']))
+        // Contas bancárias/carteiras não devem ter cardBrand
+        && (!isBankWallet || !data.keys().hasAny(['cardBrand']))
+        // Contas bancárias/carteiras não devem ter last4
+        && (!isBankWallet || !data.keys().hasAny(['last4']) || data.last4 == '')
+        // last4 se presente deve ter 2-4 dígitos
+        && (!data.keys().hasAny(['last4']) || data.last4 == '' || (data.last4 is string && data.last4.size() >= 2 && data.last4.size() <= 4))
+        // benefits se presente deve ser um map
+        && (!data.keys().hasAny(['benefits']) || data.benefits is map)
+      );
+    }
+
+    // Valida que campos imutáveis não foram alterados em update
+    function accountImmutableFieldsUnchanged() {
+      return request.method != 'update' || (
+        resource.data.userId == request.resource.data.userId
+        && resource.data.createdAt == request.resource.data.createdAt
+      );
+    }
+
     match /accounts/{id} {
-      allow create: if isOwnerNew();
+      allow create: if isOwnerNew()
+        && hasRequiredAccountFields(request.resource.data)
+        && accountFieldsAreCoherent(request.resource.data);
+
       allow read: if isOwnerDoc();
-      allow update: if isOwnerDoc() && isOwnerNew() && sameUserIdOnUpdate();
+
+      allow update: if isOwnerDoc()
+        && isOwnerNew()
+        && sameUserIdOnUpdate()
+        && accountImmutableFieldsUnchanged()
+        && hasRequiredAccountFields(request.resource.data)
+        && accountFieldsAreCoherent(request.resource.data);
+
       allow delete: if isOwnerDoc();
     }
 
@@ -222,6 +336,22 @@ service cloud.firestore {
     match /points_offers/{id} {
       allow read: if true;
       allow create, update, delete: if isAdmin();
+    }
+
+    /* -------------------- Audit Events (observabilidade) -------------------- */
+    // Audit events são write-only para o sistema (admin SDK)
+    // Usuários podem apenas ler seus próprios eventos
+    match /audit_events/{id} {
+      // Apenas o dono pode ler seus próprios eventos de auditoria
+      allow read: if isOwnerDoc();
+
+      // Apenas o sistema (admin SDK) pode criar eventos de auditoria
+      // Isso é enforced no código - usuários não devem criar eventos diretamente
+      allow create: if false;
+
+      // Ninguém pode atualizar ou deletar eventos de auditoria
+      // Cleanup é feito pelo sistema via admin SDK
+      allow update, delete: if false;
     }
   }
 }

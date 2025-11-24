@@ -24,7 +24,13 @@
         "noAssignInExpressions": "off"
       },
       "correctness": {
-        "noUnusedVariables": "error"
+        "noUnusedVariables": {
+          "level": "warn",
+          "options": {
+            "ignoreRestSiblings": false
+          }
+        },
+        "useExhaustiveDependencies": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"

@@ -168,11 +168,44 @@
   },
   "dashboard": {
     "title": "My Dashboard",
-    "welcome": "Welcome to Dashboard!",
+    "welcome": "Hello",
     "memberSince": "Member since",
     "lastLogin": "Last login",
     "now": "Now",
-    "sessionInfo": "Your session is secure and encrypted"
+    "sessionInfo": "Your session is secure and encrypted",
+    "welcomeMessage": "Welcome to your financial control dashboard",
+    "stats": {
+      "totalAccounts": "Total Accounts",
+      "creditCards": "Credit Cards",
+      "availableCredit": "Available Credit",
+      "bankAccounts": "Bank Accounts",
+      "totalLimit": "Total limit",
+      "creditUsage": "used",
+      "noUsage": "No usage",
+      "activeAndFunctional": "Active and functional",
+      "viewAll": "View all"
+    },
+    "recentAccounts": {
+      "title": "Recent Accounts",
+      "description": "Your most recently registered accounts",
+      "empty": {
+        "title": "No accounts registered",
+        "description": "Start by adding your first account"
+      }
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "description": "Quickly access main features",
+      "manageAccounts": "Manage Accounts",
+      "transactions": "Transactions",
+      "investments": "Investments",
+      "reports": "Reports",
+      "comingSoon": "Coming soon"
+    },
+    "tip": {
+      "title": "Tip",
+      "content": "Keep your accounts updated for more accurate financial control. Use the header button to toggle between light and dark theme."
+    }
   },
   "errors": {
     "404": {
@@ -194,6 +227,162 @@
         "home": "Go Home",
         "support": "If the problem persists, contact support"
       }
+    }
+  },
+  "accounts": {
+    "title": "My Accounts",
+    "description": "Manage your bank accounts and cards",
+    "emptyState": {
+      "title": "No accounts registered",
+      "description": "Start by adding your first account"
+    },
+    "actions": {
+      "new": "New Account",
+      "add": "Add Account",
+      "edit": "Edit",
+      "archive": "Archive",
+      "unarchive": "Unarchive",
+      "delete": "Delete"
+    },
+    "stats": {
+      "total": "Total Accounts",
+      "creditCards": "Credit Cards",
+      "bankAccounts": "Bank Accounts",
+      "availableCredit": "Available Credit",
+      "totalLimit": "Total limit",
+      "activeAndFunctional": "Active and functional",
+      "creditUsage": "used",
+      "noUsage": "No usage"
+    },
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "issuer": "Issuer",
+      "lastDigits": "Last Digits",
+      "limit": "Limit",
+      "available": "Available",
+      "status": "Status",
+      "actions": "Actions",
+      "noResults": "No accounts found",
+      "adjustFilters": "Try adjusting the search filters",
+      "showing": "Showing",
+      "of": "of",
+      "accounts": "account(s)"
+    },
+    "filters": {
+      "search": "Search by name, issuer or last digits...",
+      "type": "Type",
+      "status": "Status",
+      "allTypes": "All types",
+      "all": "All",
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "types": {
+      "card_credit": "Credit Card",
+      "card_debit": "Debit Card",
+      "prepaid": "Prepaid",
+      "wallet_cash": "Cash Wallet",
+      "bank_checking": "Checking Account",
+      "bank_savings": "Savings Account"
+    },
+    "brands": {
+      "visa": "Visa",
+      "mastercard": "Mastercard",
+      "amex": "American Express",
+      "elo": "Elo",
+      "hipercard": "Hipercard",
+      "vr": "VR",
+      "sodexo": "Sodexo",
+      "alelo": "Alelo",
+      "other": "Other"
+    },
+    "form": {
+      "create": {
+        "title": "New Account",
+        "description": "Add a new bank account or card"
+      },
+      "edit": {
+        "title": "Edit Account",
+        "description": "Edit account information"
+      },
+      "sections": {
+        "basicInfo": "Basic Information",
+        "cardInfo": "Card Information",
+        "billing": "Billing",
+        "benefits": "Benefits (Optional)"
+      },
+      "fields": {
+        "name": {
+          "label": "Account Name",
+          "placeholder": "Ex: Nubank Gold",
+          "required": "Name must be at least 2 characters"
+        },
+        "type": {
+          "label": "Account Type",
+          "placeholder": "Select type"
+        },
+        "issuer": {
+          "label": "Issuer",
+          "placeholder": "Ex: Nubank, Itaú, Banco Inter",
+          "description": "Bank or financial institution"
+        },
+        "brand": {
+          "label": "Brand",
+          "placeholder": "Select brand",
+          "required": "Cards must have a brand specified"
+        },
+        "lastDigits": {
+          "label": "Last Digits",
+          "placeholder": "1234",
+          "description": "2 to 4 last digits of the card"
+        },
+        "closingDay": {
+          "label": "Closing Day"
+        },
+        "dueDay": {
+          "label": "Due Day"
+        },
+        "creditLimit": {
+          "label": "Credit Limit",
+          "description": "Available credit will be calculated automatically based on your transactions"
+        },
+        "airline": {
+          "label": "Miles Program",
+          "placeholder": "Ex: LATAM Pass, Smiles"
+        },
+        "cashback": {
+          "label": "Cashback (%)",
+          "placeholder": "0.01 (1%)",
+          "description": "Value from 0 to 1 (ex: 0.01 = 1%)"
+        },
+        "fxFee": {
+          "label": "IOF Rate (%)",
+          "placeholder": "0.038 (3.8%)",
+          "description": "Value from 0 to 1 (ex: 0.038 = 3.8%)"
+        }
+      },
+      "actions": {
+        "create": "Create Account",
+        "update": "Save Changes",
+        "cancel": "Cancel"
+      },
+      "messages": {
+        "createSuccess": "Account created successfully!",
+        "updateSuccess": "Account updated successfully!",
+        "createError": "Error creating account",
+        "updateError": "Error updating account",
+        "validationError": "Please check the form fields",
+        "archiveSuccess": "Account archived successfully!",
+        "archiveError": "Error archiving account",
+        "unarchiveSuccess": "Account unarchived successfully!",
+        "unarchiveError": "Error unarchiving account"
+      }
+    },
+    "recentAccounts": {
+      "title": "Recent Accounts",
+      "description": "Your most recently registered accounts",
+      "viewAll": "View all"
     }
   }
 }

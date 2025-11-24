@@ -43,7 +43,9 @@ export const authOptions: NextAuthOptions = {
   },
 
   // Debug apenas em desenvolvimento
-  debug: process.env.NEXTAUTH_DEBUG === "true" && process.env.NODE_ENV !== "production",
+  debug:
+    process.env.NEXTAUTH_DEBUG === "true" &&
+    process.env.NODE_ENV !== "production",
 
   callbacks: {
     async signIn({ user, account, profile }) {
@@ -91,25 +93,28 @@ export const authOptions: NextAuthOptions = {
         console.log("URL solicitada:", url);
         console.log("Base URL:", baseUrl);
       }
-      
+
       if (url.startsWith("/")) {
-        process.env.NEXTAUTH_DEBUG === "true" && console.log("Redirect relativo:", `${baseUrl}${url}`);
+        process.env.NEXTAUTH_DEBUG === "true" &&
+          console.log("Redirect relativo:", `${baseUrl}${url}`);
         return `${baseUrl}${url}`;
       }
 
       try {
         const urlObj = new URL(url);
         const baseUrlObj = new URL(baseUrl);
-        
+
         if (urlObj.origin === baseUrlObj.origin) {
-          process.env.NEXTAUTH_DEBUG === "true" && console.log("Redirect mesma origem:", url);
+          process.env.NEXTAUTH_DEBUG === "true" &&
+            console.log("Redirect mesma origem:", url);
           return url;
         }
       } catch (error) {
         console.error("Erro ao parsear URL:", error);
       }
-      
-      process.env.NEXTAUTH_DEBUG === "true" && console.log("Redirect para baseUrl:", baseUrl);
+
+      process.env.NEXTAUTH_DEBUG === "true" &&
+        console.log("Redirect para baseUrl:", baseUrl);
       return baseUrl;
     },
   },
@@ -121,13 +126,14 @@ export const authOptions: NextAuthOptions = {
 
   cookies: {
     sessionToken: {
-      name: process.env.NODE_ENV === "production" 
-        ? `__Secure-next-auth.session-token`
-        : `next-auth.session-token`,
+      name:
+        process.env.NODE_ENV === "production"
+          ? `__Secure-next-auth.session-token`
+          : `next-auth.session-token`,
       options: {
         httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
+        sameSite: "lax",
+        path: "/",
         secure: process.env.NODE_ENV === "production",
       },
     },

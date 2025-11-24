@@ -1,5 +1,5 @@
-import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { withAuth } from "next-auth/middleware";
 
 export default withAuth(
   function middleware(req) {
@@ -23,14 +23,14 @@ export default withAuth(
         if (path.startsWith("/dashboard")) {
           return !!token;
         }
-        
+
         return true;
       },
     },
     pages: {
       signIn: "/auth/signin",
     },
-  }
+  },
 );
 
 export const config = {

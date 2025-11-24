@@ -39,6 +39,31 @@ export const createTransactionSchema = z.object({
   status: installmentStatusEnum.optional(),
 });
 
-export const updateTransactionSchema = createTransactionSchema
-  .partial()
-  .extend({ id: z.string().min(1), userId: uidSchema });
+export const updateTransactionSchema = z.object({
+  id: z.string().min(1),
+  userId: uidSchema,
+  accountId: z.string().min(1).optional(),
+  accountType: accountTypeEnum.optional(),
+  cardBrand: cardBrandEnum.optional(),
+
+  date: tsSchema.optional(),
+  description: z.string().min(1).optional(),
+  merchant: z.string().optional(),
+  amount: centsSchema.optional(),
+  type: transactionTypeEnum.optional(),
+  categoryId: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+
+  installmentGroupId: z.string().optional(),
+  installmentNumber: z.number().int().min(1).optional(),
+  installmentCount: z.number().int().min(1).optional(),
+  purchaseDate: tsSchema.optional(),
+  dueDate: tsSchema.optional(),
+  statementMonth: z
+    .string()
+    .regex(/^\d{6}$/, "Use yyyymm")
+    .optional(),
+  interestAmount: z.number().int().optional(),
+  feesAmount: z.number().int().optional(),
+  status: installmentStatusEnum.optional(),
+});

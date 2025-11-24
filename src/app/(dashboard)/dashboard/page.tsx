@@ -1,347 +1,345 @@
+"use client";
+
+import {
+  ArrowUpRight,
+  Building2,
+  ChevronRight,
+  CreditCard,
+  Plus,
+  TrendingUp,
+  Wallet,
+} from "lucide-react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { AccountIcon } from "@/components/accounts/AccountIcon";
+import { CardBrandBadge } from "@/components/accounts/CardBrandIcon";
+import { IssuerBadge } from "@/components/accounts/IssuerBadge";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import type { Account } from "@/domain/accounts/types/account";
+import { useAccounts } from "@/hooks/use-accounts";
+
+function formatCurrency(value: number): string {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+}
+
 export default function Dashboard() {
+  const { data: session } = useSession();
+  const t = useTranslations("dashboard");
+  const tAccounts = useTranslations("accounts");
+  const tCommon = useTranslations("common");
+  const { data: accounts = [], isLoading } = useAccounts(false);
+
+  const activeAccounts = accounts.filter((a) => !a.archived);
+  const creditCards = activeAccounts.filter(
+    (a) => a.accountType === "card_credit",
+  );
+  const bankAccounts = activeAccounts.filter(
+    (a) =>
+      a.accountType === "bank_checking" || a.accountType === "bank_savings",
+  );
+
+  const totalCreditLimit = creditCards.reduce(
+    (sum, acc) => sum + (acc.billing?.creditLimit || 0),
+    0,
+  );
+
+  const totalAvailableCredit = creditCards.reduce(
+    (sum, acc) => sum + (acc.billing?.availableCredit || 0),
+    0,
+  );
+
+  const creditUsage =
+    totalCreditLimit > 0
+      ? ((totalCreditLimit - totalAvailableCredit) / totalCreditLimit) * 100
+      : 0;
+
+  const userName = session?.user?.name?.split(" ")[0] || "Usuário";
+
   return (
-    <div className="bg-gradient-to-br from-primary/5 via-background to-secondary/5 py-12 min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Card de Boas-vindas */}
-        <div className="bg-card border border-border rounded-xl shadow-md p-6 mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-3">
-            🎉 Bem-vindo ao Dashboard!
-          </h1>
-          <p className="text-muted-foreground mb-4">
-            Você está autenticado com sucesso usando sua conta Google. Este é um
-            exemplo de página protegida que só pode ser acessada por usuários
-            autenticados.
-          </p>
-          <div className="bg-primary/10 border-l-4 border-primary p-4 rounded">
-            <p className="text-sm text-foreground">
-              <strong>Dica:</strong> Use o botão no header para alternar entre
-              tema claro e escuro!
-            </p>
+        <div className="bg-card border border-border rounded-xl shadow-md p-6 mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground mb-2">
+                {t("welcome")}, {userName}! 👋
+              </h1>
+              <p className="text-muted-foreground">{t("welcomeMessage")}</p>
+            </div>
+            <Link href="/accounts">
+              <Button>
+                <Plus className="size-4" />
+                {tAccounts("actions.new")}
+              </Button>
+            </Link>
           </div>
         </div>
 
-        {/* Cards de Estatísticas */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-          <div className="bg-card border border-border rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">
-                  Total de Projetos
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    {t("stats.totalAccounts")}
+                  </p>
+                  <p className="text-3xl font-bold text-primary">
+                    {isLoading ? "..." : activeAccounts.length}
+                  </p>
+                </div>
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Wallet className="size-6 text-primary" />
+                </div>
+              </div>
+              <div className="mt-4">
+                <Link
+                  href="/accounts"
+                  className="text-sm text-primary hover:underline inline-flex items-center"
+                >
+                  {t("stats.viewAll")}
+                  <ChevronRight className="size-4 ml-1" />
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Credit Cards */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    {t("stats.creditCards")}
+                  </p>
+                  <p className="text-3xl font-bold text-chart-2">
+                    {isLoading ? "..." : creditCards.length}
+                  </p>
+                </div>
+                <div className="w-12 h-12 bg-chart-2/10 rounded-lg flex items-center justify-center">
+                  <CreditCard className="size-6 text-chart-2" />
+                </div>
+              </div>
+              <div className="mt-4">
+                <p className="text-sm text-muted-foreground">
+                  {t("stats.totalLimit")}: {formatCurrency(totalCreditLimit)}
                 </p>
-                <p className="text-3xl font-bold text-primary">24</p>
               </div>
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-primary"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-green-600 dark:text-green-400 font-medium">
-                ↑ 12%
-              </span>
-              <span className="text-muted-foreground ml-2">
-                vs mês anterior
-              </span>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
-          <div className="bg-card border border-border rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">
-                  Tarefas Ativas
+          {/* Available Credit */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    {t("stats.availableCredit")}
+                  </p>
+                  <p className="text-2xl font-bold text-chart-3">
+                    {isLoading ? "..." : formatCurrency(totalAvailableCredit)}
+                  </p>
+                </div>
+                <div className="w-12 h-12 bg-chart-3/10 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="size-6 text-chart-3" />
+                </div>
+              </div>
+              <div className="mt-4">
+                <p className="text-sm text-muted-foreground">
+                  {creditUsage > 0
+                    ? `${creditUsage.toFixed(1)}% ${t("stats.creditUsage")}`
+                    : t("stats.noUsage")}
                 </p>
-                <p className="text-3xl font-bold text-chart-2">156</p>
               </div>
-              <div className="w-12 h-12 bg-chart-2/10 rounded-lg flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-chart-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-green-600 dark:text-green-400 font-medium">
-                ↑ 8%
-              </span>
-              <span className="text-muted-foreground ml-2">
-                vs semana anterior
-              </span>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
-          <div className="bg-card border border-border rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Concluídas</p>
-                <p className="text-3xl font-bold text-chart-3">89%</p>
+          {/* Bank Accounts */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    {t("stats.bankAccounts")}
+                  </p>
+                  <p className="text-3xl font-bold text-chart-4">
+                    {isLoading ? "..." : bankAccounts.length}
+                  </p>
+                </div>
+                <div className="w-12 h-12 bg-chart-4/10 rounded-lg flex items-center justify-center">
+                  <Building2 className="size-6 text-chart-4" />
+                </div>
               </div>
-              <div className="w-12 h-12 bg-chart-3/10 rounded-lg flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-chart-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+              <div className="mt-4">
+                <p className="text-sm text-muted-foreground">
+                  {t("stats.activeAndFunctional")}
+                </p>
               </div>
-            </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-green-600 dark:text-green-400 font-medium">
-                ↑ 5%
-              </span>
-              <span className="text-muted-foreground ml-2">
-                vs mês anterior
-              </span>
-            </div>
-          </div>
-
-          <div className="bg-card border border-border rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Em Atraso</p>
-                <p className="text-3xl font-bold text-destructive">7</p>
-              </div>
-              <div className="w-12 h-12 bg-destructive/10 rounded-lg flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-destructive"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div className="mt-4 flex items-center text-sm">
-              <span className="text-red-600 dark:text-red-400 font-medium">
-                ↓ 3%
-              </span>
-              <span className="text-muted-foreground ml-2">
-                vs semana anterior
-              </span>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Grid de Conteúdo */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Atividades Recentes */}
-          <div className="lg:col-span-2 bg-card border border-border rounded-xl shadow-md p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-foreground">
-                Atividades Recentes
-              </h2>
-              <button
-                type="button"
-                className="text-sm text-primary hover:text-primary/80 font-medium"
-              >
-                Ver todas
-              </button>
-            </div>
-            <div className="space-y-3">
-              {[
-                {
-                  title: "Nova tarefa criada: Design da landing page",
-                  time: "Há 2 horas",
-                  icon: "📝",
-                  color: "bg-primary/10",
-                },
-                {
-                  title: "Projeto 'E-commerce' atualizado",
-                  time: "Há 4 horas",
-                  icon: "🔄",
-                  color: "bg-chart-2/10",
-                },
-                {
-                  title: "Tarefa concluída: Implementar autenticação",
-                  time: "Há 6 horas",
-                  icon: "✅",
-                  color: "bg-chart-3/10",
-                },
-                {
-                  title: "Novo comentário em 'Bug de login'",
-                  time: "Há 8 horas",
-                  icon: "💬",
-                  color: "bg-chart-4/10",
-                },
-                {
-                  title: "Deadline se aproximando: Relatório mensal",
-                  time: "Há 1 dia",
-                  icon: "⏰",
-                  color: "bg-destructive/10",
-                },
-              ].map((activity, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-4 p-3 hover:bg-accent rounded-lg transition-colors"
-                >
-                  <div
-                    className={`w-12 h-12 ${activity.color} rounded-lg flex items-center justify-center text-2xl`}
-                  >
-                    {activity.icon}
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>{t("recentAccounts.title")}</CardTitle>
+                    <CardDescription>
+                      {t("recentAccounts.description")}
+                    </CardDescription>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-foreground">
-                      {activity.title}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {activity.time}
-                    </p>
-                  </div>
+                  <Link href="/accounts">
+                    <Button variant="ghost" size="sm">
+                      {t("stats.viewAll")}
+                      <ArrowUpRight className="size-4 ml-2" />
+                    </Button>
+                  </Link>
                 </div>
-              ))}
-            </div>
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
+                  <div className="text-center py-8 text-muted-foreground">
+                    {tCommon("loading")}
+                  </div>
+                ) : activeAccounts.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Wallet className="size-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">
+                      {t("recentAccounts.empty.title")}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {t("recentAccounts.empty.description")}
+                    </p>
+                    <Link href="/accounts">
+                      <Button>
+                        <Plus className="size-4" />
+                        {tAccounts("actions.add")}
+                      </Button>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {activeAccounts.slice(0, 5).map((account) => (
+                      <div
+                        key={account.id}
+                        className="flex items-center gap-4 p-3 hover:bg-accent rounded-lg transition-colors cursor-pointer"
+                      >
+                        <div className="w-10 h-10 bg-accent/50 rounded-lg flex items-center justify-center">
+                          <AccountIcon accountType={account.accountType} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-foreground truncate">
+                            {account.name}
+                          </p>
+                          <div className="flex items-center gap-2 mt-1">
+                            {account.issuer && (
+                              <IssuerBadge
+                                issuer={account.issuer}
+                                className="text-xs"
+                              />
+                            )}
+                            {account.cardBrand && (
+                              <CardBrandBadge
+                                brand={account.cardBrand}
+                                showName={false}
+                              />
+                            )}
+                          </div>
+                        </div>
+                        {account.billing?.creditLimit && (
+                          <div className="text-right">
+                            <p className="text-sm font-medium">
+                              {formatCurrency(
+                                account.billing.availableCredit || 0,
+                              )}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              de {formatCurrency(account.billing.creditLimit)}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Projetos em Destaque */}
-          <div className="bg-card border border-border rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-semibold text-foreground mb-6">
-              Projetos em Destaque
-            </h2>
-            <div className="space-y-4">
-              {[
-                {
-                  name: "E-commerce Platform",
-                  progress: 75,
-                  color: "bg-primary",
-                },
-                { name: "Mobile App", progress: 50, color: "bg-chart-2" },
-                {
-                  name: "Dashboard Analytics",
-                  progress: 90,
-                  color: "bg-chart-3",
-                },
-              ].map((project, index) => (
-                <div key={`project-${index}`}>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-foreground">
-                      {project.name}
-                    </span>
-                    <span className="text-sm font-semibold text-muted-foreground">
-                      {project.progress}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div
-                      className={`${project.color} h-2 rounded-full transition-all duration-300`}
-                      style={{ width: `${project.progress}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle>{t("quickActions.title")}</CardTitle>
+                <CardDescription>
+                  {t("quickActions.description")}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Link href="/accounts">
+                  <Button variant="ghost" className="w-full justify-start">
+                    <Wallet className="size-4 mr-3" />
+                    {t("quickActions.manageAccounts")}
+                  </Button>
+                </Link>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start"
+                  disabled
+                >
+                  <CreditCard className="size-4 mr-3" />
+                  {t("quickActions.transactions")}
+                  <Badge variant="secondary" className="ml-auto">
+                    {t("quickActions.comingSoon")}
+                  </Badge>
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start"
+                  disabled
+                >
+                  <TrendingUp className="size-4 mr-3" />
+                  {t("quickActions.investments")}
+                  <Badge variant="secondary" className="ml-auto">
+                    {t("quickActions.comingSoon")}
+                  </Badge>
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start"
+                  disabled
+                >
+                  <Building2 className="size-4 mr-3" />
+                  {t("quickActions.reports")}
+                  <Badge variant="secondary" className="ml-auto">
+                    {t("quickActions.comingSoon")}
+                  </Badge>
+                </Button>
+              </CardContent>
+            </Card>
 
-            {/* Quick Actions */}
-            <div className="mt-6 pt-6 border-t border-border">
-              <h3 className="text-sm font-semibold text-foreground mb-3">
-                Ações Rápidas
-              </h3>
-              <div className="space-y-2">
-                <button
-                  type="button"
-                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-accent rounded-lg flex items-center transition-colors"
-                >
-                  <svg
-                    className="w-4 h-4 mr-3 text-primary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                  Novo Projeto
-                </button>
-                <button
-                  type="button"
-                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-accent rounded-lg flex items-center transition-colors"
-                >
-                  <svg
-                    className="w-4 h-4 mr-3 text-chart-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                    />
-                  </svg>
-                  Nova Tarefa
-                </button>
-                <button
-                  type="button"
-                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-accent rounded-lg flex items-center transition-colors"
-                >
-                  <svg
-                    className="w-4 h-4 mr-3 text-chart-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                  Convidar Membro
-                </button>
-              </div>
-            </div>
+            <Card className="mt-6">
+              <CardHeader>
+                <CardTitle className="text-base">{t("tip.title")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {t("tip.content")}
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
