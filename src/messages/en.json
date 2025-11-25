@@ -205,6 +205,20 @@
     "tip": {
       "title": "Tip",
       "content": "Keep your accounts updated for more accurate financial control. Use the header button to toggle between light and dark theme."
+    },
+    "period": {
+      "currentMonth": "Current Month",
+      "last30Days": "Last 30 Days",
+      "last90Days": "Last 90 Days",
+      "currentYear": "Current Year"
+    },
+    "metrics": {
+      "totalIncome": "Total Income",
+      "totalExpense": "Total Expenses",
+      "balance": "Balance",
+      "transactionCount": "Transactions",
+      "compared": "vs. previous period",
+      "noData": "No data available"
     }
   },
   "errors": {
@@ -226,6 +240,126 @@
         "retry": "Try again",
         "home": "Go Home",
         "support": "If the problem persists, contact support"
+      }
+    }
+  },
+  "transactions": {
+    "title": "Transactions",
+    "subtitle": "View and manage all your financial transactions",
+    "error": "Error loading transactions. Please try again.",
+    "empty": "No transactions found",
+    "actions": {
+      "new": "New Transaction",
+      "import": "Import CSV"
+    },
+    "summary": {
+      "total": "{count, plural, =0 {No transactions} =1 {1 transaction} other {# transactions}}"
+    },
+    "filters": {
+      "account": "Account",
+      "allAccounts": "All Accounts",
+      "accountType": "Account Type",
+      "allTypes": "All Types",
+      "cardBrand": "Card Brand",
+      "allBrands": "All Brands",
+      "other": "Other"
+    },
+    "table": {
+      "date": "Date",
+      "description": "Description",
+      "type": "Type",
+      "status": "Status",
+      "account": "Account",
+      "amount": "Amount"
+    },
+    "types": {
+      "income": "Income",
+      "expense": "Expense",
+      "transfer": "Transfer"
+    },
+    "status": {
+      "scheduled": "Scheduled",
+      "posted": "Posted",
+      "paid": "Paid",
+      "canceled": "Canceled",
+      "refunded": "Refunded"
+    },
+    "accountTypes": {
+      "card_credit": "Credit Card",
+      "card_debit": "Debit Card",
+      "prepaid": "Prepaid",
+      "wallet_cash": "Cash",
+      "bank_checking": "Checking",
+      "bank_savings": "Savings"
+    },
+    "form": {
+      "create": {
+        "title": "New Transaction",
+        "description": "Add a new financial transaction"
+      },
+      "edit": {
+        "title": "Edit Transaction",
+        "description": "Edit transaction information"
+      },
+      "fields": {
+        "account": {
+          "label": "Account",
+          "placeholder": "Select an account"
+        },
+        "type": {
+          "label": "Type"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Ex: Grocery shopping"
+        },
+        "merchant": {
+          "label": "Merchant",
+          "placeholder": "Ex: Walmart, Amazon",
+          "description": "Optional: Store or service provider"
+        },
+        "amount": {
+          "label": "Amount",
+          "description": "Value in your currency"
+        },
+        "date": {
+          "label": "Date"
+        },
+        "status": {
+          "label": "Status"
+        },
+        "hasInstallments": {
+          "label": "Split into installments",
+          "description": "Create multiple installment transactions"
+        },
+        "installmentCount": {
+          "label": "Number of installments",
+          "description": "Between 2 and 360 installments"
+        }
+      },
+      "types": {
+        "expense": "Expense",
+        "income": "Income",
+        "transfer": "Transfer"
+      },
+      "status": {
+        "scheduled": "Scheduled",
+        "posted": "Posted",
+        "paid": "Paid",
+        "canceled": "Canceled",
+        "refunded": "Refunded"
+      },
+      "actions": {
+        "create": "Create Transaction",
+        "update": "Save Changes"
+      },
+      "messages": {
+        "createSuccess": "Transaction created successfully!",
+        "updateSuccess": "Transaction updated successfully!",
+        "createError": "Error creating transaction",
+        "updateError": "Error updating transaction",
+        "accountNotFound": "Selected account not found",
+        "installmentsNotImplemented": "Installment creation will be implemented soon"
       }
     }
   },
@@ -383,6 +517,329 @@
       "title": "Recent Accounts",
       "description": "Your most recently registered accounts",
       "viewAll": "View all"
+    }
+  },
+  "installments": {
+    "section": {
+      "title": "Installment Groups",
+      "count": "{count, plural, =1 {1 group} other {# groups}}",
+      "error": "Error loading installment groups",
+      "emptyTitle": "No installment groups",
+      "emptyDescription": "Your installment purchases will appear here"
+    },
+    "card": {
+      "unknownMerchant": "Unknown Merchant",
+      "of": "of",
+      "progress": "Progress",
+      "canceled": "canceled"
+    },
+    "list": {
+      "empty": "No installments found",
+      "due": "Due",
+      "actions": "Actions"
+    },
+    "plans": {
+      "no_interest": "No Interest",
+      "interest": "With Interest",
+      "revolving": "Revolving"
+    },
+    "actions": {
+      "markPaid": "Mark as Paid",
+      "cancel": "Cancel",
+      "markPaidSuccess": "Installment marked as paid",
+      "markPaidError": "Error marking installment as paid",
+      "cancelSuccess": "Installment canceled",
+      "cancelError": "Error canceling installment"
+    },
+    "dialog": {
+      "unknownMerchant": "Unknown Merchant",
+      "description": "{count, plural, =1 {1 installment} other {# installments}}",
+      "total": "Total",
+      "paid": "Paid",
+      "pending": "Pending",
+      "installments": "installments",
+      "purchaseDate": "Purchase Date",
+      "firstDueDate": "First Due Date",
+      "originalAmount": "Original Amount",
+      "interest": "Interest",
+      "fees": "Fees",
+      "plan": "Plan",
+      "installmentsList": "Installments",
+      "loading": "Loading installments...",
+      "canceledWarning": "{count, plural, =1 {1 installment was} other {# installments were}} canceled",
+      "cancelAll": "Cancel All",
+      "close": "Close",
+      "cancelAllTitle": "Cancel All Installments",
+      "cancelAllDescription": "Are you sure you want to cancel all {count, plural, =1 {1 pending installment} other {# pending installments}}? This action cannot be undone.",
+      "cancelAllCancel": "Keep Installments",
+      "cancelAllConfirm": "Yes, Cancel All",
+      "cancelAllSuccess": "All installments canceled successfully",
+      "cancelAllError": "Error canceling installments"
+    }
+  },
+  "statements": {
+    "card": {
+      "total": "Total",
+      "remaining": "Remaining",
+      "dueDate": "Due Date",
+      "overdue": "Overdue",
+      "transactions": "{count, plural, =1 {1 transaction} other {# transactions}}"
+    },
+    "status": {
+      "open": "Open",
+      "closed": "Closed",
+      "paid": "Paid"
+    },
+    "dialog": {
+      "title": "Statement",
+      "overdueAlert": "This statement is overdue! Please make a payment as soon as possible.",
+      "total": "Total",
+      "minimumPayment": "Minimum",
+      "remaining": "Remaining",
+      "status": "Status",
+      "paid": "Paid",
+      "closingDate": "Closing Date",
+      "dueDate": "Due Date",
+      "paidDate": "Paid On",
+      "interest": "Interest",
+      "fees": "Fees",
+      "includesPrevious": "Includes previous balance:",
+      "transactions": "Transactions",
+      "loading": "Loading transactions...",
+      "noTransactions": "No transactions in this statement",
+      "paymentAmount": "Payment Amount",
+      "payMinimum": "Minimum",
+      "payFull": "Full Amount",
+      "cancelPayment": "Cancel",
+      "confirmPayment": "Confirm Payment",
+      "markAsPaid": "Mark as Paid",
+      "closeStatement": "Close Statement",
+      "close": "Close",
+      "closeSuccess": "Statement closed successfully",
+      "closeError": "Error closing statement",
+      "paySuccess": "Payment recorded successfully",
+      "payError": "Error recording payment"
+    },
+    "section": {
+      "title": "Statements",
+      "emptyTitle": "No statements",
+      "emptyDescription": "Your credit card statements will appear here",
+      "error": "Error loading statements"
+    }
+  },
+  "import": {
+    "uploader": {
+      "title": "Upload CSV File",
+      "description": "Drag and drop your CSV file here or click to browse",
+      "button": "Select File"
+    },
+    "preview": {
+      "valid": "Valid",
+      "errors": "Errors",
+      "duplicates": "Duplicates",
+      "mapping": "Column Mapping",
+      "requiredFields": "Date, Description, and Amount fields are required",
+      "previewTitle": "Data Preview",
+      "of": "of",
+      "error": "Error",
+      "duplicate": "Duplicate",
+      "ok": "OK",
+      "parsedData": "Parsed Transactions"
+    },
+    "dialog": {
+      "title": "Import Transactions",
+      "description": "Import transactions from a CSV file",
+      "selectAccount": "Select Account",
+      "selectAccountPlaceholder": "Choose an account",
+      "categoryMapping": "Category Mapping",
+      "categoryMappingDescription": "Review and adjust category assignments for imported transactions",
+      "selectCategory": "Select category",
+      "cancel": "Cancel",
+      "back": "Back",
+      "next": "Next",
+      "analyze": "Analyze",
+      "import": "Import",
+      "importing": "Importing transactions...",
+      "complete": "Import Complete!",
+      "imported": "Imported",
+      "skipped": "Skipped (Duplicates)",
+      "errors": "Errors",
+      "close": "Close"
+    },
+    "errors": {
+      "parseError": "Error parsing CSV file",
+      "mappingRequired": "Please map all required fields",
+      "accountRequired": "Please select an account"
+    }
+  },
+  "categories": {
+    "title": "Categories",
+    "subtitle": "Manage your transaction categories",
+    "empty": "No categories found",
+    "system": "System",
+    "confirmDelete": "Are you sure you want to delete this category?",
+    "types": {
+      "expense": "Expenses",
+      "income": "Income",
+      "transfer": "Transfers"
+    },
+    "fields": {
+      "name": "Name",
+      "color": "Color",
+      "keywords": "Keywords",
+      "system": "System",
+      "actions": "Actions"
+    },
+    "actions": {
+      "new": "New Category",
+      "edit": "Edit Category",
+      "delete": "Delete",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+  "rules": {
+    "title": "Mapping Rules",
+    "subtitle": "Create rules to automatically classify transactions",
+    "confirmDelete": "Are you sure you want to delete this rule?",
+    "fields": {
+      "name": "Rule Name",
+      "description": "Description",
+      "categoryType": "Category Type",
+      "priority": "Priority"
+    },
+    "placeholders": {
+      "name": "e.g., Classify restaurant transactions",
+      "description": "Optional description",
+      "categoryType": "Select type (optional)",
+      "conditionValue": "Enter value",
+      "actionValue": "Enter value",
+      "selectCategory": "Select a category"
+    },
+    "sections": {
+      "conditions": "Conditions",
+      "actions": "Actions"
+    },
+    "categoryTypes": {
+      "expense": "Expense",
+      "income": "Income",
+      "transfer": "Transfer"
+    },
+    "priorities": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "conditionTypes": {
+      "description_contains": "Description contains",
+      "description_matches": "Description matches (regex)",
+      "amount_greater_than": "Amount greater than",
+      "amount_less_than": "Amount less than",
+      "amount_equals": "Amount equals",
+      "amount_between": "Amount between",
+      "merchant_equals": "Merchant equals",
+      "merchant_contains": "Merchant contains"
+    },
+    "actionTypes": {
+      "assign_category": "Assign category",
+      "add_tags": "Add tags",
+      "set_merchant": "Set merchant"
+    },
+    "actions": {
+      "new": "New Rule",
+      "edit": "Edit Rule",
+      "delete": "Delete",
+      "save": "Save",
+      "cancel": "Cancel",
+      "addCondition": "Add Condition",
+      "addAction": "Add Action"
+    }
+  },
+  "audit": {
+    "title": "Audit Log",
+    "subtitle": "View system activity and change history",
+    "historyTitle": "Activity History",
+    "loading": "Loading audit events...",
+    "error": "Error loading audit events",
+    "empty": "No audit events found",
+    "emptyHistory": "No activity recorded yet",
+    "retention": "Events are retained for 90 days",
+    "summary": "{count} events shown",
+    "showingRecent": "Showing {count} most recent events",
+    "filters": {
+      "title": "Filters",
+      "resourceType": "Resource Type",
+      "allTypes": "All Types",
+      "limit": "Limit",
+      "clear": "Clear Filters"
+    },
+    "table": {
+      "timestamp": "Date/Time",
+      "event": "Event",
+      "resource": "Resource",
+      "source": "Source",
+      "details": "Details",
+      "changedFields": "Changed",
+      "batchSize": "Batch",
+      "success": "Success",
+      "errors": "Errors",
+      "duplicates": "Duplicates",
+      "imported": "Imported",
+      "autoClassified": "Auto-classified"
+    },
+    "resourceTypes": {
+      "account": "Account",
+      "transaction": "Transaction",
+      "installment_group": "Installment Group",
+      "statement": "Statement",
+      "category": "Category",
+      "mapping_rule": "Mapping Rule"
+    },
+    "eventTypes": {
+      "account": {
+        "created": "Account Created",
+        "updated": "Account Updated",
+        "archived": "Account Archived",
+        "unarchived": "Account Unarchived",
+        "deleted": "Account Deleted"
+      },
+      "transaction": {
+        "created": "Transaction Created",
+        "updated": "Transaction Updated",
+        "deleted": "Transaction Deleted",
+        "imported": "Transaction Imported",
+        "bulk_imported": "Bulk Import"
+      },
+      "installment": {
+        "created": "Installment Created",
+        "paid": "Installment Paid",
+        "canceled": "Installment Canceled",
+        "all_canceled": "All Installments Canceled"
+      },
+      "statement": {
+        "created": "Statement Created",
+        "closed": "Statement Closed",
+        "paid": "Statement Paid",
+        "updated": "Statement Updated"
+      },
+      "category": {
+        "created": "Category Created",
+        "updated": "Category Updated",
+        "deleted": "Category Deleted"
+      },
+      "mapping_rule": {
+        "created": "Rule Created",
+        "updated": "Rule Updated",
+        "deleted": "Rule Deleted",
+        "applied": "Rule Applied"
+      }
+    },
+    "sources": {
+      "web": "Web",
+      "mobile": "Mobile",
+      "api": "API",
+      "system": "System",
+      "import": "Import"
     }
   }
 }

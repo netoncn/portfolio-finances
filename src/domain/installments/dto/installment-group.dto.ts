@@ -1,20 +1,16 @@
-export interface CreateInstallmentGroupDTO {
-  userId: string;
-  merchant?: string;
-  purchaseDate: number; // ts
-  installmentCount: number;
-  originalAmount: number; // cents (total)
-  interestTotal?: number; // cents
-  feesTotal?: number; // cents
-  cardAccountId: string;
-  firstDueDate: number; // ts
-  statementStartMonth?: string; // yyyymm
-  plan?: "no_interest" | "interest" | "revolving";
-  notes?: string;
-}
+import type { z } from "zod";
+import type {
+  createInstallmentGroupSchema,
+  installmentGroupSchema,
+  updateInstallmentGroupSchema,
+} from "../schemas/installment-group.schema";
 
-export interface UpdateInstallmentGroupDTO
-  extends Partial<CreateInstallmentGroupDTO> {
-  id: string;
-  userId: string;
-}
+export type CreateInstallmentGroupDTO = z.infer<
+  typeof createInstallmentGroupSchema
+>;
+
+export type UpdateInstallmentGroupDTO = z.infer<
+  typeof updateInstallmentGroupSchema
+>;
+
+export type InstallmentGroupDTO = z.infer<typeof installmentGroupSchema>;

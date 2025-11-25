@@ -21,7 +21,8 @@
       "suspicious": {
         "noUnknownAtRules": "off",
         "noArrayIndexKey": "off",
-        "noAssignInExpressions": "off"
+        "noAssignInExpressions": "off",
+        "noExplicitAny": "off"
       },
       "correctness": {
         "noUnusedVariables": {
@@ -35,8 +36,12 @@
       "security": {
         "noDangerouslySetInnerHtml": "off"
       },
+      "style": {
+        "noNonNullAssertion": "off"
+      },
       "a11y": {
-        "useValidAnchor": "off"
+        "useValidAnchor": "off",
+        "useSemanticElements": "off"
       }
     },
     "domains": {

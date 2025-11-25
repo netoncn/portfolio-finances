@@ -205,6 +205,20 @@
     "tip": {
       "title": "Dica",
       "content": "Mantenha suas contas atualizadas para ter um controle financeiro mais preciso. Use o botão no header para alternar entre tema claro e escuro."
+    },
+    "period": {
+      "currentMonth": "Mês Atual",
+      "last30Days": "Últimos 30 Dias",
+      "last90Days": "Últimos 90 Dias",
+      "currentYear": "Ano Atual"
+    },
+    "metrics": {
+      "totalIncome": "Receitas Totais",
+      "totalExpense": "Despesas Totais",
+      "balance": "Saldo",
+      "transactionCount": "Transações",
+      "compared": "vs. período anterior",
+      "noData": "Sem dados disponíveis"
     }
   },
   "errors": {
@@ -226,6 +240,126 @@
         "retry": "Tentar novamente",
         "home": "Voltar para Home",
         "support": "Se o problema persistir, entre em contato com o suporte"
+      }
+    }
+  },
+  "transactions": {
+    "title": "Transações",
+    "subtitle": "Visualize e gerencie todas as suas transações financeiras",
+    "error": "Erro ao carregar transações. Por favor, tente novamente.",
+    "empty": "Nenhuma transação encontrada",
+    "actions": {
+      "new": "Nova Transação",
+      "import": "Importar CSV"
+    },
+    "summary": {
+      "total": "{count, plural, =0 {Nenhuma transação} =1 {1 transação} other {# transações}}"
+    },
+    "filters": {
+      "account": "Conta",
+      "allAccounts": "Todas as Contas",
+      "accountType": "Tipo de Conta",
+      "allTypes": "Todos os Tipos",
+      "cardBrand": "Bandeira",
+      "allBrands": "Todas as Bandeiras",
+      "other": "Outro"
+    },
+    "table": {
+      "date": "Data",
+      "description": "Descrição",
+      "type": "Tipo",
+      "status": "Status",
+      "account": "Conta",
+      "amount": "Valor"
+    },
+    "types": {
+      "income": "Receita",
+      "expense": "Despesa",
+      "transfer": "Transferência"
+    },
+    "status": {
+      "scheduled": "Agendado",
+      "posted": "Lançado",
+      "paid": "Pago",
+      "canceled": "Cancelado",
+      "refunded": "Reembolsado"
+    },
+    "accountTypes": {
+      "card_credit": "Cartão de Crédito",
+      "card_debit": "Cartão de Débito",
+      "prepaid": "Pré-pago",
+      "wallet_cash": "Dinheiro",
+      "bank_checking": "Conta Corrente",
+      "bank_savings": "Poupança"
+    },
+    "form": {
+      "create": {
+        "title": "Nova Transação",
+        "description": "Adicione uma nova transação financeira"
+      },
+      "edit": {
+        "title": "Editar Transação",
+        "description": "Edite as informações da transação"
+      },
+      "fields": {
+        "account": {
+          "label": "Conta",
+          "placeholder": "Selecione uma conta"
+        },
+        "type": {
+          "label": "Tipo"
+        },
+        "description": {
+          "label": "Descrição",
+          "placeholder": "Ex: Compras no mercado"
+        },
+        "merchant": {
+          "label": "Estabelecimento",
+          "placeholder": "Ex: Walmart, Amazon",
+          "description": "Opcional: Loja ou prestador de serviço"
+        },
+        "amount": {
+          "label": "Valor",
+          "description": "Valor em reais"
+        },
+        "date": {
+          "label": "Data"
+        },
+        "status": {
+          "label": "Status"
+        },
+        "hasInstallments": {
+          "label": "Parcelar",
+          "description": "Criar múltiplas transações parceladas"
+        },
+        "installmentCount": {
+          "label": "Número de parcelas",
+          "description": "Entre 2 e 360 parcelas"
+        }
+      },
+      "types": {
+        "expense": "Despesa",
+        "income": "Receita",
+        "transfer": "Transferência"
+      },
+      "status": {
+        "scheduled": "Agendado",
+        "posted": "Lançado",
+        "paid": "Pago",
+        "canceled": "Cancelado",
+        "refunded": "Reembolsado"
+      },
+      "actions": {
+        "create": "Criar Transação",
+        "update": "Salvar Alterações"
+      },
+      "messages": {
+        "createSuccess": "Transação criada com sucesso!",
+        "updateSuccess": "Transação atualizada com sucesso!",
+        "createError": "Erro ao criar transação",
+        "updateError": "Erro ao atualizar transação",
+        "accountNotFound": "Conta selecionada não encontrada",
+        "installmentsNotImplemented": "Criação de parcelas será implementada em breve"
       }
     }
   },
@@ -383,6 +517,329 @@
       "title": "Contas Recentes",
       "description": "Suas contas cadastradas mais recentemente",
       "viewAll": "Ver todas"
+    }
+  },
+  "installments": {
+    "section": {
+      "title": "Grupos de Parcelas",
+      "count": "{count, plural, =1 {1 grupo} other {# grupos}}",
+      "error": "Erro ao carregar grupos de parcelas",
+      "emptyTitle": "Nenhum grupo de parcelas",
+      "emptyDescription": "Suas compras parceladas aparecerão aqui"
+    },
+    "card": {
+      "unknownMerchant": "Estabelecimento Desconhecido",
+      "of": "de",
+      "progress": "Progresso",
+      "canceled": "canceladas"
+    },
+    "list": {
+      "empty": "Nenhuma parcela encontrada",
+      "due": "Venc.",
+      "actions": "Ações"
+    },
+    "plans": {
+      "no_interest": "Sem Juros",
+      "interest": "Com Juros",
+      "revolving": "Rotativo"
+    },
+    "actions": {
+      "markPaid": "Marcar como Paga",
+      "cancel": "Cancelar",
+      "markPaidSuccess": "Parcela marcada como paga",
+      "markPaidError": "Erro ao marcar parcela como paga",
+      "cancelSuccess": "Parcela cancelada",
+      "cancelError": "Erro ao cancelar parcela"
+    },
+    "dialog": {
+      "unknownMerchant": "Estabelecimento Desconhecido",
+      "description": "{count, plural, =1 {1 parcela} other {# parcelas}}",
+      "total": "Total",
+      "paid": "Pago",
+      "pending": "Pendente",
+      "installments": "parcelas",
+      "purchaseDate": "Data da Compra",
+      "firstDueDate": "Primeiro Vencimento",
+      "originalAmount": "Valor Original",
+      "interest": "Juros",
+      "fees": "Taxas",
+      "plan": "Plano",
+      "installmentsList": "Parcelas",
+      "loading": "Carregando parcelas...",
+      "canceledWarning": "{count, plural, =1 {1 parcela foi} other {# parcelas foram}} canceladas",
+      "cancelAll": "Cancelar Todas",
+      "close": "Fechar",
+      "cancelAllTitle": "Cancelar Todas as Parcelas",
+      "cancelAllDescription": "Tem certeza que deseja cancelar {count, plural, =1 {a 1 parcela pendente} other {as # parcelas pendentes}}? Esta ação não pode ser desfeita.",
+      "cancelAllCancel": "Manter Parcelas",
+      "cancelAllConfirm": "Sim, Cancelar Todas",
+      "cancelAllSuccess": "Todas as parcelas canceladas com sucesso",
+      "cancelAllError": "Erro ao cancelar parcelas"
+    }
+  },
+  "statements": {
+    "card": {
+      "total": "Total",
+      "remaining": "Restante",
+      "dueDate": "Vencimento",
+      "overdue": "Atrasado",
+      "transactions": "{count, plural, =1 {1 transação} other {# transações}}"
+    },
+    "status": {
+      "open": "Aberta",
+      "closed": "Fechada",
+      "paid": "Paga"
+    },
+    "dialog": {
+      "title": "Fatura",
+      "overdueAlert": "Esta fatura está vencida! Faça um pagamento o quanto antes.",
+      "total": "Total",
+      "minimumPayment": "Mínimo",
+      "remaining": "Restante",
+      "status": "Status",
+      "paid": "Pago",
+      "closingDate": "Fechamento",
+      "dueDate": "Vencimento",
+      "paidDate": "Pago em",
+      "interest": "Juros",
+      "fees": "Taxas",
+      "includesPrevious": "Inclui saldo anterior:",
+      "transactions": "Transações",
+      "loading": "Carregando transações...",
+      "noTransactions": "Nenhuma transação nesta fatura",
+      "paymentAmount": "Valor do Pagamento",
+      "payMinimum": "Mínimo",
+      "payFull": "Valor Total",
+      "cancelPayment": "Cancelar",
+      "confirmPayment": "Confirmar Pagamento",
+      "markAsPaid": "Marcar como Paga",
+      "closeStatement": "Fechar Fatura",
+      "close": "Fechar",
+      "closeSuccess": "Fatura fechada com sucesso",
+      "closeError": "Erro ao fechar fatura",
+      "paySuccess": "Pagamento registrado com sucesso",
+      "payError": "Erro ao registrar pagamento"
+    },
+    "section": {
+      "title": "Faturas",
+      "emptyTitle": "Nenhuma fatura",
+      "emptyDescription": "As faturas dos seus cartões de crédito aparecerão aqui",
+      "error": "Erro ao carregar faturas"
+    }
+  },
+  "import": {
+    "uploader": {
+      "title": "Enviar Arquivo CSV",
+      "description": "Arraste e solte seu arquivo CSV aqui ou clique para selecionar",
+      "button": "Selecionar Arquivo"
+    },
+    "preview": {
+      "valid": "Válidas",
+      "errors": "Erros",
+      "duplicates": "Duplicadas",
+      "mapping": "Mapeamento de Colunas",
+      "requiredFields": "Os campos Data, Descrição e Valor são obrigatórios",
+      "previewTitle": "Prévia dos Dados",
+      "of": "de",
+      "error": "Erro",
+      "duplicate": "Duplicada",
+      "ok": "OK",
+      "parsedData": "Transações Processadas"
+    },
+    "dialog": {
+      "title": "Importar Transações",
+      "description": "Importe transações de um arquivo CSV",
+      "selectAccount": "Selecionar Conta",
+      "selectAccountPlaceholder": "Escolha uma conta",
+      "categoryMapping": "Mapeamento de Categorias",
+      "categoryMappingDescription": "Revise e ajuste as atribuições de categoria para as transações importadas",
+      "selectCategory": "Selecionar categoria",
+      "cancel": "Cancelar",
+      "back": "Voltar",
+      "next": "Próximo",
+      "analyze": "Analisar",
+      "import": "Importar",
+      "importing": "Importando transações...",
+      "complete": "Importação Concluída!",
+      "imported": "Importadas",
+      "skipped": "Ignoradas (Duplicadas)",
+      "errors": "Erros",
+      "close": "Fechar"
+    },
+    "errors": {
+      "parseError": "Erro ao processar arquivo CSV",
+      "mappingRequired": "Por favor, mapeie todos os campos obrigatórios",
+      "accountRequired": "Por favor, selecione uma conta"
+    }
+  },
+  "categories": {
+    "title": "Categorias",
+    "subtitle": "Gerencie suas categorias de transações",
+    "empty": "Nenhuma categoria encontrada",
+    "system": "Sistema",
+    "confirmDelete": "Tem certeza que deseja excluir esta categoria?",
+    "types": {
+      "expense": "Despesas",
+      "income": "Receitas",
+      "transfer": "Transferências"
+    },
+    "fields": {
+      "name": "Nome",
+      "color": "Cor",
+      "keywords": "Palavras-chave",
+      "system": "Sistema",
+      "actions": "Ações"
+    },
+    "actions": {
+      "new": "Nova Categoria",
+      "edit": "Editar Categoria",
+      "delete": "Excluir",
+      "save": "Salvar",
+      "cancel": "Cancelar"
+    }
+  },
+  "rules": {
+    "title": "Regras de Mapeamento",
+    "subtitle": "Crie regras para classificar transações automaticamente",
+    "confirmDelete": "Tem certeza que deseja excluir esta regra?",
+    "fields": {
+      "name": "Nome da Regra",
+      "description": "Descrição",
+      "categoryType": "Tipo de Categoria",
+      "priority": "Prioridade"
+    },
+    "placeholders": {
+      "name": "ex: Classificar transações de restaurante",
+      "description": "Descrição opcional",
+      "categoryType": "Selecione o tipo (opcional)",
+      "conditionValue": "Digite o valor",
+      "actionValue": "Digite o valor",
+      "selectCategory": "Selecione uma categoria"
+    },
+    "sections": {
+      "conditions": "Condições",
+      "actions": "Ações"
+    },
+    "categoryTypes": {
+      "expense": "Despesa",
+      "income": "Receita",
+      "transfer": "Transferência"
+    },
+    "priorities": {
+      "low": "Baixa",
+      "medium": "Média",
+      "high": "Alta"
+    },
+    "conditionTypes": {
+      "description_contains": "Descrição contém",
+      "description_matches": "Descrição corresponde (regex)",
+      "amount_greater_than": "Valor maior que",
+      "amount_less_than": "Valor menor que",
+      "amount_equals": "Valor igual a",
+      "amount_between": "Valor entre",
+      "merchant_equals": "Estabelecimento igual a",
+      "merchant_contains": "Estabelecimento contém"
+    },
+    "actionTypes": {
+      "assign_category": "Atribuir categoria",
+      "add_tags": "Adicionar tags",
+      "set_merchant": "Definir estabelecimento"
+    },
+    "actions": {
+      "new": "Nova Regra",
+      "edit": "Editar Regra",
+      "delete": "Excluir",
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "addCondition": "Adicionar Condição",
+      "addAction": "Adicionar Ação"
+    }
+  },
+  "audit": {
+    "title": "Log de Auditoria",
+    "subtitle": "Visualize atividades do sistema e histórico de alterações",
+    "historyTitle": "Histórico de Atividades",
+    "loading": "Carregando eventos de auditoria...",
+    "error": "Erro ao carregar eventos de auditoria",
+    "empty": "Nenhum evento de auditoria encontrado",
+    "emptyHistory": "Nenhuma atividade registrada ainda",
+    "retention": "Eventos são retidos por 90 dias",
+    "summary": "{count} eventos exibidos",
+    "showingRecent": "Exibindo os {count} eventos mais recentes",
+    "filters": {
+      "title": "Filtros",
+      "resourceType": "Tipo de Recurso",
+      "allTypes": "Todos os Tipos",
+      "limit": "Limite",
+      "clear": "Limpar Filtros"
+    },
+    "table": {
+      "timestamp": "Data/Hora",
+      "event": "Evento",
+      "resource": "Recurso",
+      "source": "Origem",
+      "details": "Detalhes",
+      "changedFields": "Alterado",
+      "batchSize": "Lote",
+      "success": "Sucesso",
+      "errors": "Erros",
+      "duplicates": "Duplicadas",
+      "imported": "Importado",
+      "autoClassified": "Auto-classificado"
+    },
+    "resourceTypes": {
+      "account": "Conta",
+      "transaction": "Transação",
+      "installment_group": "Grupo de Parcelas",
+      "statement": "Fatura",
+      "category": "Categoria",
+      "mapping_rule": "Regra de Mapeamento"
+    },
+    "eventTypes": {
+      "account": {
+        "created": "Conta Criada",
+        "updated": "Conta Atualizada",
+        "archived": "Conta Arquivada",
+        "unarchived": "Conta Desarquivada",
+        "deleted": "Conta Excluída"
+      },
+      "transaction": {
+        "created": "Transação Criada",
+        "updated": "Transação Atualizada",
+        "deleted": "Transação Excluída",
+        "imported": "Transação Importada",
+        "bulk_imported": "Importação em Lote"
+      },
+      "installment": {
+        "created": "Parcela Criada",
+        "paid": "Parcela Paga",
+        "canceled": "Parcela Cancelada",
+        "all_canceled": "Todas Parcelas Canceladas"
+      },
+      "statement": {
+        "created": "Fatura Criada",
+        "closed": "Fatura Fechada",
+        "paid": "Fatura Paga",
+        "updated": "Fatura Atualizada"
+      },
+      "category": {
+        "created": "Categoria Criada",
+        "updated": "Categoria Atualizada",
+        "deleted": "Categoria Excluída"
+      },
+      "mapping_rule": {
+        "created": "Regra Criada",
+        "updated": "Regra Atualizada",
+        "deleted": "Regra Excluída",
+        "applied": "Regra Aplicada"
+      }
+    },
+    "sources": {
+      "web": "Web",
+      "mobile": "Mobile",
+      "api": "API",
+      "system": "Sistema",
+      "import": "Importação"
     }
   }
 }

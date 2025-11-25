@@ -7,6 +7,7 @@ import {
   getDaysUntilClosing,
   getDaysUntilDue,
 } from "@/domain/accounts/helpers/billing.helper";
+import { formatCurrency } from "@/lib/utils";
 
 interface BillingInfoProps {
   closingDay: number;
@@ -45,13 +46,7 @@ export function BillingInfo({
         {creditLimit && (
           <div className="flex items-center gap-1.5 text-muted-foreground">
             <TrendingUp className="size-4" />
-            <span>
-              {new Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-                minimumFractionDigits: 0,
-              }).format(creditLimit)}
-            </span>
+            <span>{formatCurrency(creditLimit)}</span>
           </div>
         )}
       </div>
@@ -132,20 +127,12 @@ export function BillingInfo({
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Disponível</span>
               <span className="font-semibold">
-                {new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(availableCredit || 0)}
+                {formatCurrency(availableCredit || 0)}
               </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Total</span>
-              <span className="font-medium">
-                {new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(creditLimit)}
-              </span>
+              <span className="font-medium">{formatCurrency(creditLimit)}</span>
             </div>
           </div>
 

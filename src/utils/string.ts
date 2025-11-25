@@ -11,19 +11,25 @@ export function capitalizeSentence(sentence: string): string {
 }
 
 export function formatCurrency(
-  value: number | string,
+  valueInCents: number | string,
   currency: string,
   locale: string = "pt-BR",
 ): string {
-  if (typeof value !== "number") {
-    value = parseFloat(value);
-    if (Number.isNaN(value)) return "";
+  let numericValue: number;
+
+  if (typeof valueInCents !== "number") {
+    numericValue = parseFloat(valueInCents);
+    if (Number.isNaN(numericValue)) return "";
+  } else {
+    numericValue = valueInCents;
   }
+
+  const valueInBaseUnit = numericValue / 100;
 
   return new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
-  }).format(value);
+  }).format(valueInBaseUnit);
 }
 
 export const getInitials = (name: string) => {

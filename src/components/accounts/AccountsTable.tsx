@@ -51,12 +51,13 @@ const ACCOUNT_TYPE_BADGE_COLORS: Record<AccountType, string> = {
     "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
 };
 
-function formatCurrency(value?: number): string {
-  if (value === undefined) return "-";
+function formatCurrency(valueInCents?: number): string {
+  if (valueInCents === undefined) return "-";
+  const valueInReais = valueInCents / 100;
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
-  }).format(value);
+  }).format(valueInReais);
 }
 
 export function AccountsTable({

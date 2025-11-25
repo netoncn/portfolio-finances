@@ -183,38 +183,250 @@ service cloud.firestore {
     }
 
     /* -------------------- Transactions (inclui parceladas) -------------------- */
+
+    // Valida tipos de transação permitidos
+    function isValidTransactionType(type) {
+      return type in ['expense', 'income', 'transfer'];
+    }
+
+    // Valida status de transação permitidos
+    function isValidTransactionStatus(status) {
+      return status in ['pending', 'posted', 'paid', 'canceled'];
+    }
+
+    // Valida campos obrigatórios de transaction
+    function hasRequiredTransactionFields(data) {
+      return data.keys().hasAll(['userId', 'accountId', 'date', 'description', 'amount', 'type', 'status', 'createdAt', 'updatedAt'])
+        && data.userId is string
+        && data.accountId is string
+        && data.date is int
+        && data.description is string
+        && data.description.size() >= 1
+        && data.amount is int
+        && isValidTransactionType(data.type)
+        && isValidTransactionStatus(data.status)
+        && data.createdAt is int
+        && data.updatedAt is int
+        // Campos desnormalizados da account
+        && data.accountType is string
+        && (!data.keys().hasAny(['categoryId']) || data.categoryId is string)
+        && (!data.keys().hasAny(['merchant']) || data.merchant is string)
+        && (!data.keys().hasAny(['tags']) || data.tags is list)
+        && (!data.keys().hasAny(['installmentGroupId']) || data.installmentGroupId is string)
+        && (!data.keys().hasAny(['installmentNumber']) || data.installmentNumber is int)
+        && (!data.keys().hasAny(['installmentCount']) || data.installmentCount is int)
+        && (!data.keys().hasAny(['statementMonth']) || data.statementMonth is string);
+    }
+
+    // Valida que campos imutáveis de transaction não foram alterados
+    function transactionImmutableFieldsUnchanged() {
+      return request.method != 'update' || (
+        resource.data.userId == request.resource.data.userId
+        && resource.data.createdAt == request.resource.data.createdAt
+        && resource.data.date == request.resource.data.date
+      );
+    }
+
     match /transactions/{id} {
-      // CREATE: precisa pertencer ao usuário e referenciar uma account do usuário
+      // CREATE: precisa pertencer ao usuário, referenciar uma account do usuário e ter campos válidos
       allow create: if isOwnerNew()
-        && accountBelongsToUser(request.resource.data.accountId);
+        && accountBelongsToUser(request.resource.data.accountId)
+        && hasRequiredTransactionFields(request.resource.data);
 
       // READ: só o dono
       allow read: if isOwnerDoc();
 
-      // UPDATE: dono, userId imutável e conta referenciada continua do usuário
+      // UPDATE: dono, userId imutável, conta referenciada continua do usuário e campos válidos
       allow update: if isOwnerDoc()
         && isOwnerNew()
         && sameUserIdOnUpdate()
-        && accountBelongsToUser(request.resource.data.accountId);
+        && transactionImmutableFieldsUnchanged()
+        && accountBelongsToUser(request.resource.data.accountId)
+        && hasRequiredTransactionFields(request.resource.data);
 
       allow delete: if isOwnerDoc();
     }
 
     /* -------------------- Installment Groups (opcional) -------------------- */
+
+    // Valida campos obrigatórios de installment group
+    function hasRequiredInstallmentGroupFields(data) {
+      return data.keys().hasAll(['userId', 'description', 'totalAmount', 'installmentCount', 'createdAt', 'updatedAt'])
+        && data.userId is string
+        && data.description is string
+        && data.description.size() >= 1
+        && data.totalAmount is int
+        && data.installmentCount is int
+        && data.installmentCount >= 2
+        && data.installmentCount <= 120
+        && data.createdAt is int
+        && data.updatedAt is int
+        && (!data.keys().hasAny(['accountId']) || data.accountId is string)
+        && (!data.keys().hasAny(['startDate']) || data.startDate is int);
+    }
+
+    // Valida que campos imutáveis de installment group não foram alterados
+    function installmentGroupImmutableFieldsUnchanged() {
+      return request.method != 'update' || (
+        resource.data.userId == request.resource.data.userId
+        && resource.data.createdAt == request.resource.data.createdAt
+        && resource.data.installmentCount == request.resource.data.installmentCount
+      );
+    }
+
     match /installment_groups/{id} {
-      allow create: if isOwnerNew();
+      allow create: if isOwnerNew()
+        && hasRequiredInstallmentGroupFields(request.resource.data);
+
       allow read: if isOwnerDoc();
-      allow update: if isOwnerDoc() && isOwnerNew() && sameUserIdOnUpdate();
+
+      allow update: if isOwnerDoc()
+        && isOwnerNew()
+        && sameUserIdOnUpdate()
+        && installmentGroupImmutableFieldsUnchanged()
+        && hasRequiredInstallmentGroupFields(request.resource.data);
+
+      allow delete: if isOwnerDoc();
+    }
+
+    /* -------------------- Statements (credit card invoices) -------------------- */
+
+    // Valida status de statement permitidos
+    function isValidStatementStatus(status) {
+      return status in ['open', 'closed', 'paid'];
+    }
+
+    // Valida campos obrigatórios de statement
+    function hasRequiredStatementFields(data) {
+      return data.keys().hasAll(['userId', 'accountId', 'statementMonth', 'closingDate', 'dueDate', 'status', 'totalAmount', 'minimumPayment', 'createdAt', 'updatedAt'])
+        && data.userId is string
+        && data.accountId is string
+        && data.statementMonth is string
+        && data.statementMonth.size() == 6 // YYYYMM format
+        && data.closingDate is int
+        && data.dueDate is int
+        && isValidStatementStatus(data.status)
+        && data.totalAmount is int
+        && data.minimumPayment is int
+        && data.createdAt is int
+        && data.updatedAt is int
+        && (!data.keys().hasAny(['paidAmount']) || data.paidAmount is int)
+        && (!data.keys().hasAny(['paidAt']) || data.paidAt is int)
+        && (!data.keys().hasAny(['transactionIds']) || data.transactionIds is list);
+    }
+
+    // Valida que campos imutáveis de statement não foram alterados
+    function statementImmutableFieldsUnchanged() {
+      return request.method != 'update' || (
+        resource.data.userId == request.resource.data.userId
+        && resource.data.createdAt == request.resource.data.createdAt
+        && resource.data.accountId == request.resource.data.accountId
+        && resource.data.statementMonth == request.resource.data.statementMonth
+      );
+    }
+
+    match /statements/{id} {
+      allow create: if isOwnerNew()
+        && accountBelongsToUser(request.resource.data.accountId)
+        && hasRequiredStatementFields(request.resource.data);
+
+      allow read: if isOwnerDoc();
+
+      allow update: if isOwnerDoc()
+        && isOwnerNew()
+        && sameUserIdOnUpdate()
+        && statementImmutableFieldsUnchanged()
+        && accountBelongsToUser(request.resource.data.accountId)
+        && hasRequiredStatementFields(request.resource.data);
+
       allow delete: if isOwnerDoc();
     }
 
     /* -------------------- Categories / Budgets / Goals / Insights -------------------- */
+
+    // Valida tipos de categoria permitidos
+    function isValidCategoryType(type) {
+      return type in ['expense', 'income', 'transfer'];
+    }
+
+    // Valida campos obrigatórios de category
+    function hasRequiredCategoryFields(data) {
+      return data.keys().hasAll(['userId', 'name', 'type', 'createdAt', 'updatedAt'])
+        && data.userId is string
+        && data.name is string
+        && data.name.size() >= 1
+        && data.name.size() <= 100
+        && isValidCategoryType(data.type)
+        && data.createdAt is int
+        && data.updatedAt is int
+        && (!data.keys().hasAny(['icon']) || data.icon is string)
+        && (!data.keys().hasAny(['color']) || (data.color is string && data.color.size() == 7)) // #RRGGBB
+        && (!data.keys().hasAny(['parentId']) || data.parentId is string)
+        && (!data.keys().hasAny(['keywords']) || (data.keywords is list && data.keywords.size() <= 50))
+        && (!data.keys().hasAny(['budgetLimit']) || data.budgetLimit is int)
+        && (!data.keys().hasAny(['isSystem']) || data.isSystem is bool)
+        && (!data.keys().hasAny(['order']) || data.order is int);
+    }
+
     match /categories/{id} {
-      allow create: if isOwnerNew();
+      allow create: if isOwnerNew()
+        && hasRequiredCategoryFields(request.resource.data);
+
       allow read: if isOwnerDoc();
-      allow update: if isOwnerDoc() && isOwnerNew() && sameUserIdOnUpdate();
+
+      allow update: if isOwnerDoc()
+        && isOwnerNew()
+        && sameUserIdOnUpdate()
+        && hasRequiredCategoryFields(request.resource.data);
+
       allow delete: if isOwnerDoc();
     }
+
+    /* -------------------- Mapping Rules (auto-classification) -------------------- */
+
+    // Valida prioridade de regra permitida
+    function isValidRulePriority(priority) {
+      return priority in ['low', 'medium', 'high'];
+    }
+
+    // Valida campos obrigatórios de mapping rule
+    function hasRequiredMappingRuleFields(data) {
+      return data.keys().hasAll(['userId', 'name', 'conditions', 'actions', 'priority', 'enabled', 'createdAt', 'updatedAt'])
+        && data.userId is string
+        && data.name is string
+        && data.name.size() >= 1
+        && data.name.size() <= 100
+        && data.conditions is list
+        && data.conditions.size() >= 1
+        && data.conditions.size() <= 10
+        && data.actions is list
+        && data.actions.size() >= 1
+        && data.actions.size() <= 5
+        && isValidRulePriority(data.priority)
+        && data.enabled is bool
+        && data.createdAt is int
+        && data.updatedAt is int
+        && (!data.keys().hasAny(['description']) || data.description is string)
+        && (!data.keys().hasAny(['categoryType']) || isValidCategoryType(data.categoryType))
+        && (!data.keys().hasAny(['usageCount']) || data.usageCount is int)
+        && (!data.keys().hasAny(['lastUsedAt']) || data.lastUsedAt is int);
+    }
+
+    match /mapping_rules/{id} {
+      allow create: if isOwnerNew()
+        && hasRequiredMappingRuleFields(request.resource.data);
+
+      allow read: if isOwnerDoc();
+
+      allow update: if isOwnerDoc()
+        && isOwnerNew()
+        && sameUserIdOnUpdate()
+        && hasRequiredMappingRuleFields(request.resource.data);
+
+      allow delete: if isOwnerDoc();
+    }
+
+    /* -------------------- Budgets / Goals / Insights -------------------- */
 
     match /budgets/{id} {
       allow create: if isOwnerNew();

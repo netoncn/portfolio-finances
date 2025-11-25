@@ -10,7 +10,7 @@ type RouteContext = {
   params: Promise<{ id: string }>;
 };
 
-export async function POST(request: NextRequest, context: RouteContext) {
+export async function POST(_request: NextRequest, context: RouteContext) {
   try {
     const session = await getServerSession(authOptions);
 

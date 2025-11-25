@@ -32,9 +32,11 @@ export default function Header({ session }: HeaderProps) {
           <div className="flex items-center">
             <Link href="/dashboard" className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">M</span>
+                <span className="text-white font-bold text-xl">F</span>
               </div>
-              <span className="text-xl font-bold hidden sm:block">Meu App</span>
+              <span className="text-xl font-bold hidden sm:block">
+                Finance AI
+              </span>
             </Link>
           </div>
 
@@ -47,22 +49,16 @@ export default function Header({ session }: HeaderProps) {
               Dashboard
             </Link>
             <Link
-              href="/projetos"
+              href="/accounts"
               className="hover:text-blue-600 transition-colors font-medium"
             >
-              Projetos
+              Contas
             </Link>
             <Link
-              href="/tarefas"
+              href="/transactions"
               className="hover:text-blue-600 transition-colors font-medium"
             >
-              Tarefas
-            </Link>
-            <Link
-              href="/configuracoes"
-              className="hover:text-blue-600 transition-colors font-medium"
-            >
-              Configurações
+              Transações
             </Link>
           </div>
 
@@ -167,36 +163,6 @@ export default function Header({ session }: HeaderProps) {
                     </div>
                   </Link>
 
-                  <Link
-                    href="/configuracoes"
-                    className="block px-4 py-2 text-sm hover:bg-gray-50"
-                  >
-                    <div className="flex items-center">
-                      <svg
-                        className="w-4 h-4 mr-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                        focusable="false"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
-                      Configurações
-                    </div>
-                  </Link>
-
                   <div className="border-t border-gray-100 mt-2 pt-2">
                     <button
                       type="button"
@@ -265,17 +231,14 @@ export default function Header({ session }: HeaderProps) {
             <Link href="/dashboard" className="block py-2 hover:text-blue-600">
               Dashboard
             </Link>
-            <Link href="/projetos" className="block py-2 hover:text-blue-600">
-              Projetos
-            </Link>
-            <Link href="/tarefas" className="block py-2 hover:text-blue-600">
-              Tarefas
+            <Link href="/accounts" className="block py-2 hover:text-blue-600">
+              Contas
             </Link>
             <Link
-              href="/configuracoes"
+              href="/transactions"
               className="block py-2 hover:text-blue-600"
             >
-              Configurações
+              Transações
             </Link>
           </div>
         )}

@@ -113,7 +113,13 @@ export class AuditService {
   }
 
   static async getResourceHistory(
-    resourceType: "account",
+    resourceType:
+      | "account"
+      | "transaction"
+      | "installment_group"
+      | "statement"
+      | "category"
+      | "mapping_rule",
     resourceId: string,
     userId: string,
   ): Promise<AuditEvent[]> {

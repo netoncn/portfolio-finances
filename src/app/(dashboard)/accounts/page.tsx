@@ -5,14 +5,16 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { AccountFormDialog } from "@/components/accounts/AccountFormDialog";
 import { AccountsTable } from "@/components/accounts/AccountsTable";
+import { BillingSection } from "@/components/accounts/BillingSection";
 import { Button } from "@/components/ui/button";
 import type { Account } from "@/domain/accounts/types/account";
 import { useAccounts } from "@/hooks/use-accounts";
+import { formatCurrency } from "@/lib/utils";
 
 export default function AccountsPage() {
   const t = useTranslations("accounts");
   const tCommon = useTranslations("common");
-  const [includeArchived, setIncludeArchived] = useState(false);
+  const [includeArchived, _setIncludeArchived] = useState(false);
   const {
     data: accounts = [],
     isLoading,
@@ -126,10 +128,7 @@ export default function AccountsPage() {
                   {t("stats.availableCredit")}
                 </p>
                 <p className="text-2xl font-bold text-chart-4">
-                  {new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(
+                  {formatCurrency(
                     accounts
                       .filter((a) => !a.archived)
                       .reduce(
@@ -148,6 +147,10 @@ export default function AccountsPage() {
           isLoading={isLoading}
           onAccountClick={handleAccountClick}
         />
+
+        <div className="mt-12">
+          <BillingSection />
+        </div>
 
         <AccountFormDialog
           open={dialogOpen}

@@ -1,5 +1,7 @@
 import { AccountService } from "@/domain/accounts/services/account.service";
+import { AuditService } from "@/domain/audit/services/audit.service";
 import { adminDb } from "@/lib/firebase/firestore.admin";
+import { removeUndefinedFields } from "@/lib/firebase/helpers";
 import type {
   CreateTransactionDTO,
   UpdateTransactionDTO,
@@ -10,7 +12,10 @@ import type { Transaction } from "../types/transaction";
 const COLLECTION = "transactions";
 
 export class TransactionService {
-  static async create(dto: CreateTransactionDTO): Promise<Transaction> {
+  static async create(
+    dto: CreateTransactionDTO,
+    source: "web" | "api" | "import" = "web",
+  ): Promise<Transaction> {
     const now = Date.now();
     const docRef = adminDb.collection(COLLECTION).doc();
 
@@ -21,19 +26,41 @@ export class TransactionService {
 
     const denormalizedFields = extractDenormalizedFields(account);
 
-    const transactionData = {
+    const transactionData = removeUndefinedFields({
       ...dto,
       ...denormalizedFields,
       createdAt: now,
       updatedAt: now,
-    };
+    }) as Omit<Transaction, "id">;
 
     await docRef.set(transactionData);
 
-    return {
+    const transaction: Transaction = {
       id: docRef.id,
       ...transactionData,
     };
+
+    await AuditService.recordEvent({
+      eventType:
+        source === "import" ? "transaction.imported" : "transaction.created",
+      userId: dto.userId,
+      resourceType: "transaction",
+      resourceId: docRef.id,
+      metadata: {
+        source,
+        newValues: {
+          accountId: dto.accountId,
+          amount: dto.amount,
+          type: dto.type,
+          description: dto.description,
+          categoryId: dto.categoryId,
+        },
+      },
+    }).catch((error) => {
+      console.error("Failed to record audit event:", error);
+    });
+
+    return transaction;
   }
 
   static async listByUser(userId: string): Promise<Transaction[]> {
@@ -138,6 +165,19 @@ export class TransactionService {
       return null;
     }
 
+    const changedFields: string[] = [];
+    const previousValues: Record<string, unknown> = {};
+    const newValues: Record<string, unknown> = {};
+
+    Object.keys(updates).forEach((key) => {
+      const typedKey = key as keyof typeof updates;
+      if (data[typedKey] !== updates[typedKey]) {
+        changedFields.push(key);
+        previousValues[key] = data[typedKey];
+        newValues[key] = updates[typedKey];
+      }
+    });
+
     let updatedData = {
       ...updates,
       updatedAt: Date.now(),
@@ -156,13 +196,34 @@ export class TransactionService {
       };
     }
 
-    await docRef.update(updatedData);
+    const cleanUpdatedData = removeUndefinedFields(updatedData);
+
+    await docRef.update(cleanUpdatedData);
 
     const updatedDoc = await docRef.get();
-    return {
+    const updatedTransaction = {
       id: updatedDoc.id,
       ...updatedDoc.data(),
     } as Transaction;
+
+    if (changedFields.length > 0) {
+      await AuditService.recordEvent({
+        eventType: "transaction.updated",
+        userId,
+        resourceType: "transaction",
+        resourceId: id,
+        metadata: {
+          source: "web",
+          changedFields,
+          previousValues,
+          newValues,
+        },
+      }).catch((error) => {
+        console.error("Failed to record audit event:", error);
+      });
+    }
+
+    return updatedTransaction;
   }
 
   static async delete(id: string, userId: string): Promise<boolean> {
@@ -180,6 +241,26 @@ export class TransactionService {
     }
 
     await docRef.delete();
+
+    await AuditService.recordEvent({
+      eventType: "transaction.deleted",
+      userId,
+      resourceType: "transaction",
+      resourceId: id,
+      metadata: {
+        source: "web",
+        previousValues: {
+          accountId: data.accountId,
+          amount: data.amount,
+          type: data.type,
+          description: data.description,
+          date: data.date,
+        },
+      },
+    }).catch((error) => {
+      console.error("Failed to record audit event:", error);
+    });
+
     return true;
   }
 
@@ -209,10 +290,12 @@ export class TransactionService {
     await adminDb
       .collection(COLLECTION)
       .doc(transactionId)
-      .update({
-        ...denormalizedFields,
-        updatedAt: Date.now(),
-      });
+      .update(
+        removeUndefinedFields({
+          ...denormalizedFields,
+          updatedAt: Date.now(),
+        }),
+      );
 
     return true;
   }
@@ -241,10 +324,13 @@ export class TransactionService {
         transaction.cardBrand !== denormalizedFields.cardBrand
       ) {
         const docRef = adminDb.collection(COLLECTION).doc(transaction.id);
-        batch.update(docRef, {
-          ...denormalizedFields,
-          updatedAt: Date.now(),
-        });
+        batch.update(
+          docRef,
+          removeUndefinedFields({
+            ...denormalizedFields,
+            updatedAt: Date.now(),
+          }),
+        );
         updateCount++;
       }
     }
@@ -254,5 +340,33 @@ export class TransactionService {
     }
 
     return updateCount;
+  }
+
+  static async recordBulkImport(
+    userId: string,
+    importId: string,
+    stats: {
+      batchSize: number;
+      successCount: number;
+      errorCount: number;
+      duplicateCount: number;
+    },
+  ): Promise<void> {
+    await AuditService.recordEvent({
+      eventType: "transaction.bulk_imported",
+      userId,
+      resourceType: "transaction",
+      resourceId: importId,
+      metadata: {
+        source: "import",
+        importId,
+        batchSize: stats.batchSize,
+        successCount: stats.successCount,
+        errorCount: stats.errorCount,
+        duplicateCount: stats.duplicateCount,
+      },
+    }).catch((error) => {
+      console.error("Failed to record bulk import audit event:", error);
+    });
   }
 }

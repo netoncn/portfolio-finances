@@ -1,17 +1,21 @@
-import type { AuditEventMetadata, AuditEventType } from "../types/audit";
+import type {
+  AuditEventMetadata,
+  AuditEventType,
+  AuditResourceType,
+} from "../types/audit";
 
 export interface CreateAuditEventDTO {
   eventType: AuditEventType;
   userId: string;
   userEmail?: string;
-  resourceType: "account";
+  resourceType: AuditResourceType;
   resourceId: string;
   metadata?: AuditEventMetadata;
 }
 
 export interface ListAuditEventsQuery {
   userId?: string;
-  resourceType?: "account";
+  resourceType?: AuditResourceType;
   resourceId?: string;
   eventType?: AuditEventType;
   startDate?: number;
