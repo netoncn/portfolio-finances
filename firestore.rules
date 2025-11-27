@@ -42,8 +42,8 @@ service cloud.firestore {
     // Ref check: investment account pertence ao usuário
     function invAccountBelongsToUser(invAccountId) {
       return invAccountId != null
-        && exists(/databases/$(database)/documents/investment_accounts/$(invAccountId))
-        && get(/databases/$(database)/documents/investment_accounts/$(invAccountId)).data.userId == request.auth.uid;
+        && exists(/databases/$(database)/documents/investmentAccounts/$(invAccountId))
+        && get(/databases/$(database)/documents/investmentAccounts/$(invAccountId)).data.userId == request.auth.uid;
     }
 
     // Ref check: points program pertence ao usuário
@@ -587,7 +587,7 @@ service cloud.firestore {
 
     /* -------------------- Investments -------------------- */
     // Contas de investimento
-    match /investment_accounts/{id} {
+    match /investmentAccounts/{id} {
       allow create: if isOwnerNew();
       allow read: if isOwnerDoc();
       allow update: if isOwnerDoc() && isOwnerNew() && sameUserIdOnUpdate();
@@ -595,38 +595,38 @@ service cloud.firestore {
     }
 
     // Posições (snapshot agregado)
-    match /investment_positions/{id} {
+    match /positions/{id} {
       allow create: if isOwnerNew()
-        && invAccountBelongsToUser(request.resource.data.invAccountId);
+        && invAccountBelongsToUser(request.resource.data.investmentAccountId);
       allow read: if isOwnerDoc();
       allow update: if isOwnerDoc()
         && isOwnerNew()
         && sameUserIdOnUpdate()
-        && invAccountBelongsToUser(request.resource.data.invAccountId);
+        && invAccountBelongsToUser(request.resource.data.investmentAccountId);
       allow delete: if isOwnerDoc();
     }
 
     // Movimentações
-    match /investment_transactions/{id} {
+    match /investmentTransactions/{id} {
       allow create: if isOwnerNew()
-        && invAccountBelongsToUser(request.resource.data.invAccountId);
+        && invAccountBelongsToUser(request.resource.data.investmentAccountId);
       allow read: if isOwnerDoc();
       allow update: if isOwnerDoc()
         && isOwnerNew()
         && sameUserIdOnUpdate()
-        && invAccountBelongsToUser(request.resource.data.invAccountId);
+        && invAccountBelongsToUser(request.resource.data.investmentAccountId);
       allow delete: if isOwnerDoc();
     }
 
     // Rendimentos / proventos
-    match /investment_earnings/{id} {
+    match /earnings/{id} {
       allow create: if isOwnerNew()
-        && invAccountBelongsToUser(request.resource.data.invAccountId);
+        && invAccountBelongsToUser(request.resource.data.investmentAccountId);
       allow read: if isOwnerDoc();
       allow update: if isOwnerDoc()
         && isOwnerNew()
         && sameUserIdOnUpdate()
-        && invAccountBelongsToUser(request.resource.data.invAccountId);
+        && invAccountBelongsToUser(request.resource.data.investmentAccountId);
       allow delete: if isOwnerDoc();
     }
 

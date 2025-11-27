@@ -31,6 +31,10 @@ export async function GET(
       "budget",
       "goal",
       "mapping_rule",
+      "investment_account",
+      "position",
+      "investment_transaction",
+      "earning",
     ];
 
     if (!validResourceTypes.includes(resourceType)) {

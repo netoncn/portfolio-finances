@@ -6,6 +6,10 @@
   "common": {
     "save": "Save",
     "cancel": "Cancel",
+    "all": "All",
+    "active": "Active",
+    "archived": "Archived",
+    "investments": "Investments",
     "status": {
       "label": "Status",
       "online": "Online",
@@ -1563,5 +1567,335 @@
     "addAccount": "Add Account",
     "insights": "View Insights",
     "dashboard": "Dashboard"
+  },
+  "investments": {
+    "accounts": {
+      "list": {
+        "title": "Investment Accounts",
+        "description": "Manage your investment accounts and brokers",
+        "addButton": "New Account",
+        "addFirstButton": "Add First Account",
+        "noAccounts": "No investment accounts",
+        "noAccountsDescription": "Start by adding your first investment account",
+        "searchPlaceholder": "Search by name, broker or account number...",
+        "filterByType": "Filter by type",
+        "filterByStatus": "Filter by status",
+        "accountNumber": "Account"
+      },
+      "form": {
+        "createTitle": "New Investment Account",
+        "createDescription": "Add a new investment account",
+        "editTitle": "Edit Investment Account",
+        "editDescription": "Update your account information",
+        "createButton": "Create Account",
+        "saveButton": "Save Changes",
+        "cancelButton": "Cancel",
+        "archiveButton": "Archive",
+        "unarchiveButton": "Unarchive",
+        "other": "Other",
+        "fields": {
+          "name": {
+            "label": "Account Name",
+            "placeholder": "Ex: My XP Account",
+            "description": "Custom name to identify this account"
+          },
+          "broker": {
+            "label": "Broker/Institution",
+            "placeholder": "Select a broker",
+            "description": "Institution where you hold this account"
+          },
+          "customBroker": {
+            "label": "Broker Name",
+            "placeholder": "Enter broker name",
+            "description": "Enter the name of the unlisted broker"
+          },
+          "accountType": {
+            "label": "Account Type",
+            "description": "Investment account category"
+          },
+          "accountNumber": {
+            "label": "Account Number (optional)",
+            "placeholder": "Ex: 12345-6",
+            "description": "Account number at the broker (optional)"
+          }
+        }
+      },
+      "accountTypes": {
+        "broker": "Brokerage",
+        "retirement_401k": "401(k) Retirement",
+        "retirement_ira": "IRA Retirement",
+        "retirement_roth": "Roth IRA",
+        "retirement_pension": "Pension",
+        "education_529": "529 Education"
+      },
+      "messages": {
+        "createSuccess": "Investment account created successfully!",
+        "createError": "Error creating investment account",
+        "updateSuccess": "Investment account updated successfully!",
+        "updateError": "Error updating investment account",
+        "archiveSuccess": "Account archived successfully!",
+        "archiveError": "Error archiving account",
+        "unarchiveSuccess": "Account unarchived successfully!",
+        "unarchiveError": "Error unarchiving account"
+      }
+    },
+    "transactions": {
+      "list": {
+        "title": "Transactions",
+        "description": "Track buys, sells and other transactions",
+        "addButton": "New Transaction",
+        "importButton": "Import CSV",
+        "noTransactions": "No transactions recorded",
+        "noTransactionsDescription": "Start by adding your first transaction",
+        "filterByType": "Filter by type",
+        "filterByAccount": "Filter by account"
+      },
+      "form": {
+        "createTitle": "New Transaction",
+        "createDescription": "Record a new investment transaction",
+        "editTitle": "Edit Transaction",
+        "editDescription": "Update transaction information",
+        "createButton": "Create Transaction",
+        "saveButton": "Save Changes",
+        "cancelButton": "Cancel",
+        "deleteButton": "Delete",
+        "fields": {
+          "investmentAccountId": {
+            "label": "Investment Account",
+            "placeholder": "Select an account",
+            "description": "Account where the transaction occurred"
+          },
+          "transactionType": {
+            "label": "Transaction Type",
+            "description": "Type of transaction"
+          },
+          "ticker": {
+            "label": "Asset Symbol (Ticker)",
+            "placeholder": "Ex: PETR4, AAPL, BTC",
+            "description": "Traded asset symbol"
+          },
+          "quantity": {
+            "label": "Quantity",
+            "placeholder": "Ex: 100",
+            "description": "Number of assets"
+          },
+          "price": {
+            "label": "Unit Price",
+            "placeholder": "$0.00",
+            "description": "Price per asset unit"
+          },
+          "amount": {
+            "label": "Total Amount",
+            "placeholder": "$0.00",
+            "description": "Total transaction amount"
+          },
+          "fees": {
+            "label": "Fees",
+            "placeholder": "$0.00",
+            "description": "Fees and commissions (optional)"
+          },
+          "date": {
+            "label": "Date",
+            "description": "Transaction date"
+          },
+          "notes": {
+            "label": "Notes",
+            "placeholder": "Additional notes (optional)",
+            "description": "Notes about the transaction"
+          }
+        }
+      },
+      "types": {
+        "buy": "Buy",
+        "sell": "Sell",
+        "dividend": "Dividend",
+        "jcp": "Capital Gain Tax",
+        "interest": "Interest/Yield",
+        "fee": "Fee",
+        "deposit": "Deposit",
+        "withdrawal": "Withdrawal",
+        "transfer_in": "Transfer In",
+        "transfer_out": "Transfer Out",
+        "split": "Stock Split",
+        "reverse_split": "Reverse Split",
+        "bonus": "Bonus Shares",
+        "other": "Other"
+      },
+      "messages": {
+        "createSuccess": "Transaction created successfully!",
+        "createError": "Error creating transaction",
+        "updateSuccess": "Transaction updated successfully!",
+        "updateError": "Error updating transaction",
+        "deleteSuccess": "Transaction deleted successfully!",
+        "deleteError": "Error deleting transaction"
+      }
+    },
+    "earnings": {
+      "list": {
+        "title": "Earnings",
+        "description": "Track dividends, interest and other income",
+        "addButton": "New Earning",
+        "noEarnings": "No earnings recorded",
+        "noEarningsDescription": "Start by adding your first earning",
+        "filterByType": "Filter by type",
+        "filterByAccount": "Filter by account"
+      },
+      "form": {
+        "createTitle": "New Earning",
+        "createDescription": "Record a new earning received",
+        "editTitle": "Edit Earning",
+        "editDescription": "Update earning information",
+        "createButton": "Create Earning",
+        "saveButton": "Save Changes",
+        "cancelButton": "Cancel",
+        "deleteButton": "Delete",
+        "fields": {
+          "investmentAccountId": {
+            "label": "Investment Account",
+            "placeholder": "Select an account",
+            "description": "Account where the earning was received"
+          },
+          "ticker": {
+            "label": "Asset Symbol (Ticker)",
+            "placeholder": "Ex: PETR4, AAPL, MXRF11",
+            "description": "Symbol of the asset that paid the earning"
+          },
+          "earningType": {
+            "label": "Earning Type",
+            "description": "Type of income received"
+          },
+          "amount": {
+            "label": "Amount Received",
+            "placeholder": "$0.00",
+            "description": "Total net amount received"
+          },
+          "amountPerShare": {
+            "label": "Amount per Share",
+            "placeholder": "$0.00",
+            "description": "Amount per share or unit (optional)"
+          },
+          "quantity": {
+            "label": "Quantity",
+            "placeholder": "Ex: 100",
+            "description": "Number of shares/units (optional)"
+          },
+          "paymentDate": {
+            "label": "Payment Date",
+            "description": "Date when the earning was paid"
+          },
+          "exDate": {
+            "label": "Ex-Date",
+            "description": "Ex-dividend date (optional)"
+          },
+          "taxWithheld": {
+            "label": "Tax Withheld",
+            "placeholder": "$0.00",
+            "description": "Tax withheld at source (optional)"
+          },
+          "notes": {
+            "label": "Notes",
+            "placeholder": "Additional notes (optional)",
+            "description": "Notes about the earning"
+          }
+        }
+      },
+      "types": {
+        "dividend": "Dividend",
+        "jcp": "Capital Gain Tax",
+        "interest": "Interest/Yield",
+        "capital_gain": "Capital Gain",
+        "return_of_capital": "Return of Capital",
+        "rent": "Rent (REIT)",
+        "amortization": "Amortization",
+        "other": "Other"
+      },
+      "messages": {
+        "createSuccess": "Earning created successfully!",
+        "createError": "Error creating earning",
+        "updateSuccess": "Earning updated successfully!",
+        "updateError": "Error updating earning",
+        "deleteSuccess": "Earning deleted successfully!",
+        "deleteError": "Error deleting earning"
+      }
+    },
+    "import": {
+      "dialog": {
+        "title": "Import Transactions",
+        "description": "Import investment transactions from a CSV file",
+        "selectAccount": "Investment Account",
+        "selectAccountPlaceholder": "Select an account",
+        "analyze": "Analyze",
+        "import": "Import",
+        "importing": "Importing...",
+        "complete": "Import Complete",
+        "imported": "Imported",
+        "skipped": "Skipped",
+        "errors": "Errors",
+        "back": "Back",
+        "close": "Close"
+      },
+      "preview": {
+        "mapping": "Field Mapping",
+        "previewTitle": "Preview",
+        "of": "of",
+        "valid": "Valid",
+        "errors": "With Errors",
+        "duplicates": "Duplicates",
+        "error": "Error",
+        "duplicate": "Duplicate",
+        "ok": "OK",
+        "parsedData": "Parsed Data",
+        "requiredFields": "Required fields: Date, Transaction Type and Amount",
+        "qty": "Qty",
+        "fees": "Fees"
+      },
+      "fields": {
+        "ignore": "Ignore",
+        "date": "Date",
+        "ticker": "Ticker",
+        "transactionType": "Transaction Type",
+        "quantity": "Quantity",
+        "price": "Price",
+        "amount": "Amount",
+        "fees": "Fees",
+        "notes": "Notes"
+      },
+      "errors": {
+        "parseError": "Error parsing CSV file",
+        "mappingRequired": "Please map the required fields",
+        "accountRequired": "Please select an investment account"
+      }
+    },
+    "dashboard": {
+      "title": "Portfolio Overview",
+      "cards": {
+        "totalValue": "Total Value",
+        "totalInvested": "Total Invested",
+        "earnings": "Earnings Received",
+        "return": "Return",
+        "position": "position",
+        "positions": "positions",
+        "account": "account",
+        "accounts": "accounts",
+        "dividendsAndInterest": "Dividends and interest"
+      },
+      "assetAllocation": {
+        "title": "Asset Allocation",
+        "description": "Portfolio distribution by asset class",
+        "topAssets": "Top Asset Classes",
+        "noData": {
+          "title": "No positions",
+          "description": "Add positions to see asset allocation"
+        }
+      },
+      "accountAllocation": {
+        "title": "Account Allocation",
+        "description": "Portfolio distribution by investment account",
+        "noData": {
+          "title": "No positions",
+          "description": "Add positions to see account allocation"
+        }
+      }
+    }
   }
 }

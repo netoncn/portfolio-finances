@@ -81,3 +81,53 @@ export const pointsOperationTypeEnum = z.enum([
 ]);
 
 export const aiRoleEnum = z.enum(["user", "assistant", "tool"]);
+
+export const investmentAccountTypeEnum = z.enum([
+  "broker",
+  "retirement_401k",
+  "retirement_ira",
+  "retirement_roth",
+  "retirement_pension",
+  "education_529",
+]);
+
+export const investmentAssetTypeEnum = z.enum([
+  "stock",
+  "fii",
+  "reit",
+  "etf",
+  "mutual_fund",
+  "bond",
+  "crypto",
+  "commodity",
+  "option",
+  "other",
+]);
+
+export const investmentTransactionTypeEnum = z.enum([
+  "buy",
+  "sell",
+  "dividend",
+  "jcp",
+  "interest",
+  "fee",
+  "deposit",
+  "withdrawal",
+  "transfer_in",
+  "transfer_out",
+  "split",
+  "reverse_split",
+  "bonus",
+  "other",
+]);
+
+export const earningTypeEnum = z.enum([
+  "dividend",
+  "jcp",
+  "interest",
+  "capital_gain",
+  "return_of_capital",
+  "rent",
+  "amortization",
+  "other",
+]);

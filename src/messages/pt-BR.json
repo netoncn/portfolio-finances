@@ -6,6 +6,10 @@
   "common": {
     "save": "Salvar",
     "cancel": "Cancelar",
+    "all": "Todos",
+    "active": "Ativo",
+    "archived": "Arquivado",
+    "investments": "Investimentos",
     "status": {
       "label": "Status",
       "online": "Online",
@@ -1566,5 +1570,335 @@
     "addAccount": "Adicionar Conta",
     "insights": "Ver Insights",
     "dashboard": "Dashboard"
+  },
+  "investments": {
+    "accounts": {
+      "list": {
+        "title": "Contas de Investimento",
+        "description": "Gerencie suas contas de investimento e corretoras",
+        "addButton": "Nova Conta",
+        "addFirstButton": "Adicionar Primeira Conta",
+        "noAccounts": "Nenhuma conta de investimento",
+        "noAccountsDescription": "Comece adicionando sua primeira conta de investimento",
+        "searchPlaceholder": "Buscar por nome, corretora ou número da conta...",
+        "filterByType": "Filtrar por tipo",
+        "filterByStatus": "Filtrar por status",
+        "accountNumber": "Conta"
+      },
+      "form": {
+        "createTitle": "Nova Conta de Investimento",
+        "createDescription": "Adicione uma nova conta de investimento",
+        "editTitle": "Editar Conta de Investimento",
+        "editDescription": "Atualize as informações da sua conta",
+        "createButton": "Criar Conta",
+        "saveButton": "Salvar Alterações",
+        "cancelButton": "Cancelar",
+        "archiveButton": "Arquivar",
+        "unarchiveButton": "Desarquivar",
+        "other": "Outra",
+        "fields": {
+          "name": {
+            "label": "Nome da Conta",
+            "placeholder": "Ex: Minha Conta XP",
+            "description": "Nome personalizado para identificar esta conta"
+          },
+          "broker": {
+            "label": "Corretora/Instituição",
+            "placeholder": "Selecione uma corretora",
+            "description": "Instituição onde você mantém esta conta"
+          },
+          "customBroker": {
+            "label": "Nome da Corretora",
+            "placeholder": "Digite o nome da corretora",
+            "description": "Informe o nome da corretora não listada"
+          },
+          "accountType": {
+            "label": "Tipo de Conta",
+            "description": "Categoria da conta de investimento"
+          },
+          "accountNumber": {
+            "label": "Número da Conta (opcional)",
+            "placeholder": "Ex: 12345-6",
+            "description": "Número da conta na corretora (opcional)"
+          }
+        }
+      },
+      "accountTypes": {
+        "broker": "Corretora",
+        "retirement_401k": "Aposentadoria 401(k)",
+        "retirement_ira": "Aposentadoria IRA",
+        "retirement_roth": "Roth IRA",
+        "retirement_pension": "Previdência Privada",
+        "education_529": "Educação 529"
+      },
+      "messages": {
+        "createSuccess": "Conta de investimento criada com sucesso!",
+        "createError": "Erro ao criar conta de investimento",
+        "updateSuccess": "Conta de investimento atualizada com sucesso!",
+        "updateError": "Erro ao atualizar conta de investimento",
+        "archiveSuccess": "Conta arquivada com sucesso!",
+        "archiveError": "Erro ao arquivar conta",
+        "unarchiveSuccess": "Conta desarquivada com sucesso!",
+        "unarchiveError": "Erro ao desarquivar conta"
+      }
+    },
+    "transactions": {
+      "list": {
+        "title": "Movimentações",
+        "description": "Registre compras, vendas e outras movimentações",
+        "addButton": "Nova Movimentação",
+        "importButton": "Importar CSV",
+        "noTransactions": "Nenhuma movimentação registrada",
+        "noTransactionsDescription": "Comece adicionando sua primeira movimentação",
+        "filterByType": "Filtrar por tipo",
+        "filterByAccount": "Filtrar por conta"
+      },
+      "form": {
+        "createTitle": "Nova Movimentação",
+        "createDescription": "Registre uma nova movimentação de investimento",
+        "editTitle": "Editar Movimentação",
+        "editDescription": "Atualize as informações da movimentação",
+        "createButton": "Criar Movimentação",
+        "saveButton": "Salvar Alterações",
+        "cancelButton": "Cancelar",
+        "deleteButton": "Excluir",
+        "fields": {
+          "investmentAccountId": {
+            "label": "Conta de Investimento",
+            "placeholder": "Selecione uma conta",
+            "description": "Conta onde a movimentação ocorreu"
+          },
+          "transactionType": {
+            "label": "Tipo de Movimentação",
+            "description": "Tipo da transação"
+          },
+          "ticker": {
+            "label": "Código do Ativo (Ticker)",
+            "placeholder": "Ex: PETR4, AAPL, BTC",
+            "description": "Código do ativo negociado"
+          },
+          "quantity": {
+            "label": "Quantidade",
+            "placeholder": "Ex: 100",
+            "description": "Quantidade de ativos"
+          },
+          "price": {
+            "label": "Preço Unitário",
+            "placeholder": "R$ 0,00",
+            "description": "Preço por unidade do ativo"
+          },
+          "amount": {
+            "label": "Valor Total",
+            "placeholder": "R$ 0,00",
+            "description": "Valor total da movimentação"
+          },
+          "fees": {
+            "label": "Taxas",
+            "placeholder": "R$ 0,00",
+            "description": "Taxas e corretagem (opcional)"
+          },
+          "date": {
+            "label": "Data",
+            "description": "Data da movimentação"
+          },
+          "notes": {
+            "label": "Observações",
+            "placeholder": "Observações adicionais (opcional)",
+            "description": "Notas sobre a movimentação"
+          }
+        }
+      },
+      "types": {
+        "buy": "Compra",
+        "sell": "Venda",
+        "dividend": "Dividendo",
+        "jcp": "JCP",
+        "interest": "Juros/Rendimento",
+        "fee": "Taxa",
+        "deposit": "Aporte",
+        "withdrawal": "Resgate",
+        "transfer_in": "Transferência Recebida",
+        "transfer_out": "Transferência Enviada",
+        "split": "Desdobramento",
+        "reverse_split": "Agrupamento",
+        "bonus": "Bonificação",
+        "other": "Outro"
+      },
+      "messages": {
+        "createSuccess": "Movimentação criada com sucesso!",
+        "createError": "Erro ao criar movimentação",
+        "updateSuccess": "Movimentação atualizada com sucesso!",
+        "updateError": "Erro ao atualizar movimentação",
+        "deleteSuccess": "Movimentação excluída com sucesso!",
+        "deleteError": "Erro ao excluir movimentação"
+      }
+    },
+    "earnings": {
+      "list": {
+        "title": "Proventos",
+        "description": "Acompanhe dividendos, JCP e outros rendimentos",
+        "addButton": "Novo Provento",
+        "noEarnings": "Nenhum provento registrado",
+        "noEarningsDescription": "Comece adicionando seu primeiro provento",
+        "filterByType": "Filtrar por tipo",
+        "filterByAccount": "Filtrar por conta"
+      },
+      "form": {
+        "createTitle": "Novo Provento",
+        "createDescription": "Registre um novo provento recebido",
+        "editTitle": "Editar Provento",
+        "editDescription": "Atualize as informações do provento",
+        "createButton": "Criar Provento",
+        "saveButton": "Salvar Alterações",
+        "cancelButton": "Cancelar",
+        "deleteButton": "Excluir",
+        "fields": {
+          "investmentAccountId": {
+            "label": "Conta de Investimento",
+            "placeholder": "Selecione uma conta",
+            "description": "Conta onde o provento foi recebido"
+          },
+          "ticker": {
+            "label": "Código do Ativo (Ticker)",
+            "placeholder": "Ex: PETR4, AAPL, MXRF11",
+            "description": "Código do ativo que pagou o provento"
+          },
+          "earningType": {
+            "label": "Tipo de Provento",
+            "description": "Tipo do rendimento recebido"
+          },
+          "amount": {
+            "label": "Valor Recebido",
+            "placeholder": "R$ 0,00",
+            "description": "Valor total líquido recebido"
+          },
+          "amountPerShare": {
+            "label": "Valor por Ação/Cota",
+            "placeholder": "R$ 0,00",
+            "description": "Valor por ação ou cota (opcional)"
+          },
+          "quantity": {
+            "label": "Quantidade",
+            "placeholder": "Ex: 100",
+            "description": "Quantidade de ações/cotas (opcional)"
+          },
+          "paymentDate": {
+            "label": "Data de Pagamento",
+            "description": "Data em que o provento foi pago"
+          },
+          "exDate": {
+            "label": "Data Ex",
+            "description": "Data ex-provento (opcional)"
+          },
+          "taxWithheld": {
+            "label": "Imposto Retido",
+            "placeholder": "R$ 0,00",
+            "description": "Imposto retido na fonte (opcional)"
+          },
+          "notes": {
+            "label": "Observações",
+            "placeholder": "Observações adicionais (opcional)",
+            "description": "Notas sobre o provento"
+          }
+        }
+      },
+      "types": {
+        "dividend": "Dividendo",
+        "jcp": "JCP",
+        "interest": "Juros/Rendimento",
+        "capital_gain": "Ganho de Capital",
+        "return_of_capital": "Retorno de Capital",
+        "rent": "Aluguel (FII)",
+        "amortization": "Amortização",
+        "other": "Outro"
+      },
+      "messages": {
+        "createSuccess": "Provento criado com sucesso!",
+        "createError": "Erro ao criar provento",
+        "updateSuccess": "Provento atualizado com sucesso!",
+        "updateError": "Erro ao atualizar provento",
+        "deleteSuccess": "Provento excluído com sucesso!",
+        "deleteError": "Erro ao excluir provento"
+      }
+    },
+    "import": {
+      "dialog": {
+        "title": "Importar Movimentações",
+        "description": "Importe movimentações de investimento a partir de um arquivo CSV",
+        "selectAccount": "Conta de Investimento",
+        "selectAccountPlaceholder": "Selecione uma conta",
+        "analyze": "Analisar",
+        "import": "Importar",
+        "importing": "Importando...",
+        "complete": "Importação Concluída",
+        "imported": "Importadas",
+        "skipped": "Ignoradas",
+        "errors": "Erros",
+        "back": "Voltar",
+        "close": "Fechar"
+      },
+      "preview": {
+        "mapping": "Mapeamento de Campos",
+        "previewTitle": "Pré-visualização",
+        "of": "de",
+        "valid": "Válidas",
+        "errors": "Com Erros",
+        "duplicates": "Duplicadas",
+        "error": "Erro",
+        "duplicate": "Duplicada",
+        "ok": "OK",
+        "parsedData": "Dados Processados",
+        "requiredFields": "Campos obrigatórios: Data, Tipo de Movimentação e Valor",
+        "qty": "Qtd",
+        "fees": "Taxas"
+      },
+      "fields": {
+        "ignore": "Ignorar",
+        "date": "Data",
+        "ticker": "Código do Ativo",
+        "transactionType": "Tipo de Movimentação",
+        "quantity": "Quantidade",
+        "price": "Preço",
+        "amount": "Valor",
+        "fees": "Taxas",
+        "notes": "Observações"
+      },
+      "errors": {
+        "parseError": "Erro ao processar o arquivo CSV",
+        "mappingRequired": "Por favor, mapeie os campos obrigatórios",
+        "accountRequired": "Por favor, selecione uma conta de investimento"
+      }
+    },
+    "dashboard": {
+      "title": "Visão Geral do Portfólio",
+      "cards": {
+        "totalValue": "Patrimônio Total",
+        "totalInvested": "Total Investido",
+        "earnings": "Proventos Recebidos",
+        "return": "Rentabilidade",
+        "position": "posição",
+        "positions": "posições",
+        "account": "conta",
+        "accounts": "contas",
+        "dividendsAndInterest": "Dividendos e rendimentos"
+      },
+      "assetAllocation": {
+        "title": "Alocação por Tipo de Ativo",
+        "description": "Distribuição do seu portfólio por classe de ativo",
+        "topAssets": "Principais Classes",
+        "noData": {
+          "title": "Sem posições",
+          "description": "Adicione posições para ver a alocação por tipo de ativo"
+        }
+      },
+      "accountAllocation": {
+        "title": "Alocação por Conta",
+        "description": "Distribuição do seu portfólio por conta de investimento",
+        "noData": {
+          "title": "Sem posições",
+          "description": "Adicione posições para ver a alocação por conta"
+        }
+      }
+    }
   }
 }

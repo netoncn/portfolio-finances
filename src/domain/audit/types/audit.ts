@@ -43,7 +43,25 @@ export type AuditEventType =
   | "mapping_rule.created"
   | "mapping_rule.updated"
   | "mapping_rule.deleted"
-  | "mapping_rule.applied";
+  | "mapping_rule.applied"
+  // Investment account events
+  | "investment_account.created"
+  | "investment_account.updated"
+  | "investment_account.archived"
+  | "investment_account.unarchived"
+  | "investment_account.deleted"
+  // Position events
+  | "position.created"
+  | "position.updated"
+  | "position.deleted"
+  // Investment transaction events
+  | "investment_transaction.created"
+  | "investment_transaction.updated"
+  | "investment_transaction.deleted"
+  // Earning events
+  | "earning.created"
+  | "earning.updated"
+  | "earning.deleted";
 
 export type AuditResourceType =
   | "account"
@@ -53,7 +71,11 @@ export type AuditResourceType =
   | "category"
   | "budget"
   | "goal"
-  | "mapping_rule";
+  | "mapping_rule"
+  | "investment_account"
+  | "position"
+  | "investment_transaction"
+  | "earning";
 
 export interface AuditEventMetadata {
   changedFields?: string[];

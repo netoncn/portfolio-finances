@@ -5,7 +5,7 @@ import type {
   CreateAuditEventDTO,
   ListAuditEventsQuery,
 } from "../dto/audit.dto";
-import type { AuditEvent } from "../types/audit";
+import type { AuditEvent, AuditResourceType } from "../types/audit";
 
 const COLLECTION = "audit_events";
 const DEFAULT_RETENTION_DAYS = 90;
@@ -114,15 +114,7 @@ export class AuditService {
   }
 
   static async getResourceHistory(
-    resourceType:
-      | "account"
-      | "transaction"
-      | "installment_group"
-      | "statement"
-      | "category"
-      | "budget"
-      | "goal"
-      | "mapping_rule",
+    resourceType: AuditResourceType,
     resourceId: string,
     userId: string,
   ): Promise<AuditEvent[]> {
