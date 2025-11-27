@@ -6,7 +6,7 @@ import { logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 

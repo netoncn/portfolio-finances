@@ -49,9 +49,39 @@ const serverEnvSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().min(1, "Google Client ID é obrigatório"),
   GOOGLE_CLIENT_SECRET: z.string().min(1, "Google Client Secret é obrigatório"),
 
-  // AI / LLM
+  // AI / LLM - Provider agnostic configuration
+  LLM_PROVIDER: z.enum(["openai", "anthropic", "google"]).default("openai"),
+
+  // OpenAI
   OPENAI_API_KEY: z.string().optional(),
-  AI_MODEL: z.string().optional().default("gpt-4o-mini"),
+  OPENAI_MODEL: z.string().optional().default("gpt-4o-mini"),
+
+  // Anthropic (Claude)
+  ANTHROPIC_API_KEY: z.string().optional(),
+  ANTHROPIC_MODEL: z.string().optional().default("claude-3-5-sonnet-20241022"),
+
+  // Google (Gemini)
+  GOOGLE_AI_API_KEY: z.string().optional(),
+  GOOGLE_MODEL: z.string().optional().default("gemini-1.5-flash"),
+
+  // AI Usage Quota
+  AI_QUOTA_ENABLED: z
+    .string()
+    .optional()
+    .default("true")
+    .transform((val) => val === "true"),
+  AI_QUOTA_MAX_REQUESTS_PER_MONTH: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val, 10) : undefined)),
+  AI_QUOTA_MAX_TOKENS_PER_MONTH: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val, 10) : undefined)),
+  AI_QUOTA_MAX_COST_PER_MONTH: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val, 10) : undefined)),
 
   // Outras configs
   NODE_ENV: z
@@ -110,8 +140,18 @@ export function getServerEnv() {
     NEXTAUTH_DEBUG: process.env.NEXTAUTH_DEBUG,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    LLM_PROVIDER: process.env.LLM_PROVIDER,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-    AI_MODEL: process.env.AI_MODEL,
+    OPENAI_MODEL: process.env.OPENAI_MODEL,
+    ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
+    ANTHROPIC_MODEL: process.env.ANTHROPIC_MODEL,
+    GOOGLE_AI_API_KEY: process.env.GOOGLE_AI_API_KEY,
+    GOOGLE_MODEL: process.env.GOOGLE_MODEL,
+    AI_QUOTA_ENABLED: process.env.AI_QUOTA_ENABLED,
+    AI_QUOTA_MAX_REQUESTS_PER_MONTH:
+      process.env.AI_QUOTA_MAX_REQUESTS_PER_MONTH,
+    AI_QUOTA_MAX_TOKENS_PER_MONTH: process.env.AI_QUOTA_MAX_TOKENS_PER_MONTH,
+    AI_QUOTA_MAX_COST_PER_MONTH: process.env.AI_QUOTA_MAX_COST_PER_MONTH,
     NODE_ENV: process.env.NODE_ENV,
   });
 
@@ -139,3 +179,13 @@ export function isFeatureEnabled(feature: keyof ClientEnv) {
   const env = getClientEnv();
   return env[feature] === "true";
 }
+
+// Unified env export for convenience
+export const env = {
+  get client() {
+    return getClientEnv();
+  },
+  get server() {
+    return getServerEnv();
+  },
+};

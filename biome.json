@@ -28,10 +28,13 @@
         "noUnusedVariables": {
           "level": "warn",
           "options": {
-            "ignoreRestSiblings": false
+            "ignoreRestSiblings": true
           }
         },
         "useExhaustiveDependencies": "off"
+      },
+      "complexity": {
+        "noStaticOnlyClass": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"

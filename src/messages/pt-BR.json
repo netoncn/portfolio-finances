@@ -1306,5 +1306,265 @@
       "description": "Adicione seus cartões de crédito para rastrear gastos e faturas.",
       "action": "Adicionar Cartão de Crédito"
     }
+  },
+  "chat": {
+    "title": "Chat Financeiro",
+    "subtitle": "Pergunte sobre",
+    "description": "Tire dúvidas, peça insights e receba orientações financeiras personalizadas",
+    "placeholder": "Digite sua pergunta sobre suas finanças...",
+    "send": "Enviar",
+    "thinking": "Pensando...",
+    "clear": "Limpar",
+    "error": "Erro ao processar sua mensagem. Tente novamente.",
+    "emptyState": {
+      "title": "Bem-vindo ao Chat Financeiro!",
+      "description": "Sou seu assistente financeiro com IA. Pergunte sobre seus gastos, receitas, orçamentos ou transações deste mês.",
+      "examples": {
+        "title": "Experimente perguntar:",
+        "list": [
+          "Quanto gastei este mês?",
+          "Quais são meus maiores gastos?",
+          "Estou dentro do orçamento?",
+          "Como posso economizar mais?",
+          "Preciso revisar alguma transação?"
+        ]
+      }
+    },
+    "context": {
+      "balance": "Saldo",
+      "savingsRate": "taxa de economia",
+      "income": "Receitas",
+      "thisMonth": "Este mês",
+      "expenses": "Despesas",
+      "transactions": "transações"
+    },
+    "suggestions": [
+      "Quanto gastei este mês?",
+      "Qual é minha principal categoria de gastos?",
+      "Estou dentro do orçamento?",
+      "Qual é minha taxa de economia?",
+      "Mostre transações recentes"
+    ]
+  },
+  "insights": {
+    "title": "Insights Financeiros",
+    "subtitle": "Análise inteligente dos seus padrões de gastos",
+    "description": "Receba insights personalizados com IA para melhorar sua saúde financeira",
+    "loading": "Gerando insights...",
+    "error": "Falha ao carregar insights. Tente novamente.",
+    "aiInsights": "Insights da IA",
+    "refresh": "Atualizar Insights",
+    "lastUpdated": "Última atualização",
+    "emptyState": {
+      "title": "Nenhum insight disponível",
+      "description": "Comece adicionando transações para ver insights.",
+      "action": "Adicionar Transações"
+    },
+    "categories": {
+      "spending": "Gastos",
+      "savings": "Economias",
+      "budget": "Orçamento",
+      "trends": "Tendências",
+      "alerts": "Alertas",
+      "recommendations": "Recomendações"
+    },
+    "spendingSummary": {
+      "title": "Resumo de Gastos",
+      "thisMonth": "Este Mês",
+      "lastMonth": "Mês Passado",
+      "change": "Variação",
+      "topCategories": "Principais Categorias",
+      "unusualSpending": "Gastos Incomuns",
+      "compared": "comparado ao mês anterior",
+      "totalIncome": "Receita Total",
+      "totalExpenses": "Despesas Totais",
+      "netBalance": "Saldo Líquido",
+      "savingsRate": "Taxa de Economia",
+      "transactions": "transações",
+      "vsLastMonth": "vs mês anterior",
+      "incomeMinusExpenses": "Receitas - Despesas",
+      "ratings": {
+        "excellent": "Excelente!",
+        "good": "Bom",
+        "fair": "Regular",
+        "negative": "Negativo"
+      }
+    },
+    "alerts": {
+      "title": "Alertas",
+      "count": "Alertas ({count})",
+      "budgetExceeded": "Orçamento excedido",
+      "nearLimit": "Próximo ao limite",
+      "unusualActivity": "Atividade incomum detectada",
+      "lowBalance": "Saldo baixo",
+      "severity": {
+        "alert": "Alerta",
+        "warning": "Aviso",
+        "info": "Info"
+      }
+    },
+    "recommendations": {
+      "title": "Recomendações",
+      "description": "Ações sugeridas para melhorar sua situação financeira"
+    }
+  },
+  "reviews": {
+    "title": "Fila de Revisão de IA",
+    "subtitle": "Revise e aprove classificações de transações sugeridas pela IA",
+    "description": "Ajude a melhorar a precisão da IA revisando transações",
+    "tabs": {
+      "pending": "Pendentes",
+      "approved": "Aprovadas",
+      "rejected": "Rejeitadas",
+      "skipped": "Ignoradas"
+    },
+    "stats": {
+      "pending": "Revisões Pendentes",
+      "total": "Total",
+      "avgConfidence": "Confiança Média",
+      "highPriority": "Alta Prioridade",
+      "approved": "Aprovadas",
+      "rejected": "Rejeitadas",
+      "ofTotal": "do total"
+    },
+    "filters": {
+      "all": "Todas",
+      "pending": "Pendentes",
+      "approved": "Aprovadas",
+      "rejected": "Rejeitadas",
+      "priority": {
+        "all": "Todas as Prioridades",
+        "high": "Alta Prioridade",
+        "medium": "Média Prioridade",
+        "low": "Baixa Prioridade"
+      }
+    },
+    "emptyState": {
+      "title": "Nenhuma transação para revisar",
+      "description": "Todas as transações foram revisadas ou a fila está vazia",
+      "allClear": "Tudo certo! A fila de revisão está vazia."
+    },
+    "card": {
+      "confidence": "confiança",
+      "priority": "Prioridade",
+      "suggested": "Sugestão da IA:",
+      "reasoning": "Motivo",
+      "transaction": "Transação",
+      "amount": "Valor",
+      "date": "Data",
+      "merchant": "Estabelecimento",
+      "category": "Categoria:",
+      "tags": "Tags:",
+      "merchantName": "Estabelecimento:",
+      "quickApprove": "Aprovar Rápido",
+      "applyChanges": "Aplicar Alterações",
+      "processing": "Processando...",
+      "createRuleLabel": "Criar regra automática para transações similares",
+      "selectCategory": "Selecione uma categoria",
+      "loading": "Carregando...",
+      "enterMerchant": "Digite o nome do estabelecimento",
+      "addTags": "Pressione Enter ou vírgula para adicionar tags",
+      "reviewNotes": "Notas de Revisão",
+      "addNotes": "Adicione notas sobre esta revisão (opcional)",
+      "typeLabel": "Tipo:",
+      "categoryLabel": "Categoria",
+      "merchantLabel": "Nome do Estabelecimento",
+      "tagsLabel": "Tags"
+    },
+    "actions": {
+      "approve": "Aprovar",
+      "reject": "Rejeitar",
+      "skip": "Pular",
+      "bulkApprove": "Aprovar Selecionadas",
+      "approveAll": "Aprovar Todas"
+    },
+    "list": {
+      "error": "Erro",
+      "errorMessage": "Falha ao carregar revisões. Tente novamente.",
+      "noReviews": "Nenhuma revisão {status} encontrada. Você está em dia!",
+      "approveAllButton": "Aprovar Todas ({count})"
+    },
+    "dialog": {
+      "title": "Revisar Transação",
+      "approve": {
+        "title": "Aprovar Classificação",
+        "description": "Confirme ou ajuste a categorização sugerida",
+        "keepSuggestion": "Manter sugestão",
+        "changeSuggestion": "Alterar categoria"
+      },
+      "reject": {
+        "title": "Rejeitar Classificação",
+        "description": "Informe a categoria correta",
+        "selectCorrect": "Selecione a categoria correta"
+      },
+      "fields": {
+        "category": {
+          "label": "Categoria",
+          "placeholder": "Selecione uma categoria"
+        },
+        "merchant": {
+          "label": "Estabelecimento",
+          "placeholder": "Nome do estabelecimento"
+        },
+        "tags": {
+          "label": "Tags",
+          "placeholder": "Adicionar tags"
+        },
+        "notes": {
+          "label": "Observações",
+          "placeholder": "Observações opcionais"
+        },
+        "createRule": {
+          "label": "Criar regra automática",
+          "description": "Criar uma regra para classificar transações similares automaticamente"
+        }
+      },
+      "submit": "Confirmar",
+      "cancel": "Cancelar"
+    },
+    "messages": {
+      "approveSuccess": "Classificação aprovada!",
+      "customApproveSuccess": "Classificação personalizada aplicada!",
+      "rejectSuccess": "Classificação rejeitada",
+      "skipSuccess": "Revisão pulada",
+      "bulkApproveSuccess": "{count} transações aprovadas com sucesso!",
+      "approveError": "Falha ao aprovar classificação",
+      "rejectError": "Falha ao rejeitar classificação",
+      "skipError": "Falha ao pular revisão",
+      "categoryRequired": "Por favor, selecione uma categoria",
+      "error": "Erro ao processar revisão. Tente novamente."
+    },
+    "insightCard": {
+      "action": "Ação:"
+    }
+  },
+  "ai": {
+    "common": {
+      "poweredBy": "Powered by AI",
+      "generating": "Gerando...",
+      "retry": "Tentar Novamente",
+      "learnMore": "Saiba Mais"
+    },
+    "features": {
+      "chat": "Chat Financeiro",
+      "insights": "Insights IA",
+      "reviews": "Revisão de Transações",
+      "classification": "Classificação Automática"
+    },
+    "errors": {
+      "generic": "Erro ao processar solicitação de IA",
+      "quota": "Limite de uso de IA excedido",
+      "timeout": "Tempo limite excedido",
+      "unavailable": "Serviço de IA temporariamente indisponível"
+    }
+  },
+  "quickActions": {
+    "title": "Ações Rápidas",
+    "subtitle": "Acesso rápido às funcionalidades",
+    "chat": "Chat Financeiro",
+    "addTransaction": "Adicionar Transação",
+    "addAccount": "Adicionar Conta",
+    "insights": "Ver Insights",
+    "dashboard": "Dashboard"
   }
 }

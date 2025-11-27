@@ -59,7 +59,7 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account: _account, profile: _profile }) {
       if (process.env.NEXTAUTH_DEBUG === "true") {
         console.log("========== JWT CALLBACK ==========");
         console.log("Token:", token);

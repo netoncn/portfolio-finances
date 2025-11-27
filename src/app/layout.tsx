@@ -5,6 +5,7 @@ import I18nProvider from "@/components/base/i18nProvider";
 import Providers from "@/components/base/Providers";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import { QuickActionsButton } from "@/components/layout/QuickActionsButton";
 import { authOptions } from "@/lib/auth";
 import "@/config/validate-env";
 import "@/styles/globals.css";
@@ -46,6 +47,7 @@ export default async function RootLayout({
             <Header session={session} />
             <main className="flex-1">{children}</main>
             <Footer />
+            {session && <QuickActionsButton />}
           </I18nProvider>
         </Providers>
       </body>

@@ -6,7 +6,19 @@ export type {
   TransactionDTO,
   UpdateTransactionDTO,
 } from "./dto/transaction.dto";
-
+// Classification schemas
+export {
+  aiClassificationRequestSchema,
+  batchClassificationRequestSchema,
+  classificationMethodSchema,
+  classificationResultSchema,
+  classificationSourceEnum,
+  createReviewRequestSchema,
+  reviewPriorityEnum,
+  reviewStatusEnum,
+  transactionReviewSchema,
+  updateReviewSchema,
+} from "./schemas/classification.schema";
 // Schemas
 export {
   createTransactionSchema,
@@ -15,7 +27,17 @@ export {
   transactionSchema,
   updateTransactionSchema,
 } from "./schemas/transaction.schema";
-
+// Classification types
+export type {
+  AIClassificationRequest,
+  AIClassificationResponse,
+  ClassificationMethod,
+  ClassificationResult,
+  ClassificationSource,
+  ClassificationStats,
+  ReviewStatus,
+  TransactionReview,
+} from "./types/classification";
 // Types
 export * from "./types/transaction";
 
@@ -23,3 +45,4 @@ export * from "./types/transaction";
 // export * from "./converters/transaction.converter";
 // export * from "./helpers/denormalization.helper";
 // export * from "./services/transaction.service";
+// export * from "./services/review-queue.service";

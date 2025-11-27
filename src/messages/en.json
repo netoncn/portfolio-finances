@@ -1306,5 +1306,262 @@
       "description": "Add your credit cards to track spending and statements.",
       "action": "Add Credit Card"
     }
+  },
+  "chat": {
+    "title": "Financial Chat",
+    "subtitle": "Ask me anything about",
+    "description": "Ask questions, get insights and receive personalized financial guidance",
+    "placeholder": "Type your question about your finances...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "clear": "Clear",
+    "error": "Error processing your message. Please try again.",
+    "emptyState": {
+      "title": "Welcome to Financial Chat!",
+      "description": "I'm your AI financial assistant. Ask me anything about your spending, income, budgets, or transactions for this month.",
+      "examples": {
+        "title": "Try asking:",
+        "list": [
+          "How much did I spend this month?",
+          "What are my biggest expenses?",
+          "Am I within budget?",
+          "How can I save more?",
+          "Do I need to review any transaction?"
+        ]
+      }
+    },
+    "context": {
+      "balance": "Balance",
+      "savingsRate": "savings rate",
+      "income": "Income",
+      "thisMonth": "This month",
+      "expenses": "Expenses",
+      "transactions": "transactions"
+    },
+    "suggestions": [
+      "How much did I spend this month?",
+      "What's my top spending category?",
+      "Am I on track with my budget?",
+      "What's my savings rate?",
+      "Show me recent transactions"
+    ]
+  },
+  "insights": {
+    "title": "AI Insights",
+    "subtitle": "Smart analysis of your spending patterns",
+    "description": "Receive AI-powered personalized insights to improve your financial health",
+    "loading": "Generating insights...",
+    "error": "Failed to load insights. Please try again.",
+    "aiInsights": "AI Insights",
+    "refresh": "Refresh Insights",
+    "lastUpdated": "Last updated",
+    "emptyState": {
+      "title": "No Insights Available",
+      "description": "Start by adding some transactions to see insights.",
+      "action": "Add Transactions"
+    },
+    "categories": {
+      "spending": "Spending",
+      "savings": "Savings",
+      "budget": "Budget",
+      "trends": "Trends",
+      "alerts": "Alerts",
+      "recommendations": "Recommendations"
+    },
+    "spendingSummary": {
+      "title": "Spending Summary",
+      "thisMonth": "This Month",
+      "lastMonth": "Last Month",
+      "change": "Change",
+      "topCategories": "Top Categories",
+      "unusualSpending": "Unusual Spending",
+      "compared": "compared to previous month",
+      "totalIncome": "Total Income",
+      "totalExpenses": "Total Expenses",
+      "netBalance": "Net Balance",
+      "savingsRate": "Savings Rate",
+      "transactions": "transactions",
+      "vsLastMonth": "vs last month",
+      "incomeMinusExpenses": "Income - Expenses",
+      "ratings": {
+        "excellent": "Excellent!",
+        "good": "Good",
+        "fair": "Fair",
+        "negative": "Negative"
+      }
+    },
+    "alerts": {
+      "title": "Alerts",
+      "count": "Alerts ({count})",
+      "budgetExceeded": "Budget exceeded",
+      "nearLimit": "Near limit",
+      "unusualActivity": "Unusual activity detected",
+      "lowBalance": "Low balance",
+      "severity": {
+        "alert": "Alert",
+        "warning": "Warning",
+        "info": "Info"
+      }
+    },
+    "recommendations": {
+      "title": "Recommendations",
+      "description": "Suggested actions to improve your financial situation"
+    }
+  },
+  "reviews": {
+    "title": "AI Review Queue",
+    "subtitle": "Review and approve AI-suggested transaction classifications",
+    "description": "Help improve AI accuracy by reviewing transactions",
+    "tabs": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "skipped": "Skipped"
+    },
+    "stats": {
+      "pending": "Pending",
+      "total": "Total",
+      "avgConfidence": "Avg Confidence",
+      "highPriority": "High Priority"
+    },
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "priority": {
+        "all": "All Priorities",
+        "high": "High Priority",
+        "medium": "Medium Priority",
+        "low": "Low Priority"
+      }
+    },
+    "emptyState": {
+      "title": "No transactions to review",
+      "description": "All transactions have been reviewed or the queue is empty",
+      "allClear": "All clear! The review queue is empty."
+    },
+    "card": {
+      "confidence": "confidence",
+      "priority": "Priority",
+      "suggested": "AI Suggestion:",
+      "reasoning": "Reason",
+      "transaction": "Transaction",
+      "amount": "Amount",
+      "date": "Date",
+      "merchant": "Merchant",
+      "category": "Category:",
+      "tags": "Tags:",
+      "merchantName": "Merchant:",
+      "quickApprove": "Quick Approve",
+      "applyChanges": "Apply Changes",
+      "processing": "Processing...",
+      "createRuleLabel": "Create automatic rule for similar transactions",
+      "selectCategory": "Select a category",
+      "loading": "Loading...",
+      "enterMerchant": "Enter merchant name",
+      "addTags": "Press Enter or comma to add tags",
+      "reviewNotes": "Review Notes",
+      "addNotes": "Add notes about this review (optional)",
+      "typeLabel": "Type:",
+      "categoryLabel": "Category",
+      "merchantLabel": "Merchant Name",
+      "tagsLabel": "Tags"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "skip": "Skip",
+      "bulkApprove": "Approve Selected",
+      "approveAll": "Approve All"
+    },
+    "list": {
+      "error": "Error",
+      "errorMessage": "Failed to load reviews. Please try again.",
+      "noReviews": "No {status} reviews found. You're all caught up!",
+      "approveAllButton": "Approve All ({count})"
+    },
+    "dialog": {
+      "title": "Review Transaction",
+      "approve": {
+        "title": "Approve Classification",
+        "description": "Confirm or adjust the suggested categorization",
+        "keepSuggestion": "Keep suggestion",
+        "changeSuggestion": "Change category"
+      },
+      "reject": {
+        "title": "Reject Classification",
+        "description": "Provide the correct category",
+        "selectCorrect": "Select the correct category"
+      },
+      "fields": {
+        "category": {
+          "label": "Category",
+          "placeholder": "Select a category"
+        },
+        "merchant": {
+          "label": "Merchant",
+          "placeholder": "Merchant name"
+        },
+        "tags": {
+          "label": "Tags",
+          "placeholder": "Add tags"
+        },
+        "notes": {
+          "label": "Notes",
+          "placeholder": "Optional notes"
+        },
+        "createRule": {
+          "label": "Create automatic rule",
+          "description": "Create a rule to automatically classify similar transactions"
+        }
+      },
+      "submit": "Confirm",
+      "cancel": "Cancel"
+    },
+    "messages": {
+      "approveSuccess": "Classification approved!",
+      "customApproveSuccess": "Custom classification applied!",
+      "rejectSuccess": "Classification rejected",
+      "skipSuccess": "Review skipped",
+      "bulkApproveSuccess": "{count} transactions approved successfully!",
+      "approveError": "Failed to approve classification",
+      "rejectError": "Failed to reject classification",
+      "skipError": "Failed to skip review",
+      "categoryRequired": "Please select a category",
+      "error": "Error processing review. Please try again."
+    },
+    "insightCard": {
+      "action": "Action:"
+    }
+  },
+  "ai": {
+    "common": {
+      "poweredBy": "Powered by AI",
+      "generating": "Generating...",
+      "retry": "Retry",
+      "learnMore": "Learn More"
+    },
+    "features": {
+      "chat": "Financial Chat",
+      "insights": "AI Insights",
+      "reviews": "Transaction Review",
+      "classification": "Auto Classification"
+    },
+    "errors": {
+      "generic": "Error processing AI request",
+      "quota": "AI usage quota exceeded",
+      "timeout": "Request timeout",
+      "unavailable": "AI service temporarily unavailable"
+    }
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "subtitle": "Quick access to features",
+    "chat": "Financial Chat",
+    "addTransaction": "Add Transaction",
+    "addAccount": "Add Account",
+    "insights": "View Insights",
+    "dashboard": "Dashboard"
   }
 }
