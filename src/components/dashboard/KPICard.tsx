@@ -2,6 +2,7 @@
 
 import { ArrowDown, ArrowUp, type LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 interface KPICardProps {
@@ -47,6 +48,20 @@ export function KPICard({
           : "bg-white dark:bg-gray-900 shadow-md hover:shadow-lg",
       )}
       onClick={onClick}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick();
+              }
+            }
+          : undefined
+      }
+      aria-label={`${title}: ${isLoading ? "Loading" : value}`}
+      aria-busy={isLoading}
     >
       <CardContent className="pt-6">
         <div className="flex items-center justify-between">
@@ -60,16 +75,7 @@ export function KPICard({
               {title}
             </p>
             <p className="text-2xl font-bold">
-              {isLoading ? (
-                <span
-                  className={cn(
-                    "inline-block h-8 w-24 animate-pulse rounded",
-                    featured ? "bg-white/20" : "bg-muted",
-                  )}
-                />
-              ) : (
-                value
-              )}
+              {isLoading ? <Skeleton className="h-8 w-24" /> : value}
             </p>
             {description && (
               <p

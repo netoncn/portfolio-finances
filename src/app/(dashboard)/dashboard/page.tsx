@@ -14,16 +14,21 @@ import {
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AccountFormDialog } from "@/components/accounts/AccountFormDialog";
 import { AccountIcon } from "@/components/accounts/AccountIcon";
 import { CardBrandBadge } from "@/components/accounts/CardBrandIcon";
 import { IssuerBadge } from "@/components/accounts/IssuerBadge";
+import { BudgetAlerts } from "@/components/budgets/BudgetAlerts";
+import { BudgetOverview } from "@/components/dashboard/BudgetOverview";
+import { CategoryPieChart } from "@/components/dashboard/CategoryPieChart";
 import { KPICard } from "@/components/dashboard/KPICard";
 import {
   PeriodFilter,
   type PeriodType,
 } from "@/components/dashboard/PeriodFilter";
+import { TrendLineChart } from "@/components/dashboard/TrendLineChart";
+import { UpcomingInstallments } from "@/components/dashboard/UpcomingInstallments";
 import { TransactionForm } from "@/components/transactions/TransactionForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +39,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useAccounts } from "@/hooks/use-accounts";
+import { useBudgetAlerts } from "@/hooks/use-budget-alerts";
+import { useDashboardKPIs } from "@/hooks/use-dashboard-kpis";
 import { useDashboardMetrics } from "@/hooks/use-dashboard-metrics";
 import { formatCurrency } from "@/lib/utils";
 
@@ -47,8 +54,80 @@ export default function Dashboard() {
     useAccounts(false);
   const [period, setPeriod] = useState<PeriodType>("current_month");
   const { metrics, isLoading: isLoadingMetrics } = useDashboardMetrics(period);
+  const { data: budgetAlerts, isLoading: isLoadingAlerts } = useBudgetAlerts();
 
-  // Quick Actions State
+  const periodRange = useMemo(() => {
+    const now = new Date();
+    let start: number;
+    let end: number;
+
+    switch (period) {
+      case "current_month": {
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(
+          now.getFullYear(),
+          now.getMonth() + 1,
+          0,
+          23,
+          59,
+          59,
+          999,
+        );
+        start = startOfMonth.getTime();
+        end = endOfMonth.getTime();
+        break;
+      }
+      case "last_30_days": {
+        const thirtyDaysAgo = new Date(now);
+        thirtyDaysAgo.setDate(now.getDate() - 30);
+        thirtyDaysAgo.setHours(0, 0, 0, 0);
+        const endOfToday = new Date(now);
+        endOfToday.setHours(23, 59, 59, 999);
+        start = thirtyDaysAgo.getTime();
+        end = endOfToday.getTime();
+        break;
+      }
+      case "last_90_days": {
+        const ninetyDaysAgo = new Date(now);
+        ninetyDaysAgo.setDate(now.getDate() - 90);
+        ninetyDaysAgo.setHours(0, 0, 0, 0);
+        const endOfToday = new Date(now);
+        endOfToday.setHours(23, 59, 59, 999);
+        start = ninetyDaysAgo.getTime();
+        end = endOfToday.getTime();
+        break;
+      }
+      case "current_year": {
+        const startOfYear = new Date(now.getFullYear(), 0, 1);
+        const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
+        start = startOfYear.getTime();
+        end = endOfYear.getTime();
+        break;
+      }
+      default: {
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(
+          now.getFullYear(),
+          now.getMonth() + 1,
+          0,
+          23,
+          59,
+          59,
+          999,
+        );
+        start = startOfMonth.getTime();
+        end = endOfMonth.getTime();
+      }
+    }
+
+    return { start, end };
+  }, [period]);
+
+  const { data: kpis, isLoading: isLoadingKPIs } = useDashboardKPIs(
+    periodRange.start,
+    periodRange.end,
+  );
+
   const [transactionDialogOpen, setTransactionDialogOpen] = useState(false);
   const [accountDialogOpen, setAccountDialogOpen] = useState(false);
 
@@ -81,7 +160,6 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
@@ -114,7 +192,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Financial Metrics KPIs */}
         <div className="mb-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <KPICard
@@ -166,7 +243,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Account Summary KPIs */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold mb-4">Account Summary</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -214,7 +290,49 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Recent Accounts & Quick Actions */}
+        {budgetAlerts && budgetAlerts.total > 0 && (
+          <div className="mb-8">
+            <BudgetAlerts
+              alerts={budgetAlerts.alerts}
+              counts={budgetAlerts.counts}
+              isLoading={isLoadingAlerts}
+              compact
+            />
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <BudgetOverview
+            budgetOverview={
+              kpis?.budgetOverview || {
+                totalBudgets: 0,
+                activeBudgets: 0,
+                totalBudgeted: 0,
+                totalSpent: 0,
+                percentageUsed: 0,
+                overBudgetCount: 0,
+                nearLimitCount: 0,
+              }
+            }
+            isLoading={isLoadingKPIs}
+          />
+          <UpcomingInstallments
+            installments={kpis?.upcomingInstallments || []}
+            isLoading={isLoadingKPIs}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <CategoryPieChart
+            data={kpis?.categoryChart || []}
+            isLoading={isLoadingKPIs}
+          />
+          <TrendLineChart
+            data={kpis?.trendChart || []}
+            isLoading={isLoadingKPIs}
+          />
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <Card className="border-none shadow-md">
@@ -307,7 +425,6 @@ export default function Dashboard() {
             </Card>
           </div>
 
-          {/* Quick Actions & Tips */}
           <div className="space-y-6">
             <Card className="border-none shadow-md">
               <CardHeader>
@@ -367,7 +484,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Quick Action Dialogs */}
         <TransactionForm
           open={transactionDialogOpen}
           onOpenChange={setTransactionDialogOpen}

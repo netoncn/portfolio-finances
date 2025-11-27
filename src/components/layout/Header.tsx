@@ -7,6 +7,8 @@ import { signOut } from "next-auth/react";
 import { useState } from "react";
 import LocaleSwitcher from "../base/LocaleSwitcher";
 import ThemeToggle from "../base/ThemeToggle";
+import { BudgetAlertBadge } from "../budgets/BudgetAlertBadge";
+import { MonthSwitcher } from "../temporal/MonthSwitcher";
 
 interface HeaderProps {
   session?: Session | undefined | null;
@@ -28,7 +30,6 @@ export default function Header({ session }: HeaderProps) {
     <header className="shadow-sm sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-color">
         <div className="flex justify-between items-center h-16">
-          {/* Logo e Nome */}
           <div className="flex items-center">
             <Link href="/dashboard" className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
@@ -40,7 +41,6 @@ export default function Header({ session }: HeaderProps) {
             </Link>
           </div>
 
-          {/* Menu Desktop */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
               href="/dashboard"
@@ -60,14 +60,28 @@ export default function Header({ session }: HeaderProps) {
             >
               Transações
             </Link>
+            <Link
+              href="/categories"
+              className="hover:text-blue-600 transition-colors font-medium"
+            >
+              Categorias
+            </Link>
+            <Link
+              href="/budgets"
+              className="hover:text-blue-600 transition-colors font-medium"
+            >
+              Orçamentos
+            </Link>
           </div>
 
-          {/* Perfil do Usuário */}
+          <div className="hidden lg:flex flex-1 justify-center">
+            <MonthSwitcher compact />
+          </div>
+
           <div className="flex items-center space-x-4">
-            {/* Notificações */}
-            <button
-              type="button"
-              className="relative p-2 hover:text-blue-600 transition-colors"
+            <Link
+              href="/budgets"
+              className="relative p-2 hover:text-blue-600 transition-colors flex items-center gap-2"
             >
               <svg
                 className="w-6 h-6"
@@ -84,14 +98,13 @@ export default function Header({ session }: HeaderProps) {
                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 />
               </svg>
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+              <BudgetAlertBadge showIcon={false} />
+            </Link>
 
             <ThemeToggle />
 
             <LocaleSwitcher />
 
-            {/* Dropdown do Perfil */}
             <div className="relative">
               <button
                 type="button"
@@ -134,7 +147,6 @@ export default function Header({ session }: HeaderProps) {
                 </svg>
               </button>
 
-              {/* Dropdown Menu */}
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 w-56 rounded-lg shadow-lg py-2 border border-gray-100 bg-color">
                   <div className="px-4 py-3 border-b border-gray-100">
@@ -191,7 +203,6 @@ export default function Header({ session }: HeaderProps) {
               )}
             </div>
 
-            {/* Menu Mobile Button */}
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -225,9 +236,11 @@ export default function Header({ session }: HeaderProps) {
           </div>
         </div>
 
-        {/* Menu Mobile */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100">
+            <div className="mb-4 flex justify-center">
+              <MonthSwitcher />
+            </div>
             <Link href="/dashboard" className="block py-2 hover:text-blue-600">
               Dashboard
             </Link>
@@ -239,6 +252,9 @@ export default function Header({ session }: HeaderProps) {
               className="block py-2 hover:text-blue-600"
             >
               Transações
+            </Link>
+            <Link href="/categories" className="block py-2 hover:text-blue-600">
+              Categorias
             </Link>
           </div>
         )}

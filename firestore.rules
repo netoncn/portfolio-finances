@@ -426,19 +426,140 @@ service cloud.firestore {
       allow delete: if isOwnerDoc();
     }
 
-    /* -------------------- Budgets / Goals / Insights -------------------- */
+    /* -------------------- Budgets -------------------- */
+
+    // Valida períodos de budget permitidos
+    function isValidBudgetPeriod(period) {
+      return period in ['monthly', 'yearly', 'quarterly', 'custom'];
+    }
+
+    // Valida status de budget permitidos
+    function isValidBudgetStatus(status) {
+      return status in ['active', 'inactive', 'completed'];
+    }
+
+    // Valida campos obrigatórios de budget
+    function hasRequiredBudgetFields(data) {
+      return data.keys().hasAll(['userId', 'name', 'amount', 'period', 'startDate', 'status', 'createdAt', 'updatedAt'])
+        && data.userId is string
+        && data.name is string
+        && data.name.size() >= 1
+        && data.name.size() <= 100
+        && data.amount is int
+        && data.amount >= 0
+        && isValidBudgetPeriod(data.period)
+        && data.startDate is int
+        && isValidBudgetStatus(data.status)
+        && data.createdAt is int
+        && data.updatedAt is int
+        && (!data.keys().hasAny(['endDate']) || data.endDate is int)
+        && (!data.keys().hasAny(['categoryIds']) || data.categoryIds is list)
+        && (!data.keys().hasAny(['alertThreshold']) || (data.alertThreshold is number && data.alertThreshold >= 0 && data.alertThreshold <= 1))
+        && (!data.keys().hasAny(['icon']) || (data.icon is string && data.icon.size() <= 10))
+        && (!data.keys().hasAny(['color']) || (data.color is string && data.color.size() == 7))
+        && (!data.keys().hasAny(['notes']) || (data.notes is string && data.notes.size() <= 500))
+        && (!data.keys().hasAny(['rollover']) || data.rollover is bool)
+        && (!data.keys().hasAny(['spent']) || data.spent is int);
+    }
+
+    // Valida que campos imutáveis de budget não foram alterados
+    function budgetImmutableFieldsUnchanged() {
+      return request.method != 'update' || (
+        resource.data.userId == request.resource.data.userId
+        && resource.data.createdAt == request.resource.data.createdAt
+      );
+    }
 
     match /budgets/{id} {
-      allow create: if isOwnerNew();
+      allow create: if isOwnerNew()
+        && hasRequiredBudgetFields(request.resource.data);
+
       allow read: if isOwnerDoc();
-      allow update: if isOwnerDoc() && isOwnerNew() && sameUserIdOnUpdate();
+
+      allow update: if isOwnerDoc()
+        && isOwnerNew()
+        && sameUserIdOnUpdate()
+        && budgetImmutableFieldsUnchanged()
+        && hasRequiredBudgetFields(request.resource.data);
+
       allow delete: if isOwnerDoc();
     }
 
+    /* -------------------- Goals -------------------- */
+
+    // Valida status de goal permitidos
+    function isValidGoalStatus(status) {
+      return status in ['active', 'completed', 'canceled', 'paused'];
+    }
+
+    // Valida prioridades de goal permitidas
+    function isValidGoalPriority(priority) {
+      return priority in ['low', 'medium', 'high'];
+    }
+
+    // Valida categorias de goal permitidas
+    function isValidGoalCategory(category) {
+      return category in [
+        'emergency_fund',
+        'vacation',
+        'house',
+        'car',
+        'education',
+        'retirement',
+        'investment',
+        'debt_payoff',
+        'wedding',
+        'business',
+        'other'
+      ];
+    }
+
+    // Valida campos obrigatórios de goal
+    function hasRequiredGoalFields(data) {
+      return data.keys().hasAll(['userId', 'name', 'targetAmount', 'currentAmount', 'category', 'priority', 'status', 'startDate', 'createdAt', 'updatedAt'])
+        && data.userId is string
+        && data.name is string
+        && data.name.size() >= 1
+        && data.name.size() <= 100
+        && data.targetAmount is int
+        && data.targetAmount > 0
+        && data.currentAmount is int
+        && data.currentAmount >= 0
+        && isValidGoalCategory(data.category)
+        && isValidGoalPriority(data.priority)
+        && isValidGoalStatus(data.status)
+        && data.startDate is int
+        && data.createdAt is int
+        && data.updatedAt is int
+        && (!data.keys().hasAny(['description']) || (data.description is string && data.description.size() <= 500))
+        && (!data.keys().hasAny(['targetDate']) || data.targetDate is int)
+        && (!data.keys().hasAny(['completedDate']) || data.completedDate is int)
+        && (!data.keys().hasAny(['icon']) || (data.icon is string && data.icon.size() <= 10))
+        && (!data.keys().hasAny(['color']) || (data.color is string && data.color.size() == 7))
+        && (!data.keys().hasAny(['notes']) || (data.notes is string && data.notes.size() <= 1000));
+    }
+
+    // Valida que campos imutáveis de goal não foram alterados
+    function goalImmutableFieldsUnchanged() {
+      return request.method != 'update' || (
+        resource.data.userId == request.resource.data.userId
+        && resource.data.createdAt == request.resource.data.createdAt
+        && resource.data.startDate == request.resource.data.startDate
+      );
+    }
+
     match /goals/{id} {
-      allow create: if isOwnerNew();
+      allow create: if isOwnerNew()
+        && hasRequiredGoalFields(request.resource.data);
+
       allow read: if isOwnerDoc();
-      allow update: if isOwnerDoc() && isOwnerNew() && sameUserIdOnUpdate();
+
+      allow update: if isOwnerDoc()
+        && isOwnerNew()
+        && sameUserIdOnUpdate()
+        && goalImmutableFieldsUnchanged()
+        && hasRequiredGoalFields(request.resource.data);
+
       allow delete: if isOwnerDoc();
     }
 

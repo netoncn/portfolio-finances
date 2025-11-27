@@ -97,6 +97,47 @@ userId (ASC) + type (ASC) + name (ASC)
 ```
 **Usage**: List categories filtered by type (expense/income/transfer), alphabetically sorted
 
+### 2. User Categories by Order
+```
+userId (ASC) + order (ASC) + createdAt (ASC)
+```
+**Usage**: List all user categories in custom display order
+**Query Example**:
+```typescript
+categoriesRef
+  .where('userId', '==', userId)
+  .orderBy('order', 'asc')
+  .orderBy('createdAt', 'asc')
+```
+
+### 3. User Categories by Type and Order
+```
+userId (ASC) + type (ASC) + order (ASC) + createdAt (ASC)
+```
+**Usage**: List categories of a specific type in custom display order
+**Query Example**:
+```typescript
+categoriesRef
+  .where('userId', '==', userId)
+  .where('type', '==', 'expense')
+  .orderBy('order', 'asc')
+  .orderBy('createdAt', 'asc')
+```
+
+### 4. Subcategories by Parent
+```
+userId (ASC) + parentId (ASC) + order (ASC) + createdAt (ASC)
+```
+**Usage**: List subcategories of a parent category in custom order
+**Query Example**:
+```typescript
+categoriesRef
+  .where('userId', '==', userId)
+  .where('parentId', '==', parentCategoryId)
+  .orderBy('order', 'asc')
+  .orderBy('createdAt', 'asc')
+```
+
 ## Mapping Rules Indexes
 
 ### 1. Active Rules by Priority and Creation Date
@@ -118,6 +159,78 @@ userId (ASC) + resourceId (ASC) + timestamp (DESC)
 userId (ASC) + timestamp (DESC)
 ```
 **Usage**: Get all audit events for a user, ordered by timestamp
+
+## Budgets Indexes
+
+### 1. User Budgets by Creation Date
+```
+userId (ASC) + createdAt (DESC)
+```
+**Usage**: List all budgets for a user, ordered by creation date (newest first)
+**Query Example**:
+```typescript
+budgetsRef
+  .where('userId', '==', userId)
+  .orderBy('createdAt', 'desc')
+```
+
+### 2. Active Budgets by Creation Date
+```
+userId (ASC) + status (ASC) + createdAt (DESC)
+```
+**Usage**: Filter budgets by status (active/inactive/completed), ordered by creation date
+**Query Example**:
+```typescript
+budgetsRef
+  .where('userId', '==', userId)
+  .where('status', '==', 'active')
+  .orderBy('createdAt', 'desc')
+```
+
+### 3. Budgets by Period
+```
+userId (ASC) + period (ASC) + createdAt (DESC)
+```
+**Usage**: Filter budgets by period type (monthly/yearly/quarterly/custom)
+**Query Example**:
+```typescript
+budgetsRef
+  .where('userId', '==', userId)
+  .where('period', '==', 'monthly')
+  .orderBy('createdAt', 'desc')
+```
+
+## Goals Indexes
+
+### 1. User Goals by Creation Date
+```
+userId (ASC) + createdAt (DESC)
+```
+**Usage**: List all goals for a user, ordered by creation date (newest first)
+**Query Example**:
+```typescript
+goalsRef
+  .where('userId', '==', userId)
+  .orderBy('createdAt', 'desc')
+```
+
+### 2. Goals by Status and Priority
+```
+userId (ASC) + status (ASC) + priority (DESC) + targetDate (ASC)
+```
+**Usage**: Filter goals by status, prioritize by priority level, then by target date
+**Query Example**:
+```typescript
+goalsRef
+  .where('userId', '==', userId)
+  .where('status', '==', 'active')
+  .orderBy('priority', 'desc')
+  .orderBy('targetDate', 'asc')
+```
+**Notes**:
+- Priority order: `high` > `medium` > `low`
+- Shows highest priority goals first
+- Within same priority, shows goals with nearest target date first
 
 ## Deployment
 

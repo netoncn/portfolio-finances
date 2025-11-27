@@ -1,3 +1,4 @@
+import "server-only";
 import { adminDb } from "@/lib/firebase/firestore.admin";
 import { logger } from "@/lib/logger";
 import type {
@@ -119,6 +120,8 @@ export class AuditService {
       | "installment_group"
       | "statement"
       | "category"
+      | "budget"
+      | "goal"
       | "mapping_rule",
     resourceId: string,
     userId: string,

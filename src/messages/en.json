@@ -30,6 +30,7 @@
     "accounts": "Accounts",
     "transactions": "Transactions",
     "budgets": "Budgets",
+    "categories": "Categories",
     "investments": "Investments",
     "settings": "Settings",
     "signIn": "Sign In",
@@ -219,6 +220,60 @@
       "transactionCount": "Transactions",
       "compared": "vs. previous period",
       "noData": "No data available"
+    },
+    "budgetOverview": {
+      "title": "Budget Overview",
+      "description": "Track your budgets and spending",
+      "viewAll": "View all budgets",
+      "overallProgress": "Overall Progress",
+      "totalBudgeted": "Total Budgeted",
+      "totalSpent": "Total Spent",
+      "remaining": "Remaining",
+      "activeBudgets": "Active Budgets",
+      "overBudget": "over budget",
+      "nearLimit": "near limit (>80%)",
+      "noBudgets": {
+        "title": "No budgets created",
+        "description": "Create budgets to track your spending by category",
+        "action": "Create Budget"
+      }
+    },
+    "upcomingInstallments": {
+      "title": "Upcoming Installments",
+      "description": "Next installments due in 30 days",
+      "viewAll": "View all transactions",
+      "viewMore": "View {count} more",
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "overdue": "Overdue",
+      "noInstallments": {
+        "title": "No upcoming installments",
+        "description": "You have no installments due in the next 30 days"
+      }
+    },
+    "categoryChart": {
+      "title": "Expenses by Category",
+      "description": "Distribution of your expenses",
+      "ofTotal": "of total",
+      "topCategories": "Top Categories",
+      "noData": {
+        "title": "No expense data",
+        "description": "Start adding expenses to see the distribution by category"
+      }
+    },
+    "trendChart": {
+      "title": "3-Month Trend",
+      "description": "Income and expense trend",
+      "income": "Income",
+      "expense": "Expense",
+      "balance": "Balance",
+      "avgIncome": "Avg. Income",
+      "avgExpense": "Avg. Expense",
+      "avgBalance": "Avg. Balance",
+      "noData": {
+        "title": "No trend data",
+        "description": "Start adding transactions to see your financial trend"
+      }
     }
   },
   "errors": {
@@ -308,6 +363,12 @@
         },
         "type": {
           "label": "Type"
+        },
+        "category": {
+          "label": "Category",
+          "placeholder": "Select a category",
+          "description": "Optional: Categorize this transaction",
+          "noCategories": "No categories available for this transaction type"
         },
         "description": {
           "label": "Description",
@@ -673,29 +734,379 @@
     }
   },
   "categories": {
-    "title": "Categories",
-    "subtitle": "Manage your transaction categories",
-    "empty": "No categories found",
-    "system": "System",
-    "confirmDelete": "Are you sure you want to delete this category?",
-    "types": {
-      "expense": "Expenses",
-      "income": "Income",
-      "transfer": "Transfers"
+    "title": "My Categories",
+    "description": "Manage your transaction categories",
+    "emptyState": {
+      "title": "No categories found",
+      "description": "Start by adding your first category"
     },
-    "fields": {
+    "stats": {
+      "total": "Total Categories",
+      "expense": "Expense Categories",
+      "income": "Income Categories",
+      "transfer": "Transfer Categories"
+    },
+    "table": {
       "name": "Name",
-      "color": "Color",
+      "type": "Type",
       "keywords": "Keywords",
-      "system": "System",
-      "actions": "Actions"
+      "budgetLimit": "Budget Limit",
+      "isSystem": "System",
+      "actions": "Actions",
+      "noResults": "No categories found",
+      "showing": "Showing",
+      "of": "of",
+      "categories": "category(ies)"
+    },
+    "types": {
+      "expense": "Expense",
+      "income": "Income",
+      "transfer": "Transfer"
     },
     "actions": {
       "new": "New Category",
-      "edit": "Edit Category",
+      "edit": "Edit",
       "delete": "Delete",
       "save": "Save",
       "cancel": "Cancel"
+    },
+    "form": {
+      "create": {
+        "title": "New Category",
+        "description": "Add a new transaction category"
+      },
+      "edit": {
+        "title": "Edit Category",
+        "description": "Edit category information"
+      },
+      "fields": {
+        "name": {
+          "label": "Category Name",
+          "placeholder": "Ex: Groceries",
+          "required": "Name is required"
+        },
+        "type": {
+          "label": "Category Type",
+          "placeholder": "Select type"
+        },
+        "icon": {
+          "label": "Icon (Emoji)",
+          "placeholder": "Ex: \ud83d\uded2",
+          "description": "Optional emoji to represent this category"
+        },
+        "color": {
+          "label": "Color",
+          "placeholder": "Ex: #FF5733",
+          "description": "Hex color code (optional)"
+        },
+        "keywords": {
+          "label": "Keywords",
+          "placeholder": "Ex: market, supermarket, food",
+          "description": "Comma-separated keywords for auto-categorization"
+        },
+        "budgetLimit": {
+          "label": "Budget Limit",
+          "placeholder": "0.00",
+          "description": "Optional monthly budget limit"
+        }
+      },
+      "actions": {
+        "create": "Create Category",
+        "update": "Save Changes"
+      },
+      "messages": {
+        "createSuccess": "Category created successfully!",
+        "updateSuccess": "Category updated successfully!",
+        "deleteSuccess": "Category deleted successfully!",
+        "createError": "Error creating category",
+        "updateError": "Error updating category",
+        "deleteError": "Error deleting category",
+        "systemCategoryError": "Cannot delete system categories",
+        "validationError": "Please check the form fields"
+      }
+    },
+    "deleteDialog": {
+      "title": "Delete Category",
+      "description": "Are you sure you want to delete this category? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Yes, Delete"
+    }
+  },
+  "budgets": {
+    "title": "My Budgets",
+    "description": "Manage your monthly budgets and track spending",
+    "emptyState": {
+      "title": "No budgets found",
+      "description": "Start by creating your first budget"
+    },
+    "stats": {
+      "totalBudgeted": "Total Budgeted",
+      "totalSpent": "Total Spent",
+      "remaining": "Remaining",
+      "overBudget": "Over Budget"
+    },
+    "table": {
+      "name": "Name",
+      "period": "Period",
+      "amount": "Amount",
+      "spent": "Spent",
+      "progress": "Progress",
+      "status": "Status",
+      "actions": "Actions",
+      "noResults": "No budgets found",
+      "adjustFilters": "Try adjusting the search filters",
+      "showing": "Showing",
+      "of": "of",
+      "budgets": "budget(s)"
+    },
+    "periods": {
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "quarterly": "Quarterly",
+      "custom": "Custom"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "completed": "Completed"
+    },
+    "filters": {
+      "search": "Search by name...",
+      "period": "Period",
+      "status": "Status",
+      "allPeriods": "All Periods",
+      "all": "All"
+    },
+    "actions": {
+      "new": "New Budget",
+      "edit": "Edit",
+      "delete": "Delete",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "form": {
+      "create": {
+        "title": "New Budget",
+        "description": "Create a new budget to track your spending"
+      },
+      "edit": {
+        "title": "Edit Budget",
+        "description": "Edit budget information"
+      },
+      "fields": {
+        "name": {
+          "label": "Budget Name",
+          "placeholder": "Ex: Monthly Groceries"
+        },
+        "amount": {
+          "label": "Budget Amount",
+          "placeholder": "0",
+          "description": "Amount in cents (e.g., 100000 = $1000.00)"
+        },
+        "period": {
+          "label": "Period"
+        },
+        "status": {
+          "label": "Status"
+        },
+        "startDate": {
+          "label": "Start Date"
+        },
+        "endDate": {
+          "label": "End Date"
+        },
+        "categories": {
+          "label": "Categories",
+          "description": "Select categories to include in this budget (leave empty for all)",
+          "allCategories": "All expense categories will be included"
+        },
+        "alertThreshold": {
+          "label": "Alert Threshold",
+          "description": "Alert when this percentage is reached (0.8 = 80%)"
+        },
+        "icon": {
+          "label": "Icon (Emoji)",
+          "placeholder": "Ex: 💰"
+        },
+        "color": {
+          "label": "Color"
+        },
+        "notes": {
+          "label": "Notes",
+          "placeholder": "Optional notes"
+        }
+      },
+      "actions": {
+        "create": "Create Budget",
+        "update": "Save Changes"
+      },
+      "messages": {
+        "createSuccess": "Budget created successfully!",
+        "updateSuccess": "Budget updated successfully!",
+        "deleteSuccess": "Budget deleted successfully!",
+        "createError": "Error creating budget",
+        "updateError": "Error updating budget",
+        "deleteError": "Error deleting budget"
+      }
+    },
+    "deleteDialog": {
+      "title": "Delete Budget",
+      "description": "Are you sure you want to delete this budget? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Yes, Delete"
+    },
+    "alerts": {
+      "title": "Budget Alerts",
+      "description": "Get notified when budgets reach certain thresholds",
+      "viewAll": "View All",
+      "viewMore": "View {count} more",
+      "noAlerts": {
+        "title": "All Good!",
+        "description": "You have no budget alerts at the moment. Your spending is under control."
+      },
+      "levels": {
+        "warning": "Warning",
+        "danger": "High Usage",
+        "critical": "Critical"
+      },
+      "of": "of",
+      "used": "used",
+      "spent": "Spent",
+      "budget": "Budget",
+      "remaining": "Remaining"
+    }
+  },
+  "goals": {
+    "title": "Financial Goals",
+    "description": "Set and track your financial goals",
+    "emptyState": {
+      "title": "No goals yet",
+      "description": "Start by creating your first financial goal"
+    },
+    "sections": {
+      "active": "Active Goals",
+      "completed": "Completed Goals",
+      "other": "Other Goals"
+    },
+    "summary": {
+      "totalGoals": "Total Goals",
+      "activeGoals": "Active",
+      "completedGoals": "Completed",
+      "totalTargetAmount": "Total Target",
+      "totalCurrentAmount": "Total Saved",
+      "overallProgress": "Overall Progress"
+    },
+    "status": {
+      "active": "Active",
+      "completed": "Completed",
+      "canceled": "Canceled",
+      "paused": "Paused"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "category": {
+      "emergency_fund": "Emergency Fund",
+      "vacation": "Vacation",
+      "house": "House/Property",
+      "car": "Car/Vehicle",
+      "education": "Education",
+      "retirement": "Retirement",
+      "investment": "Investment",
+      "debt_payoff": "Debt Payoff",
+      "wedding": "Wedding",
+      "business": "Business",
+      "other": "Other"
+    },
+    "progress": "Progress",
+    "current": "Current",
+    "target": "Target",
+    "remaining": "Remaining",
+    "daysRemaining": "{days} days remaining",
+    "overdue": "Overdue by {days} days",
+    "monthlyRequired": "Required per month",
+    "actions": {
+      "new": "New Goal",
+      "edit": "Edit",
+      "delete": "Delete",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "form": {
+      "create": {
+        "title": "New Financial Goal",
+        "description": "Create a new goal to track your savings"
+      },
+      "edit": {
+        "title": "Edit Goal",
+        "description": "Update goal information"
+      },
+      "fields": {
+        "name": {
+          "label": "Goal Name",
+          "placeholder": "e.g., Emergency Fund"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Optional description"
+        },
+        "targetAmount": {
+          "label": "Target Amount",
+          "description": "Amount in cents (e.g., 100000 = $1000.00)"
+        },
+        "currentAmount": {
+          "label": "Current Amount"
+        },
+        "category": {
+          "label": "Category",
+          "emergency_fund": "Emergency Fund",
+          "vacation": "Vacation",
+          "house": "House/Property",
+          "car": "Car/Vehicle",
+          "education": "Education",
+          "retirement": "Retirement",
+          "investment": "Investment",
+          "debt_payoff": "Debt Payoff",
+          "wedding": "Wedding",
+          "business": "Business",
+          "other": "Other"
+        },
+        "priority": {
+          "label": "Priority",
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        },
+        "targetDate": {
+          "label": "Target Date"
+        },
+        "icon": {
+          "label": "Icon (Emoji)",
+          "placeholder": "e.g., 🎯"
+        },
+        "notes": {
+          "label": "Notes",
+          "placeholder": "Optional notes"
+        }
+      },
+      "actions": {
+        "create": "Create Goal",
+        "update": "Save Changes"
+      },
+      "messages": {
+        "createSuccess": "Goal created successfully!",
+        "updateSuccess": "Goal updated successfully!",
+        "deleteSuccess": "Goal deleted successfully!",
+        "createError": "Error creating goal",
+        "updateError": "Error updating goal",
+        "deleteError": "Error deleting goal"
+      }
+    },
+    "deleteDialog": {
+      "title": "Delete Goal",
+      "description": "Are you sure you want to delete this goal? This action cannot be undone."
     }
   },
   "rules": {
@@ -840,6 +1251,60 @@
       "api": "API",
       "system": "System",
       "import": "Import"
+    }
+  },
+  "temporal": {
+    "allTime": "All Time",
+    "previousMonth": "Previous Month",
+    "nextMonth": "Next Month",
+    "goToToday": "Go to Today",
+    "viewAllTime": "View All Time",
+    "currentMonth": "Current Month"
+  },
+  "emptyStates": {
+    "transactions": {
+      "title": "No Transactions Yet",
+      "description": "Start tracking your finances by adding your first transaction.",
+      "action": "Add Transaction"
+    },
+    "accounts": {
+      "title": "No Accounts Yet",
+      "description": "Create your first account to start managing your finances.",
+      "action": "Add Account"
+    },
+    "budgets": {
+      "title": "No Budgets Yet",
+      "description": "Set up budgets to better control your spending.",
+      "action": "Create Budget"
+    },
+    "goals": {
+      "title": "No Goals Yet",
+      "description": "Define financial goals and track your progress toward them.",
+      "action": "Add Goal"
+    },
+    "categories": {
+      "title": "No Categories Yet",
+      "description": "Create categories to organize your transactions.",
+      "action": "Add Category"
+    },
+    "search": {
+      "title": "No Results Found",
+      "description": "Try adjusting your search terms or filters."
+    },
+    "dashboard": {
+      "title": "Welcome to Finance AI",
+      "description": "Start by adding accounts and transactions to see your financial overview here."
+    },
+    "chart": {
+      "title": "No data available"
+    },
+    "budgetAlerts": {
+      "title": "No budget alerts"
+    },
+    "creditCards": {
+      "title": "No Credit Cards Yet",
+      "description": "Add your credit cards to track spending and statements.",
+      "action": "Add Credit Card"
     }
   }
 }

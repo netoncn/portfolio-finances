@@ -1,10 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { ZodError } from "zod";
+import { BudgetRecomputeService } from "@/domain/budgets/services/budget-recompute.service";
 import { createTransactionSchema } from "@/domain/transactions/schemas/transaction.schema";
 import { TransactionService } from "@/domain/transactions/services/transaction.service";
 import type { Transaction } from "@/domain/transactions/types/transaction";
 import { authOptions } from "@/lib/auth";
+import { CacheInvalidation } from "@/lib/cache/memory-cache";
 import { logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
@@ -75,6 +77,18 @@ export async function POST(request: NextRequest) {
 
     const source = sourceParam === "import" ? "import" : "web";
     const transaction = await TransactionService.create(validatedData, source);
+
+    BudgetRecomputeService.recomputeAffectedBudgets(
+      session.user.id,
+      transaction,
+    ).catch((error: unknown) => {
+      logger.error(
+        "Failed to recompute budgets after transaction create",
+        error instanceof Error ? error : undefined,
+      );
+    });
+
+    CacheInvalidation.invalidateUser(session.user.id);
 
     return NextResponse.json({ data: transaction }, { status: 201 });
   } catch (error) {

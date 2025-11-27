@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -9,10 +10,9 @@ export interface CurrencyInputProps
     React.InputHTMLAttributes<HTMLInputElement>,
     "onChange" | "value"
   > {
-  value?: number;
+  value?: number; // Value in cents
   onChange?: (value: number) => void;
-  onValueChange?: (value: number) => void;
-  locale?: string;
+  onValueChange?: (value: number) => void; // Returns value in cents
   currency?: string;
 }
 
@@ -26,57 +26,76 @@ export const CurrencyInput = React.forwardRef<
       value = 0,
       onChange,
       onValueChange,
-      locale = "pt-BR",
       currency = "BRL",
       ...props
     },
     ref,
   ) => {
+    const locale = useLocale();
     const [displayValue, setDisplayValue] = React.useState("");
     const [isFocused, setIsFocused] = React.useState(false);
 
-    const formatValue = (num: number): string => {
-      if (num === 0) return "";
-      return num.toLocaleString(locale, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
+    const decimalSeparator = locale === "pt-BR" ? "," : ".";
+    const thousandsSeparator = locale === "pt-BR" ? "." : ",";
+
+    const centsToDisplay = (cents: number): string => {
+      if (cents === 0) return "";
+      const amount = cents / 100;
+      return amount
+        .toFixed(2)
+        .replace(".", decimalSeparator)
+        .replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator);
     };
 
-    const parseValue = (str: string): number => {
-      if (!str || str === "") return 0;
+    const displayToCents = (display: string): number => {
+      if (!display || display === "") return 0;
 
-      let cleaned = str.replace(/\s/g, "");
+      const normalized = display
+        .replace(new RegExp(`\\${thousandsSeparator}`, "g"), "")
+        .replace(decimalSeparator, ".");
 
-      const lastComma = cleaned.lastIndexOf(",");
-      const lastPeriod = cleaned.lastIndexOf(".");
+      const amount = Number.parseFloat(normalized);
+      if (Number.isNaN(amount)) return 0;
 
-      if (lastComma > lastPeriod) {
-        cleaned = cleaned.replace(/\./g, "").replace(",", ".");
-      } else {
-        cleaned = cleaned.replace(/,/g, "");
-      }
-
-      const parsed = parseFloat(cleaned);
-      return Number.isNaN(parsed) ? 0 : parsed;
+      return Math.round(amount * 100);
     };
 
     React.useEffect(() => {
-      if (!isFocused) {
-        setDisplayValue(formatValue(value));
+      if (!isFocused && value !== undefined) {
+        setDisplayValue(centsToDisplay(value));
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, isFocused]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const inputValue = e.target.value;
+      const input = e.target.value;
 
-      if (inputValue === "" || /^[\d.,\s]*$/.test(inputValue)) {
-        setDisplayValue(inputValue);
-
-        const numericValue = parseValue(inputValue);
-        onChange?.(numericValue);
-        onValueChange?.(numericValue);
+      // Allow empty input
+      if (input === "") {
+        setDisplayValue("");
+        onChange?.(0);
+        onValueChange?.(0);
+        return;
       }
+
+      let cleaned = input.replace(
+        new RegExp(`[^\\d${decimalSeparator.replace(".", "\\.")}]`, "g"),
+        "",
+      );
+
+      const parts = cleaned.split(decimalSeparator);
+      if (parts.length > 2) {
+        cleaned = parts[0] + decimalSeparator + parts.slice(1).join("");
+      }
+
+      if (parts.length === 2 && parts[1].length > 2) {
+        cleaned = parts[0] + decimalSeparator + parts[1].substring(0, 2);
+      }
+
+      setDisplayValue(cleaned);
+      const cents = displayToCents(cleaned);
+      onChange?.(cents);
+      onValueChange?.(cents);
     };
 
     const handleFocus = () => {
@@ -85,11 +104,12 @@ export const CurrencyInput = React.forwardRef<
 
     const handleBlur = () => {
       setIsFocused(false);
-      const numericValue = parseValue(displayValue);
-      setDisplayValue(formatValue(numericValue));
-
-      onChange?.(numericValue);
-      onValueChange?.(numericValue);
+      if (displayValue) {
+        const cents = displayToCents(displayValue);
+        setDisplayValue(centsToDisplay(cents));
+        onChange?.(cents);
+        onValueChange?.(cents);
+      }
     };
 
     return (
@@ -106,7 +126,7 @@ export const CurrencyInput = React.forwardRef<
           onFocus={handleFocus}
           onBlur={handleBlur}
           className={cn("pl-12", className)}
-          placeholder="0,00"
+          placeholder={locale === "pt-BR" ? "0,00" : "0.00"}
           {...props}
         />
       </div>

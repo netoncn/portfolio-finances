@@ -10,7 +10,8 @@ export {
   auditSourceEnum,
   createAuditEventSchema,
 } from "./schemas/audit.schema";
-export { AuditService } from "./services/audit.service";
+// Server-side exports (import directly from file in API routes)
+// export { AuditService } from "./services/audit.service";
 export type {
   AuditEvent,
   AuditEventMetadata,

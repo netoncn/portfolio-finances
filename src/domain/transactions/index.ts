@@ -1,6 +1,3 @@
-// Converters
-export * from "./converters/transaction.converter";
-
 // DTOs (inferred from schemas)
 export type {
   CreateInstallmentTransactionDTO,
@@ -9,9 +6,6 @@ export type {
   TransactionDTO,
   UpdateTransactionDTO,
 } from "./dto/transaction.dto";
-
-// Helpers
-export * from "./helpers/denormalization.helper";
 
 // Schemas
 export {
@@ -22,8 +16,10 @@ export {
   updateTransactionSchema,
 } from "./schemas/transaction.schema";
 
-// Services
-export * from "./services/transaction.service";
-
 // Types
 export * from "./types/transaction";
+
+// Server-side exports (import directly from file in API routes)
+// export * from "./converters/transaction.converter";
+// export * from "./helpers/denormalization.helper";
+// export * from "./services/transaction.service";

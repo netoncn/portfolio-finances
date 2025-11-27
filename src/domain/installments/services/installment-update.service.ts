@@ -1,3 +1,4 @@
+import "server-only";
 import { TransactionService } from "@/domain/transactions/services/transaction.service";
 import type { Transaction } from "@/domain/transactions/types/transaction";
 import { logger } from "@/lib/logger";

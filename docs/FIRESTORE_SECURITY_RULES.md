@@ -1,8 +1,8 @@
-# Firestore Security Rules - Accounts Collection
+# Firestore Security Rules
 
 ## Visão Geral
 
-As regras de segurança do Firestore para a coleção `accounts` garantem que:
+Este documento descreve as regras de segurança implementadas para as coleções do Firestore. As regras garantem que:
 
 1. **Autenticação**: Apenas usuários autenticados podem acessar contas
 2. **Autorização**: Usuários só podem acessar suas próprias contas
@@ -403,6 +403,240 @@ pnpm deploy:rules
 ```
 
 ### Testar rules localmente com Firebase Emulator:
+```bash
+firebase emulators:start --only firestore
+```
+
+## Monitoramento
+
+Para monitorar violações de segurança em produção:
+
+1. Acessar Firebase Console > Firestore > Rules
+2. Verificar métricas de rejeições
+3. Analisar logs de auditoria
+
+---
+
+# Categories Collection Security Rules
+
+## Visão Geral
+
+As regras de segurança para a coleção `categories` garantem validação completa de categorias de despesas/receitas.
+
+## Validação de Campos
+
+### `hasRequiredCategoryFields(data)`
+Campos obrigatórios:
+- `userId` (string) - ID do usuário proprietário
+- `name` (string, 1-100 caracteres) - Nome da categoria
+- `type` (enum) - Tipo: `expense`, `income`, `transfer`
+- `createdAt` (int) - Timestamp de criação
+- `updatedAt` (int) - Timestamp de atualização
+- `order` (int, ≥ 0) - Ordem de exibição
+
+Campos opcionais:
+- `parentId` (string ou null) - ID da categoria pai (para subcategorias)
+- `icon` (string) - Ícone da categoria
+- `color` (string) - Cor hexadecimal
+
+### Validação de Tipo
+```javascript
+isValidCategoryType(type) {
+  return type in ['expense', 'income', 'transfer'];
+}
+```
+
+## Operações Permitidas
+
+### CREATE
+- Usuário deve ser o proprietário (`userId` = `uid`)
+- Todos os campos obrigatórios presentes e válidos
+- Tipo de categoria válido
+
+### READ
+- Usuário deve ser o proprietário do documento
+
+### UPDATE
+- Usuário deve ser o proprietário
+- `userId` e `createdAt` são imutáveis
+- Todos os campos obrigatórios devem permanecer válidos
+
+### DELETE
+- Usuário deve ser o proprietário
+
+---
+
+# Budgets Collection Security Rules
+
+## Visão Geral
+
+As regras de segurança para a coleção `budgets` garantem validação rigorosa de orçamentos com períodos e metas definidas.
+
+## Validação de Campos
+
+### `hasRequiredBudgetFields(data)`
+Campos obrigatórios:
+- `userId` (string) - ID do usuário proprietário
+- `name` (string, 1-100 caracteres) - Nome do orçamento
+- `amount` (int, ≥ 0) - Valor do orçamento em centavos
+- `period` (enum) - Período: `monthly`, `yearly`, `quarterly`, `custom`
+- `startDate` (int) - Data de início (timestamp)
+- `status` (enum) - Status: `active`, `inactive`, `completed`
+- `createdAt` (int) - Timestamp de criação
+- `updatedAt` (int) - Timestamp de atualização
+
+Campos opcionais:
+- `endDate` (int) - Data de término (obrigatório para período `custom`)
+- `categoryIds` (array de strings) - IDs de categorias vinculadas
+- `spent` (int) - Valor gasto até o momento
+- `remainingAmount` (int) - Valor restante
+
+### Validação de Período
+```javascript
+isValidBudgetPeriod(period) {
+  return period in ['monthly', 'yearly', 'quarterly', 'custom'];
+}
+```
+
+### Validação de Status
+```javascript
+isValidBudgetStatus(status) {
+  return status in ['active', 'inactive', 'completed'];
+}
+```
+
+## Regras de Negócio
+
+1. **Período Custom**: Se `period == 'custom'`, `endDate` é obrigatório
+2. **Array de Categorias**: Se presente, `categoryIds` deve ser um array
+3. **Campos Numéricos**: `amount`, `spent`, `remainingAmount` devem ser ≥ 0
+4. **Imutabilidade**: `userId`, `createdAt`, `startDate` não podem ser alterados
+
+## Operações Permitidas
+
+### CREATE
+- Usuário deve ser o proprietário
+- Todos os campos obrigatórios presentes e válidos
+- Período e status válidos
+- Se período = `custom`, `endDate` deve estar presente
+
+### READ
+- Usuário deve ser o proprietário
+
+### UPDATE
+- Usuário deve ser o proprietário
+- `userId`, `createdAt`, `startDate` são imutáveis
+- Validação de campos obrigatórios mantida
+
+### DELETE
+- Usuário deve ser o proprietário
+
+---
+
+# Goals Collection Security Rules
+
+## Visão Geral
+
+As regras de segurança para a coleção `goals` garantem validação completa de metas financeiras com categorias predefinidas e prioridades.
+
+## Validação de Campos
+
+### `hasRequiredGoalFields(data)`
+Campos obrigatórios:
+- `userId` (string) - ID do usuário proprietário
+- `name` (string, 1-100 caracteres) - Nome da meta
+- `targetAmount` (int, > 0) - Valor alvo em centavos
+- `currentAmount` (int, ≥ 0) - Valor atual acumulado
+- `targetDate` (int) - Data alvo (timestamp)
+- `status` (enum) - Status: `active`, `completed`, `canceled`, `paused`
+- `priority` (enum) - Prioridade: `low`, `medium`, `high`
+- `category` (enum) - Categoria da meta (11 categorias disponíveis)
+- `startDate` (int) - Data de início (timestamp)
+- `createdAt` (int) - Timestamp de criação
+- `updatedAt` (int) - Timestamp de atualização
+
+Campos opcionais:
+- `description` (string, max 500 caracteres) - Descrição da meta
+- `progress` (float, 0-100) - Percentual de progresso
+- `estimatedMonthlyContribution` (int) - Contribuição mensal estimada
+
+### Validação de Status
+```javascript
+isValidGoalStatus(status) {
+  return status in ['active', 'completed', 'canceled', 'paused'];
+}
+```
+
+### Validação de Prioridade
+```javascript
+isValidGoalPriority(priority) {
+  return priority in ['low', 'medium', 'high'];
+}
+```
+
+### Validação de Categoria
+Categorias permitidas:
+- `emergency_fund` - Fundo de emergência
+- `travel` - Viagem
+- `home` - Casa própria
+- `car` - Veículo
+- `education` - Educação
+- `retirement` - Aposentadoria
+- `investment` - Investimento
+- `debt_payoff` - Quitação de dívida
+- `wedding` - Casamento
+- `electronics` - Eletrônicos
+- `other` - Outros
+
+```javascript
+isValidGoalCategory(category) {
+  return category in ['emergency_fund', 'travel', 'home', 'car',
+    'education', 'retirement', 'investment', 'debt_payoff',
+    'wedding', 'electronics', 'other'];
+}
+```
+
+## Regras de Negócio
+
+1. **Valores**: `targetAmount` > 0 e `currentAmount` ≥ 0
+2. **Progresso**: Se presente, deve estar entre 0 e 100
+3. **Descrição**: Máximo de 500 caracteres
+4. **Imutabilidade**: `userId`, `createdAt`, `startDate` não podem ser alterados
+
+## Operações Permitidas
+
+### CREATE
+- Usuário deve ser o proprietário
+- Todos os campos obrigatórios presentes e válidos
+- Status, prioridade e categoria válidos
+- `targetAmount` > 0
+- `currentAmount` ≥ 0
+
+### READ
+- Usuário deve ser o proprietário
+
+### UPDATE
+- Usuário deve ser o proprietário
+- `userId`, `createdAt`, `startDate` são imutáveis
+- Validação de campos obrigatórios mantida
+
+### DELETE
+- Usuário deve ser o proprietário
+
+---
+
+## Deployment
+
+Para fazer deploy das regras de segurança:
+
+```bash
+pnpm deploy:rules
+```
+
+## Testes Locais
+
+Para testar as regras localmente com Firebase Emulator:
+
 ```bash
 firebase emulators:start --only firestore
 ```

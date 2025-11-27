@@ -1,3 +1,4 @@
+import "server-only";
 import { adminDb } from "@/lib/firebase/firestore.admin";
 import type {
   CreateInstallmentGroupDTO,

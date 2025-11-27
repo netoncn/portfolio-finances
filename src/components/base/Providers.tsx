@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { useState } from "react";
 import { Toaster } from "sonner";
+import { TemporalProvider } from "@/contexts/temporal-context";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -28,8 +29,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           enableSystem
           storageKey="theme"
         >
-          {children}
-          <Toaster />
+          <TemporalProvider>
+            {children}
+            <Toaster />
+          </TemporalProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </SessionProvider>

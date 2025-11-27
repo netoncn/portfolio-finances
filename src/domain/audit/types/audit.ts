@@ -27,6 +27,18 @@ export type AuditEventType =
   | "category.created"
   | "category.updated"
   | "category.deleted"
+  | "category.bulk_created"
+  // Budget events
+  | "budget.created"
+  | "budget.updated"
+  | "budget.deleted"
+  | "budget.spent_updated"
+  | "budget.alert_triggered"
+  // Goal events
+  | "goal.created"
+  | "goal.updated"
+  | "goal.deleted"
+  | "goal.progress_updated"
   // Mapping rule events
   | "mapping_rule.created"
   | "mapping_rule.updated"
@@ -39,6 +51,8 @@ export type AuditResourceType =
   | "installment_group"
   | "statement"
   | "category"
+  | "budget"
+  | "goal"
   | "mapping_rule";
 
 export interface AuditEventMetadata {
@@ -59,11 +73,19 @@ export interface AuditEventMetadata {
   successCount?: number;
   errorCount?: number;
   duplicateCount?: number;
+  count?: number;
 
   // Classification metadata
   ruleId?: string;
   confidence?: number;
   autoClassified?: boolean;
+
+  // Goal-specific metadata
+  previousAmount?: number;
+  newAmount?: number;
+  targetAmount?: number;
+  percentageComplete?: number;
+  deletedValues?: Record<string, unknown>;
 }
 
 export interface AuditEvent extends BaseEntity {

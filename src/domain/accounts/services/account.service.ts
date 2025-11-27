@@ -1,5 +1,6 @@
+import "server-only";
 import { FieldValue } from "firebase-admin/firestore";
-import { AuditService } from "@/domain/audit";
+import { AuditService } from "@/domain/audit/services/audit.service";
 import { adminDb } from "@/lib/firebase/firestore.admin";
 import type { CreateAccountDTO, UpdateAccountDTO } from "../dto/account.dto";
 import type { Account } from "../types/account";

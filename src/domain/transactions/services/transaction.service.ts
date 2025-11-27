@@ -1,3 +1,4 @@
+import "server-only";
 import { AccountService } from "@/domain/accounts/services/account.service";
 import { AuditService } from "@/domain/audit/services/audit.service";
 import { adminDb } from "@/lib/firebase/firestore.admin";
@@ -118,6 +119,25 @@ export class TransactionService {
       .collection(COLLECTION)
       .where("userId", "==", userId)
       .where("cardBrand", "==", cardBrand)
+      .orderBy("date", "desc")
+      .get();
+
+    return snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Transaction[];
+  }
+
+  static async listByDateRange(
+    userId: string,
+    startDate: number,
+    endDate: number,
+  ): Promise<Transaction[]> {
+    const snapshot = await adminDb
+      .collection(COLLECTION)
+      .where("userId", "==", userId)
+      .where("date", ">=", startDate)
+      .where("date", "<=", endDate)
       .orderBy("date", "desc")
       .get();
 

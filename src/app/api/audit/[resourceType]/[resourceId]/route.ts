@@ -28,6 +28,8 @@ export async function GET(
       "installment_group",
       "statement",
       "category",
+      "budget",
+      "goal",
       "mapping_rule",
     ];
 

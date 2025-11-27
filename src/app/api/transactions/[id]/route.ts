@@ -1,9 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { ZodError } from "zod";
+import { BudgetRecomputeService } from "@/domain/budgets/services/budget-recompute.service";
 import { updateTransactionSchema } from "@/domain/transactions/schemas/transaction.schema";
 import { TransactionService } from "@/domain/transactions/services/transaction.service";
 import { authOptions } from "@/lib/auth";
+import { CacheInvalidation } from "@/lib/cache/memory-cache";
 import { logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
@@ -55,6 +57,11 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
     const { id } = await context.params;
     const body = await request.json();
 
+    const oldTransaction = await TransactionService.getById(
+      id,
+      session.user.id,
+    );
+
     const validatedData = updateTransactionSchema.parse({
       ...body,
       id,
@@ -69,6 +76,21 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
         { status: 404 },
       );
     }
+
+    if (oldTransaction) {
+      BudgetRecomputeService.recomputeAffectedBudgets(
+        session.user.id,
+        transaction,
+        oldTransaction,
+      ).catch((error: unknown) => {
+        logger.error(
+          "Failed to recompute budgets after transaction update",
+          error instanceof Error ? error : undefined,
+        );
+      });
+    }
+
+    CacheInvalidation.invalidateUser(session.user.id);
 
     return NextResponse.json({ data: transaction }, { status: 200 });
   } catch (error) {
@@ -100,6 +122,8 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
 
     const { id } = await context.params;
 
+    const transaction = await TransactionService.getById(id, session.user.id);
+
     const success = await TransactionService.delete(id, session.user.id);
 
     if (!success) {
@@ -108,6 +132,22 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
         { status: 404 },
       );
     }
+
+    if (transaction) {
+      const deletedTransaction = { ...transaction, amount: 0 };
+      BudgetRecomputeService.recomputeAffectedBudgets(
+        session.user.id,
+        deletedTransaction,
+        transaction,
+      ).catch((error: unknown) => {
+        logger.error(
+          "Failed to recompute budgets after transaction delete",
+          error instanceof Error ? error : undefined,
+        );
+      });
+    }
+
+    CacheInvalidation.invalidateUser(session.user.id);
 
     return NextResponse.json(
       { message: "Transaction deleted successfully" },

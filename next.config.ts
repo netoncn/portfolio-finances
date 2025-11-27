@@ -40,6 +40,23 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // ==================== WEBPACK ====================
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Exclude server-only packages from client bundle
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        "firebase-admin": false,
+        "firebase-admin/app": false,
+        "firebase-admin/firestore": false,
+        "firebase-admin/auth": false,
+        "@google-cloud/storage": false,
+        "google-auth-library": false,
+      };
+    }
+    return config;
+  },
+
   // ==================== SECURITY HEADERS ====================
   async headers() {
     return [

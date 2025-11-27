@@ -1,10 +1,10 @@
 import { Timestamp as FirestoreTimestamp } from "firebase/firestore";
-import type { Timestamp as AdminTimestamp } from "firebase-admin/firestore";
 
 /**
  * Timestamp universal que funciona em client e admin
+ * Note: For server-side code, this will be the same as firebase-admin's Timestamp
  */
-export type Timestamp = FirestoreTimestamp | AdminTimestamp;
+export type Timestamp = FirestoreTimestamp | any;
 
 /**
  * Tipo base para documentos do Firestore

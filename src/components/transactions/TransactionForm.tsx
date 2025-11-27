@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/select";
 import type { Transaction } from "@/domain/transactions/types/transaction";
 import { useAccounts } from "@/hooks/use-accounts";
+import { useCategories } from "@/hooks/use-categories";
 import {
   useCreateTransaction,
   useUpdateTransaction,
@@ -60,6 +61,7 @@ export function TransactionForm({
   const t = useTranslations("transactions.form");
   const tCommon = useTranslations("common");
   const { data: accounts = [] } = useAccounts();
+  const { data: categories = [] } = useCategories();
   const createMutation = useCreateTransaction();
   const updateMutation = useUpdateTransaction();
 
@@ -83,12 +85,29 @@ export function TransactionForm({
   const hasInstallments = form.watch("hasInstallments");
   const selectedAccountId = form.watch("accountId");
   const selectedAccount = accounts.find((a) => a.id === selectedAccountId);
+  const selectedType = form.watch("type");
+
+  const filteredCategories = categories.filter(
+    (category) => category.type === selectedType,
+  );
 
   useEffect(() => {
     if (selectedAccount) {
       form.setValue("accountId", selectedAccount.id);
     }
   }, [selectedAccount, form]);
+
+  useEffect(() => {
+    const currentCategoryId = form.getValues("categoryId");
+    if (currentCategoryId) {
+      const currentCategory = categories.find(
+        (c) => c.id === currentCategoryId,
+      );
+      if (currentCategory && currentCategory.type !== selectedType) {
+        form.setValue("categoryId", "");
+      }
+    }
+  }, [selectedType, categories, form]);
 
   const onSubmit = async (data: TransactionFormValues) => {
     try {
@@ -214,6 +233,49 @@ export function TransactionForm({
                       </SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("fields.category.label")}</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder={t("fields.category.placeholder")}
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {filteredCategories.length === 0 ? (
+                        <div className="p-2 text-sm text-muted-foreground text-center">
+                          {t("fields.category.noCategories")}
+                        </div>
+                      ) : (
+                        filteredCategories.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            <div className="flex items-center gap-2">
+                              {category.icon && (
+                                <span className="text-base">
+                                  {category.icon}
+                                </span>
+                              )}
+                              <span>{category.name}</span>
+                            </div>
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    {t("fields.category.description")}
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

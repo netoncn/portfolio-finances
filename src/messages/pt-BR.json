@@ -29,6 +29,7 @@
     "dashboard": "Dashboard",
     "accounts": "Contas",
     "transactions": "Transações",
+    "categories": "Categorias",
     "budgets": "Orçamentos",
     "investments": "Investimentos",
     "settings": "Configurações",
@@ -219,6 +220,60 @@
       "transactionCount": "Transações",
       "compared": "vs. período anterior",
       "noData": "Sem dados disponíveis"
+    },
+    "budgetOverview": {
+      "title": "Visão Geral de Orçamentos",
+      "description": "Acompanhe seus orçamentos e gastos",
+      "viewAll": "Ver todos os orçamentos",
+      "overallProgress": "Progresso Geral",
+      "totalBudgeted": "Total Orçado",
+      "totalSpent": "Total Gasto",
+      "remaining": "Restante",
+      "activeBudgets": "Orçamentos Ativos",
+      "overBudget": "acima do orçamento",
+      "nearLimit": "próximo ao limite (>80%)",
+      "noBudgets": {
+        "title": "Nenhum orçamento criado",
+        "description": "Crie orçamentos para acompanhar seus gastos por categoria",
+        "action": "Criar Orçamento"
+      }
+    },
+    "upcomingInstallments": {
+      "title": "Próximas Parcelas",
+      "description": "Parcelas a vencer nos próximos 30 dias",
+      "viewAll": "Ver todas as transações",
+      "viewMore": "Ver mais {count}",
+      "today": "Hoje",
+      "tomorrow": "Amanhã",
+      "overdue": "Vencido",
+      "noInstallments": {
+        "title": "Nenhuma parcela próxima",
+        "description": "Você não tem parcelas a vencer nos próximos 30 dias"
+      }
+    },
+    "categoryChart": {
+      "title": "Despesas por Categoria",
+      "description": "Distribuição dos seus gastos",
+      "ofTotal": "do total",
+      "topCategories": "Principais Categorias",
+      "noData": {
+        "title": "Sem dados de despesas",
+        "description": "Comece adicionando despesas para ver a distribuição por categoria"
+      }
+    },
+    "trendChart": {
+      "title": "Tendência de 3 Meses",
+      "description": "Tendência de receitas e despesas",
+      "income": "Receitas",
+      "expense": "Despesas",
+      "balance": "Saldo",
+      "avgIncome": "Média Receitas",
+      "avgExpense": "Média Despesas",
+      "avgBalance": "Média Saldo",
+      "noData": {
+        "title": "Sem dados de tendência",
+        "description": "Comece adicionando transações para ver sua tendência financeira"
+      }
     }
   },
   "errors": {
@@ -308,6 +363,12 @@
         },
         "type": {
           "label": "Tipo"
+        },
+        "category": {
+          "label": "Categoria",
+          "placeholder": "Selecione uma categoria",
+          "description": "Opcional: Categorize esta transação",
+          "noCategories": "Nenhuma categoria disponível para este tipo de transação"
         },
         "description": {
           "label": "Descrição",
@@ -673,29 +734,379 @@
     }
   },
   "categories": {
-    "title": "Categorias",
-    "subtitle": "Gerencie suas categorias de transações",
-    "empty": "Nenhuma categoria encontrada",
-    "system": "Sistema",
-    "confirmDelete": "Tem certeza que deseja excluir esta categoria?",
-    "types": {
-      "expense": "Despesas",
-      "income": "Receitas",
-      "transfer": "Transferências"
+    "title": "Minhas Categorias",
+    "description": "Gerencie suas categorias de transações",
+    "emptyState": {
+      "title": "Nenhuma categoria encontrada",
+      "description": "Comece adicionando sua primeira categoria"
     },
-    "fields": {
+    "stats": {
+      "total": "Total de Categorias",
+      "expense": "Categorias de Despesa",
+      "income": "Categorias de Receita",
+      "transfer": "Categorias de Transferência"
+    },
+    "table": {
       "name": "Nome",
-      "color": "Cor",
+      "type": "Tipo",
       "keywords": "Palavras-chave",
-      "system": "Sistema",
-      "actions": "Ações"
+      "budgetLimit": "Limite de Orçamento",
+      "isSystem": "Sistema",
+      "actions": "Ações",
+      "noResults": "Nenhuma categoria encontrada",
+      "showing": "Mostrando",
+      "of": "de",
+      "categories": "categoria(s)"
+    },
+    "types": {
+      "expense": "Despesa",
+      "income": "Receita",
+      "transfer": "Transferência"
     },
     "actions": {
       "new": "Nova Categoria",
-      "edit": "Editar Categoria",
+      "edit": "Editar",
       "delete": "Excluir",
       "save": "Salvar",
       "cancel": "Cancelar"
+    },
+    "form": {
+      "create": {
+        "title": "Nova Categoria",
+        "description": "Adicione uma nova categoria de transação"
+      },
+      "edit": {
+        "title": "Editar Categoria",
+        "description": "Edite as informações da categoria"
+      },
+      "fields": {
+        "name": {
+          "label": "Nome da Categoria",
+          "placeholder": "Ex: Supermercado",
+          "required": "Nome é obrigatório"
+        },
+        "type": {
+          "label": "Tipo de Categoria",
+          "placeholder": "Selecione o tipo"
+        },
+        "icon": {
+          "label": "Ícone (Emoji)",
+          "placeholder": "Ex: \ud83d\uded2",
+          "description": "Emoji opcional para representar esta categoria"
+        },
+        "color": {
+          "label": "Cor",
+          "placeholder": "Ex: #FF5733",
+          "description": "Código de cor hexadecimal (opcional)"
+        },
+        "keywords": {
+          "label": "Palavras-chave",
+          "placeholder": "Ex: mercado, supermercado, comida",
+          "description": "Palavras-chave separadas por vírgula para auto-categorização"
+        },
+        "budgetLimit": {
+          "label": "Limite de Orçamento",
+          "placeholder": "0.00",
+          "description": "Limite de orçamento mensal opcional"
+        }
+      },
+      "actions": {
+        "create": "Criar Categoria",
+        "update": "Salvar Alterações"
+      },
+      "messages": {
+        "createSuccess": "Categoria criada com sucesso!",
+        "updateSuccess": "Categoria atualizada com sucesso!",
+        "deleteSuccess": "Categoria excluída com sucesso!",
+        "createError": "Erro ao criar categoria",
+        "updateError": "Erro ao atualizar categoria",
+        "deleteError": "Erro ao excluir categoria",
+        "systemCategoryError": "Não é possível excluir categorias do sistema",
+        "validationError": "Verifique os campos do formulário"
+      }
+    },
+    "deleteDialog": {
+      "title": "Excluir Categoria",
+      "description": "Tem certeza que deseja excluir esta categoria? Esta ação não pode ser desfeita.",
+      "cancel": "Cancelar",
+      "confirm": "Sim, Excluir"
+    }
+  },
+  "budgets": {
+    "title": "Meus Orçamentos",
+    "description": "Gerencie seus orçamentos mensais e acompanhe gastos",
+    "emptyState": {
+      "title": "Nenhum orçamento encontrado",
+      "description": "Comece criando seu primeiro orçamento"
+    },
+    "stats": {
+      "totalBudgeted": "Total Orçado",
+      "totalSpent": "Total Gasto",
+      "remaining": "Restante",
+      "overBudget": "Acima do Orçamento"
+    },
+    "table": {
+      "name": "Nome",
+      "period": "Período",
+      "amount": "Valor",
+      "spent": "Gasto",
+      "progress": "Progresso",
+      "status": "Status",
+      "actions": "Ações",
+      "noResults": "Nenhum orçamento encontrado",
+      "adjustFilters": "Tente ajustar os filtros de busca",
+      "showing": "Mostrando",
+      "of": "de",
+      "budgets": "orçamento(s)"
+    },
+    "periods": {
+      "monthly": "Mensal",
+      "yearly": "Anual",
+      "quarterly": "Trimestral",
+      "custom": "Personalizado"
+    },
+    "status": {
+      "active": "Ativo",
+      "inactive": "Inativo",
+      "completed": "Concluído"
+    },
+    "filters": {
+      "search": "Buscar por nome...",
+      "period": "Período",
+      "status": "Status",
+      "allPeriods": "Todos os Períodos",
+      "all": "Todos"
+    },
+    "actions": {
+      "new": "Novo Orçamento",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "save": "Salvar",
+      "cancel": "Cancelar"
+    },
+    "form": {
+      "create": {
+        "title": "Novo Orçamento",
+        "description": "Crie um novo orçamento para acompanhar seus gastos"
+      },
+      "edit": {
+        "title": "Editar Orçamento",
+        "description": "Edite as informações do orçamento"
+      },
+      "fields": {
+        "name": {
+          "label": "Nome do Orçamento",
+          "placeholder": "Ex: Supermercado Mensal"
+        },
+        "amount": {
+          "label": "Valor do Orçamento",
+          "placeholder": "0",
+          "description": "Valor em centavos (ex: 100000 = R$ 1000,00)"
+        },
+        "period": {
+          "label": "Período"
+        },
+        "status": {
+          "label": "Status"
+        },
+        "startDate": {
+          "label": "Data Inicial"
+        },
+        "endDate": {
+          "label": "Data Final"
+        },
+        "categories": {
+          "label": "Categorias",
+          "description": "Selecione categorias para incluir neste orçamento (deixe vazio para todas)",
+          "allCategories": "Todas as categorias de despesa serão incluídas"
+        },
+        "alertThreshold": {
+          "label": "Limite de Alerta",
+          "description": "Alertar quando esta porcentagem for atingida (0.8 = 80%)"
+        },
+        "icon": {
+          "label": "Ícone (Emoji)",
+          "placeholder": "Ex: 💰"
+        },
+        "color": {
+          "label": "Cor"
+        },
+        "notes": {
+          "label": "Observações",
+          "placeholder": "Observações opcionais"
+        }
+      },
+      "actions": {
+        "create": "Criar Orçamento",
+        "update": "Salvar Alterações"
+      },
+      "messages": {
+        "createSuccess": "Orçamento criado com sucesso!",
+        "updateSuccess": "Orçamento atualizado com sucesso!",
+        "deleteSuccess": "Orçamento excluído com sucesso!",
+        "createError": "Erro ao criar orçamento",
+        "updateError": "Erro ao atualizar orçamento",
+        "deleteError": "Erro ao excluir orçamento"
+      }
+    },
+    "deleteDialog": {
+      "title": "Excluir Orçamento",
+      "description": "Tem certeza que deseja excluir este orçamento? Esta ação não pode ser desfeita.",
+      "cancel": "Cancelar",
+      "confirm": "Sim, Excluir"
+    },
+    "alerts": {
+      "title": "Alertas de Orçamento",
+      "description": "Seja notificado quando orçamentos atingirem certos limites",
+      "viewAll": "Ver Todos",
+      "viewMore": "Ver mais {count}",
+      "noAlerts": {
+        "title": "Tudo Certo!",
+        "description": "Você não tem alertas de orçamento no momento. Seus gastos estão sob controle."
+      },
+      "levels": {
+        "warning": "Atenção",
+        "danger": "Uso Elevado",
+        "critical": "Crítico"
+      },
+      "of": "de",
+      "used": "usado",
+      "spent": "Gasto",
+      "budget": "Orçamento",
+      "remaining": "Restante"
+    }
+  },
+  "goals": {
+    "title": "Metas Financeiras",
+    "description": "Defina e acompanhe suas metas financeiras",
+    "emptyState": {
+      "title": "Nenhuma meta ainda",
+      "description": "Comece criando sua primeira meta financeira"
+    },
+    "sections": {
+      "active": "Metas Ativas",
+      "completed": "Metas Concluídas",
+      "other": "Outras Metas"
+    },
+    "summary": {
+      "totalGoals": "Total de Metas",
+      "activeGoals": "Ativas",
+      "completedGoals": "Concluídas",
+      "totalTargetAmount": "Meta Total",
+      "totalCurrentAmount": "Total Economizado",
+      "overallProgress": "Progresso Geral"
+    },
+    "status": {
+      "active": "Ativa",
+      "completed": "Concluída",
+      "canceled": "Cancelada",
+      "paused": "Pausada"
+    },
+    "priority": {
+      "low": "Baixa",
+      "medium": "Média",
+      "high": "Alta"
+    },
+    "category": {
+      "emergency_fund": "Fundo de Emergência",
+      "vacation": "Viagem/Férias",
+      "house": "Casa/Imóvel",
+      "car": "Carro/Veículo",
+      "education": "Educação",
+      "retirement": "Aposentadoria",
+      "investment": "Investimento",
+      "debt_payoff": "Pagamento de Dívida",
+      "wedding": "Casamento",
+      "business": "Negócio",
+      "other": "Outro"
+    },
+    "progress": "Progresso",
+    "current": "Atual",
+    "target": "Meta",
+    "remaining": "Restante",
+    "daysRemaining": "{days} dias restantes",
+    "overdue": "Atrasado em {days} dias",
+    "monthlyRequired": "Necessário por mês",
+    "actions": {
+      "new": "Nova Meta",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "save": "Salvar",
+      "cancel": "Cancelar"
+    },
+    "form": {
+      "create": {
+        "title": "Nova Meta Financeira",
+        "description": "Crie uma nova meta para acompanhar suas economias"
+      },
+      "edit": {
+        "title": "Editar Meta",
+        "description": "Atualize as informações da meta"
+      },
+      "fields": {
+        "name": {
+          "label": "Nome da Meta",
+          "placeholder": "ex: Fundo de Emergência"
+        },
+        "description": {
+          "label": "Descrição",
+          "placeholder": "Descrição opcional"
+        },
+        "targetAmount": {
+          "label": "Valor Meta",
+          "description": "Valor em centavos (ex: 100000 = R$ 1000,00)"
+        },
+        "currentAmount": {
+          "label": "Valor Atual"
+        },
+        "category": {
+          "label": "Categoria",
+          "emergency_fund": "Fundo de Emergência",
+          "vacation": "Viagem/Férias",
+          "house": "Casa/Imóvel",
+          "car": "Carro/Veículo",
+          "education": "Educação",
+          "retirement": "Aposentadoria",
+          "investment": "Investimento",
+          "debt_payoff": "Pagamento de Dívida",
+          "wedding": "Casamento",
+          "business": "Negócio",
+          "other": "Outro"
+        },
+        "priority": {
+          "label": "Prioridade",
+          "low": "Baixa",
+          "medium": "Média",
+          "high": "Alta"
+        },
+        "targetDate": {
+          "label": "Data Meta"
+        },
+        "icon": {
+          "label": "Ícone (Emoji)",
+          "placeholder": "ex: 🎯"
+        },
+        "notes": {
+          "label": "Observações",
+          "placeholder": "Observações opcionais"
+        }
+      },
+      "actions": {
+        "create": "Criar Meta",
+        "update": "Salvar Alterações"
+      },
+      "messages": {
+        "createSuccess": "Meta criada com sucesso!",
+        "updateSuccess": "Meta atualizada com sucesso!",
+        "deleteSuccess": "Meta excluída com sucesso!",
+        "createError": "Erro ao criar meta",
+        "updateError": "Erro ao atualizar meta",
+        "deleteError": "Erro ao excluir meta"
+      }
+    },
+    "deleteDialog": {
+      "title": "Excluir Meta",
+      "description": "Tem certeza que deseja excluir esta meta? Esta ação não pode ser desfeita."
     }
   },
   "rules": {
@@ -840,6 +1251,60 @@
       "api": "API",
       "system": "Sistema",
       "import": "Importação"
+    }
+  },
+  "temporal": {
+    "allTime": "Todo o Período",
+    "previousMonth": "Mês Anterior",
+    "nextMonth": "Próximo Mês",
+    "goToToday": "Ir para Hoje",
+    "viewAllTime": "Ver Todo o Período",
+    "currentMonth": "Mês Atual"
+  },
+  "emptyStates": {
+    "transactions": {
+      "title": "Nenhuma Transação Ainda",
+      "description": "Comece a controlar suas finanças adicionando sua primeira transação.",
+      "action": "Adicionar Transação"
+    },
+    "accounts": {
+      "title": "Nenhuma Conta Ainda",
+      "description": "Crie sua primeira conta para começar a gerenciar suas finanças.",
+      "action": "Adicionar Conta"
+    },
+    "budgets": {
+      "title": "Nenhum Orçamento Ainda",
+      "description": "Configure orçamentos para controlar melhor seus gastos.",
+      "action": "Criar Orçamento"
+    },
+    "goals": {
+      "title": "Nenhuma Meta Ainda",
+      "description": "Defina metas financeiras e acompanhe seu progresso em direção a elas.",
+      "action": "Adicionar Meta"
+    },
+    "categories": {
+      "title": "Nenhuma Categoria Ainda",
+      "description": "Crie categorias para organizar suas transações.",
+      "action": "Adicionar Categoria"
+    },
+    "search": {
+      "title": "Nenhum Resultado Encontrado",
+      "description": "Tente ajustar seus termos de busca ou filtros."
+    },
+    "dashboard": {
+      "title": "Bem-vindo ao Finance AI",
+      "description": "Comece adicionando contas e transações para ver seu panorama financeiro aqui."
+    },
+    "chart": {
+      "title": "Sem dados disponíveis"
+    },
+    "budgetAlerts": {
+      "title": "Nenhum alerta de orçamento"
+    },
+    "creditCards": {
+      "title": "Nenhum Cartão de Crédito Ainda",
+      "description": "Adicione seus cartões de crédito para rastrear gastos e faturas.",
+      "action": "Adicionar Cartão de Crédito"
     }
   }
 }

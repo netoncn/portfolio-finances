@@ -1,5 +1,6 @@
+import "server-only";
 import { AccountService } from "@/domain/accounts/services/account.service";
-import type { CreateTransactionDTO } from "@/domain/transactions";
+import type { CreateTransactionDTO } from "@/domain/transactions/dto/transaction.dto";
 import { extractDenormalizedFields } from "@/domain/transactions/helpers/denormalization.helper";
 import { TransactionService } from "@/domain/transactions/services/transaction.service";
 import type { Transaction } from "@/domain/transactions/types/transaction";
