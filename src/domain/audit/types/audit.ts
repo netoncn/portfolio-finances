@@ -61,7 +61,21 @@ export type AuditEventType =
   // Earning events
   | "earning.created"
   | "earning.updated"
-  | "earning.deleted";
+  | "earning.deleted"
+  // Points program events
+  | "points_program.created"
+  | "points_program.updated"
+  | "points_program.deleted"
+  // Points balance events
+  | "points_balance.created"
+  | "points_balance.updated"
+  | "points_balance.redeemed"
+  | "points_balance.expired"
+  | "points_balance.deleted"
+  // Points operation events
+  | "points_operation.created"
+  | "points_operation.updated"
+  | "points_operation.deleted";
 
 export type AuditResourceType =
   | "account"
@@ -75,7 +89,10 @@ export type AuditResourceType =
   | "investment_account"
   | "position"
   | "investment_transaction"
-  | "earning";
+  | "earning"
+  | "points_program"
+  | "points_balance"
+  | "points_operation";
 
 export interface AuditEventMetadata {
   changedFields?: string[];

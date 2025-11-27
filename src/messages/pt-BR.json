@@ -36,6 +36,7 @@
     "categories": "Categorias",
     "budgets": "Orçamentos",
     "investments": "Investimentos",
+    "points": "Pontos",
     "settings": "Configurações",
     "signIn": "Entrar",
     "signOut": "Sair",
@@ -1570,6 +1571,427 @@
     "addAccount": "Adicionar Conta",
     "insights": "Ver Insights",
     "dashboard": "Dashboard"
+  },
+  "points": {
+    "title": "Programas de Pontos",
+    "description": "Gerencie seus programas de fidelidade e milhas",
+    "actions": {
+      "newProgram": "Novo Programa",
+      "newBalance": "Novo Saldo",
+      "newOperation": "Nova Operação",
+      "newOffer": "Nova Oferta"
+    },
+    "tabs": {
+      "programs": "Programas",
+      "balances": "Saldos",
+      "operations": "Operações",
+      "offers": "Ofertas",
+      "calculator": "Calculadora"
+    },
+    "stats": {
+      "totalPrograms": "Total de Programas",
+      "uniquePrograms": "Programas Únicos",
+      "linkedToAccounts": "Vinculados a Contas",
+      "totalPoints": "Total de Pontos",
+      "activeBalances": "Saldos Ativos",
+      "expiringIn30Days": "Expirando em 30 dias"
+    },
+    "programs": {
+      "title": "Meus Programas",
+      "description": "Programas de fidelidade cadastrados",
+      "emptyState": {
+        "title": "Nenhum programa cadastrado",
+        "description": "Comece adicionando seu primeiro programa de pontos"
+      },
+      "filters": {
+        "search": "Buscar por programa ou número de membro...",
+        "program": "Programa",
+        "allPrograms": "Todos os Programas"
+      },
+      "table": {
+        "program": "Programa",
+        "memberId": "Número de Membro",
+        "linkedAccounts": "Contas Vinculadas",
+        "notes": "Observações",
+        "noResults": "Nenhum programa encontrado",
+        "adjustFilters": "Tente ajustar os filtros de busca",
+        "showing": "Mostrando",
+        "of": "de",
+        "programs": "programa(s)"
+      },
+      "actions": {
+        "delete": "Excluir"
+      },
+      "form": {
+        "create": {
+          "title": "Novo Programa de Pontos",
+          "description": "Adicione um novo programa de fidelidade"
+        },
+        "edit": {
+          "title": "Editar Programa",
+          "description": "Edite as informações do programa"
+        },
+        "fields": {
+          "program": {
+            "label": "Programa",
+            "placeholder": "Selecione um programa"
+          },
+          "memberId": {
+            "label": "Número de Membro",
+            "placeholder": "Ex: 123456789",
+            "description": "Seu número de identificação no programa"
+          },
+          "linkedAccounts": {
+            "label": "Contas Vinculadas",
+            "placeholder": "Selecione as contas",
+            "description": "Cartões que acumulam pontos neste programa",
+            "searchPlaceholder": "Buscar conta...",
+            "noAccounts": "Nenhuma conta elegível encontrada",
+            "singular": "conta vinculada",
+            "plural": "contas vinculadas"
+          },
+          "notes": {
+            "label": "Observações",
+            "placeholder": "Observações sobre o programa (opcional)"
+          }
+        },
+        "actions": {
+          "create": "Criar Programa",
+          "update": "Salvar Alterações",
+          "cancel": "Cancelar"
+        },
+        "messages": {
+          "createSuccess": "Programa criado com sucesso!",
+          "updateSuccess": "Programa atualizado com sucesso!",
+          "deleteSuccess": "Programa excluído com sucesso!",
+          "createError": "Erro ao criar programa",
+          "updateError": "Erro ao atualizar programa",
+          "deleteError": "Erro ao excluir programa"
+        }
+      }
+    },
+    "balances": {
+      "title": "Saldos de Pontos",
+      "description": "Gerencie seus saldos e acompanhe a validade",
+      "emptyState": {
+        "title": "Nenhum saldo cadastrado",
+        "description": "Comece adicionando seu primeiro saldo de pontos"
+      },
+      "filters": {
+        "search": "Buscar por programa ou tag...",
+        "program": "Programa",
+        "allPrograms": "Todos os Programas",
+        "status": "Status",
+        "all": "Todos",
+        "active": "Ativos",
+        "redeemed": "Resgatados",
+        "expired": "Expirados"
+      },
+      "table": {
+        "program": "Programa",
+        "points": "Pontos",
+        "earnedAt": "Data Aquisição",
+        "expiresAt": "Expira em",
+        "source": "Origem",
+        "status": "Status",
+        "noResults": "Nenhum saldo encontrado",
+        "adjustFilters": "Tente ajustar os filtros de busca",
+        "showing": "Mostrando",
+        "of": "de",
+        "balances": "saldo(s)",
+        "totalPoints": "Total de pontos ativos"
+      },
+      "status": {
+        "active": "Ativo",
+        "redeemed": "Resgatado",
+        "expired": "Expirado"
+      },
+      "actions": {
+        "redeem": "Resgatar",
+        "delete": "Excluir"
+      },
+      "form": {
+        "create": {
+          "title": "Novo Saldo de Pontos",
+          "description": "Adicione um novo lote de pontos"
+        },
+        "edit": {
+          "title": "Editar Saldo",
+          "description": "Edite as informações do saldo"
+        },
+        "fields": {
+          "program": {
+            "label": "Programa",
+            "placeholder": "Selecione um programa"
+          },
+          "points": {
+            "label": "Quantidade de Pontos",
+            "description": "Número de pontos adquiridos"
+          },
+          "earnedAt": {
+            "label": "Data de Aquisição"
+          },
+          "expiresAt": {
+            "label": "Data de Expiração"
+          },
+          "source": {
+            "label": "Origem",
+            "placeholder": "Selecione a origem",
+            "description": "Como os pontos foram obtidos"
+          },
+          "promoTag": {
+            "label": "Tag da Promoção",
+            "placeholder": "Ex: Black Friday 2024",
+            "description": "Identificador opcional para promoções"
+          }
+        },
+        "actions": {
+          "create": "Criar Saldo",
+          "update": "Salvar Alterações",
+          "cancel": "Cancelar"
+        },
+        "messages": {
+          "createSuccess": "Saldo criado com sucesso!",
+          "updateSuccess": "Saldo atualizado com sucesso!",
+          "deleteSuccess": "Saldo excluído com sucesso!",
+          "redeemSuccess": "Pontos marcados como resgatados!",
+          "createError": "Erro ao criar saldo",
+          "updateError": "Erro ao atualizar saldo",
+          "deleteError": "Erro ao excluir saldo",
+          "redeemError": "Erro ao resgatar pontos"
+        }
+      }
+    },
+    "expiration": {
+      "title": "Alertas de Expiração",
+      "description": "Pontos que expiram em breve",
+      "urgent": "Urgente (até 30 dias)",
+      "warning": "Atenção (31-60 dias)",
+      "upcoming": "Em breve (61-90 dias)",
+      "balance": "saldo",
+      "balances": "saldos",
+      "more": "mais",
+      "pointsExpiring": "pontos expirando",
+      "balancesIn90Days": "saldos nos próximos 90 dias",
+      "totalExpiring": "Total expirando:",
+      "pointsIn90Days": "pontos nos próximos 90 dias",
+      "noAlerts": {
+        "title": "Tudo certo!",
+        "description": "Você não tem pontos expirando nos próximos 90 dias"
+      }
+    },
+    "operations": {
+      "title": "Histórico de Operações",
+      "description": "Todas as movimentações dos seus programas de pontos",
+      "emptyState": {
+        "title": "Nenhuma operação registrada",
+        "description": "Comece registrando sua primeira operação de pontos"
+      },
+      "filters": {
+        "search": "Buscar por programa, parceiro ou notas...",
+        "program": "Programa",
+        "allPrograms": "Todos os Programas",
+        "type": "Tipo",
+        "allTypes": "Todos os Tipos"
+      },
+      "types": {
+        "earn": "Ganho",
+        "redeem": "Resgate",
+        "transfer_in": "Transferência Recebida",
+        "transfer_out": "Transferência Enviada",
+        "adjust": "Ajuste"
+      },
+      "table": {
+        "date": "Data",
+        "program": "Programa",
+        "type": "Tipo",
+        "points": "Pontos",
+        "partner": "Parceiro/Companhia",
+        "notes": "Observações",
+        "noResults": "Nenhuma operação encontrada",
+        "adjustFilters": "Tente ajustar os filtros de busca",
+        "showing": "Mostrando",
+        "of": "de",
+        "operations": "operação(ões)"
+      },
+      "summary": {
+        "earned": "Ganhos",
+        "spent": "Gastos",
+        "net": "Saldo Líquido"
+      },
+      "actions": {
+        "delete": "Excluir"
+      },
+      "form": {
+        "create": {
+          "title": "Nova Operação",
+          "description": "Registre uma nova movimentação de pontos"
+        },
+        "edit": {
+          "title": "Editar Operação",
+          "description": "Edite as informações da operação"
+        },
+        "fields": {
+          "program": {
+            "label": "Programa",
+            "placeholder": "Selecione um programa"
+          },
+          "type": {
+            "label": "Tipo de Operação",
+            "placeholder": "Selecione o tipo"
+          },
+          "date": {
+            "label": "Data"
+          },
+          "points": {
+            "label": "Quantidade de Pontos",
+            "description": "Quantidade de pontos da operação"
+          },
+          "partner": {
+            "label": "Parceiro/Companhia Aérea",
+            "placeholder": "Ex: LATAM, Smiles, Livelo"
+          },
+          "rate": {
+            "label": "Taxa/Bônus",
+            "description": "Taxa de conversão ou multiplicador de bônus"
+          },
+          "notes": {
+            "label": "Observações",
+            "placeholder": "Detalhes adicionais sobre a operação"
+          }
+        },
+        "actions": {
+          "create": "Registrar Operação",
+          "update": "Salvar Alterações",
+          "cancel": "Cancelar"
+        },
+        "messages": {
+          "createSuccess": "Operação registrada com sucesso!",
+          "updateSuccess": "Operação atualizada com sucesso!",
+          "deleteSuccess": "Operação excluída com sucesso!",
+          "createError": "Erro ao registrar operação",
+          "updateError": "Erro ao atualizar operação",
+          "deleteError": "Erro ao excluir operação"
+        }
+      }
+    },
+    "offers": {
+      "title": "Ofertas de Pontos",
+      "description": "Acompanhe promoções e ofertas de bônus dos programas",
+      "emptyState": {
+        "title": "Nenhuma oferta cadastrada",
+        "description": "Adicione ofertas para acompanhar promoções de pontos"
+      },
+      "filters": {
+        "search": "Buscar por título, descrição ou programa...",
+        "program": "Programa",
+        "allPrograms": "Todos os Programas"
+      },
+      "table": {
+        "program": "Programa",
+        "offer": "Oferta",
+        "bonus": "Bônus",
+        "validUntil": "Válido até",
+        "link": "Link",
+        "noResults": "Nenhuma oferta encontrada",
+        "adjustFilters": "Tente ajustar os filtros de busca",
+        "showing": "Mostrando",
+        "of": "de",
+        "offers": "oferta(s)"
+      },
+      "actions": {
+        "delete": "Excluir"
+      },
+      "form": {
+        "create": {
+          "title": "Nova Oferta",
+          "description": "Cadastre uma nova promoção de pontos"
+        },
+        "edit": {
+          "title": "Editar Oferta",
+          "description": "Edite as informações da oferta"
+        },
+        "offerPreview": "Prévia da oferta",
+        "fields": {
+          "program": {
+            "label": "Programa",
+            "placeholder": "Selecione um programa"
+          },
+          "title": {
+            "label": "Título da Oferta",
+            "placeholder": "Ex: Bônus 100% na transferência"
+          },
+          "description": {
+            "label": "Descrição",
+            "placeholder": "Detalhes da promoção..."
+          },
+          "bonus": {
+            "label": "Bônus",
+            "description": "Porcentagem de bônus oferecida"
+          },
+          "validUntil": {
+            "label": "Válido até"
+          },
+          "termsUrl": {
+            "label": "Link do Regulamento",
+            "placeholder": "https://...",
+            "description": "URL opcional para o regulamento da promoção"
+          }
+        },
+        "actions": {
+          "create": "Cadastrar Oferta",
+          "update": "Salvar Alterações",
+          "cancel": "Cancelar"
+        },
+        "messages": {
+          "createSuccess": "Oferta cadastrada com sucesso!",
+          "updateSuccess": "Oferta atualizada com sucesso!",
+          "deleteSuccess": "Oferta excluída com sucesso!",
+          "createError": "Erro ao cadastrar oferta",
+          "updateError": "Erro ao atualizar oferta",
+          "deleteError": "Erro ao excluir oferta"
+        }
+      }
+    },
+    "calculator": {
+      "title": "Usar Pontos ou Pagar?",
+      "description": "Descubra se vale a pena usar seus pontos ou pagar em dinheiro",
+      "fields": {
+        "program": "Programa de Pontos",
+        "points": "Quantidade de Pontos",
+        "cashPrice": "Preço em Dinheiro (R$)",
+        "cashPriceHint": "Quanto custaria pagar em dinheiro pelo mesmo item"
+      },
+      "programValue": "Valor médio: {value}/ponto",
+      "enterValues": "Preencha os valores para ver a recomendação",
+      "result": {
+        "usePoints": "Use seus pontos!",
+        "useCash": "Pague em dinheiro",
+        "pointsValue": "Valor dos pontos",
+        "range": "Faixa: {min} - {max}",
+        "effectiveValue": "Valor efetivo",
+        "effectiveValueTooltip": "Quanto cada ponto vale nessa redenção. Compare com a média do programa para saber se é um bom negócio.",
+        "perPoint": "por ponto",
+        "avgIs": "média: {value}",
+        "youSave": "Você economiza",
+        "youLose": "Você perde"
+      },
+      "confidence": {
+        "high": "Alta confiança",
+        "medium": "Média confiança",
+        "low": "Baixa confiança"
+      },
+      "details": {
+        "title": "Detalhes do programa",
+        "programAvg": "Valor médio por ponto",
+        "programRange": "Faixa de valores",
+        "pointsPerReal": "Pontos por R$1",
+        "bestRedemptions": "Melhores resgates:"
+      },
+      "actions": {
+        "reset": "Limpar e calcular novamente"
+      }
+    }
   },
   "investments": {
     "accounts": {

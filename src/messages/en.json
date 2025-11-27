@@ -36,6 +36,7 @@
     "budgets": "Budgets",
     "categories": "Categories",
     "investments": "Investments",
+    "points": "Points & Miles",
     "settings": "Settings",
     "signIn": "Sign In",
     "signOut": "Sign Out",
@@ -1895,6 +1896,443 @@
           "title": "No positions",
           "description": "Add positions to see account allocation"
         }
+      }
+    }
+  },
+  "points": {
+    "title": "Points & Miles",
+    "description": "Manage your loyalty programs and points",
+    "emptyState": {
+      "title": "No programs registered",
+      "description": "Start by adding your first loyalty program"
+    },
+    "actions": {
+      "newProgram": "New Program",
+      "newBalance": "New Balance",
+      "newOperation": "New Operation",
+      "newOffer": "New Offer"
+    },
+    "tabs": {
+      "programs": "Programs",
+      "balances": "Balances",
+      "operations": "Operations",
+      "offers": "Offers",
+      "calculator": "Calculator"
+    },
+    "stats": {
+      "totalPrograms": "Total Programs",
+      "uniquePrograms": "Unique Programs",
+      "linkedToAccounts": "Linked to Accounts",
+      "totalPoints": "Total Points",
+      "sumOfAllActivePoints": "Sum of all active balances",
+      "expiringThisMonth": "Expiring This Month",
+      "pointsExpiringIn30Days": "Points expiring in the next 30 days"
+    },
+    "programs": {
+      "title": "My Loyalty Programs",
+      "description": "Manage your memberships in loyalty programs",
+      "emptyState": {
+        "title": "No programs registered",
+        "description": "Add your first loyalty program to get started"
+      },
+      "table": {
+        "program": "Program",
+        "memberId": "Member ID",
+        "linkedAccounts": "Linked Accounts",
+        "notes": "Notes",
+        "actions": "Actions",
+        "noResults": "No programs found",
+        "adjustFilters": "Try adjusting the search filters",
+        "showing": "Showing",
+        "of": "of",
+        "programs": "program(s)"
+      },
+      "filters": {
+        "search": "Search by program name or member ID..."
+      },
+      "types": {
+        "livelo": "Livelo",
+        "esfera": "Esfera",
+        "iupp": "iupp",
+        "smiles": "Smiles",
+        "latam_pass": "LATAM Pass",
+        "tudoazul": "TudoAzul",
+        "ame": "Ame",
+        "meli": "Mercado Points",
+        "outro": "Other"
+      },
+      "form": {
+        "create": {
+          "title": "New Loyalty Program",
+          "description": "Register your membership in a loyalty program"
+        },
+        "edit": {
+          "title": "Edit Program",
+          "description": "Edit program information"
+        },
+        "fields": {
+          "program": {
+            "label": "Program",
+            "placeholder": "Select a program"
+          },
+          "memberId": {
+            "label": "Member ID",
+            "placeholder": "Ex: 12345678",
+            "description": "Your membership number in the program"
+          },
+          "linkedAccounts": {
+            "label": "Linked Cards",
+            "description": "Credit cards that earn points in this program"
+          },
+          "notes": {
+            "label": "Notes",
+            "placeholder": "Additional information..."
+          }
+        },
+        "actions": {
+          "create": "Register Program",
+          "update": "Save Changes",
+          "cancel": "Cancel"
+        },
+        "messages": {
+          "createSuccess": "Program registered successfully!",
+          "updateSuccess": "Program updated successfully!",
+          "deleteSuccess": "Program deleted successfully!",
+          "createError": "Error registering program",
+          "updateError": "Error updating program",
+          "deleteError": "Error deleting program"
+        }
+      },
+      "actions": {
+        "delete": "Delete"
+      }
+    },
+    "balances": {
+      "title": "Points Balances",
+      "description": "Track your points batches and expiration dates",
+      "emptyState": {
+        "title": "No balances registered",
+        "description": "Add your first points balance to get started"
+      },
+      "filters": {
+        "search": "Search by program or notes...",
+        "program": "Program",
+        "allPrograms": "All Programs",
+        "status": "Status",
+        "allStatuses": "All Statuses"
+      },
+      "status": {
+        "active": "Active",
+        "redeemed": "Redeemed",
+        "expired": "Expired"
+      },
+      "table": {
+        "program": "Program",
+        "points": "Points",
+        "earnedAt": "Earned",
+        "expiresAt": "Expires",
+        "source": "Source",
+        "status": "Status",
+        "actions": "Actions",
+        "noResults": "No balances found",
+        "adjustFilters": "Try adjusting the search filters",
+        "showing": "Showing",
+        "of": "of",
+        "balances": "balance(s)"
+      },
+      "sources": {
+        "credit_card": "Credit Card",
+        "partner": "Partner",
+        "promo": "Promotion",
+        "transfer": "Transfer"
+      },
+      "form": {
+        "create": {
+          "title": "New Balance",
+          "description": "Register a new points batch"
+        },
+        "edit": {
+          "title": "Edit Balance",
+          "description": "Edit balance information"
+        },
+        "fields": {
+          "program": {
+            "label": "Program",
+            "placeholder": "Select a program"
+          },
+          "points": {
+            "label": "Points Amount",
+            "description": "Number of points in this batch"
+          },
+          "earnedAt": {
+            "label": "Earned Date"
+          },
+          "expiresAt": {
+            "label": "Expiration Date"
+          },
+          "source": {
+            "label": "Source",
+            "placeholder": "How points were earned"
+          },
+          "promoTag": {
+            "label": "Promotion Tag",
+            "placeholder": "Ex: PROMO2024",
+            "description": "Promotion code or identifier"
+          }
+        },
+        "actions": {
+          "create": "Register Balance",
+          "update": "Save Changes",
+          "cancel": "Cancel",
+          "redeem": "Mark as Redeemed",
+          "expire": "Mark as Expired"
+        },
+        "messages": {
+          "createSuccess": "Balance registered successfully!",
+          "updateSuccess": "Balance updated successfully!",
+          "deleteSuccess": "Balance deleted successfully!",
+          "redeemSuccess": "Balance marked as redeemed!",
+          "expireSuccess": "Balance marked as expired!",
+          "createError": "Error registering balance",
+          "updateError": "Error updating balance",
+          "deleteError": "Error deleting balance",
+          "redeemError": "Error marking as redeemed",
+          "expireError": "Error marking as expired"
+        }
+      },
+      "actions": {
+        "delete": "Delete",
+        "redeem": "Redeem",
+        "expire": "Mark Expired"
+      },
+      "summary": {
+        "totalActive": "Total Active",
+        "expiringSoon": "Expiring Soon"
+      }
+    },
+    "expiration": {
+      "title": "Expiration Alerts",
+      "description": "Monitor points that are about to expire",
+      "urgency": {
+        "critical": "Expiring in {days} days",
+        "high": "Expiring in {days} days",
+        "medium": "Expiring in {days} days"
+      },
+      "noAlerts": {
+        "title": "All good!",
+        "description": "You have no points expiring in the next 90 days"
+      }
+    },
+    "operations": {
+      "title": "Operations History",
+      "description": "All movements in your points programs",
+      "emptyState": {
+        "title": "No operations recorded",
+        "description": "Start by recording your first points operation"
+      },
+      "filters": {
+        "search": "Search by program, partner or notes...",
+        "program": "Program",
+        "allPrograms": "All Programs",
+        "type": "Type",
+        "allTypes": "All Types"
+      },
+      "types": {
+        "earn": "Earn",
+        "redeem": "Redeem",
+        "transfer_in": "Transfer In",
+        "transfer_out": "Transfer Out",
+        "adjust": "Adjustment"
+      },
+      "table": {
+        "date": "Date",
+        "program": "Program",
+        "type": "Type",
+        "points": "Points",
+        "partner": "Partner/Airline",
+        "notes": "Notes",
+        "noResults": "No operations found",
+        "adjustFilters": "Try adjusting the search filters",
+        "showing": "Showing",
+        "of": "of",
+        "operations": "operation(s)"
+      },
+      "summary": {
+        "earned": "Earned",
+        "spent": "Spent",
+        "net": "Net Balance"
+      },
+      "actions": {
+        "delete": "Delete"
+      },
+      "form": {
+        "create": {
+          "title": "New Operation",
+          "description": "Record a new points movement"
+        },
+        "edit": {
+          "title": "Edit Operation",
+          "description": "Edit operation information"
+        },
+        "fields": {
+          "program": {
+            "label": "Program",
+            "placeholder": "Select a program"
+          },
+          "type": {
+            "label": "Operation Type",
+            "placeholder": "Select type"
+          },
+          "date": {
+            "label": "Date"
+          },
+          "points": {
+            "label": "Points Amount",
+            "description": "Number of points in this operation"
+          },
+          "partner": {
+            "label": "Partner/Airline",
+            "placeholder": "Ex: LATAM, Smiles, Livelo"
+          },
+          "rate": {
+            "label": "Rate/Bonus",
+            "description": "Conversion rate or bonus multiplier"
+          },
+          "notes": {
+            "label": "Notes",
+            "placeholder": "Additional details about the operation"
+          }
+        },
+        "actions": {
+          "create": "Record Operation",
+          "update": "Save Changes",
+          "cancel": "Cancel"
+        },
+        "messages": {
+          "createSuccess": "Operation recorded successfully!",
+          "updateSuccess": "Operation updated successfully!",
+          "deleteSuccess": "Operation deleted successfully!",
+          "createError": "Error recording operation",
+          "updateError": "Error updating operation",
+          "deleteError": "Error deleting operation"
+        }
+      }
+    },
+    "offers": {
+      "title": "Points Offers",
+      "description": "Track promotions and bonus offers from programs",
+      "emptyState": {
+        "title": "No offers registered",
+        "description": "Add offers to track points promotions"
+      },
+      "filters": {
+        "search": "Search by title, description or program...",
+        "program": "Program",
+        "allPrograms": "All Programs"
+      },
+      "table": {
+        "program": "Program",
+        "offer": "Offer",
+        "bonus": "Bonus",
+        "validUntil": "Valid Until",
+        "link": "Link",
+        "noResults": "No offers found",
+        "adjustFilters": "Try adjusting the search filters",
+        "showing": "Showing",
+        "of": "of",
+        "offers": "offer(s)"
+      },
+      "actions": {
+        "delete": "Delete"
+      },
+      "form": {
+        "create": {
+          "title": "New Offer",
+          "description": "Register a new points promotion"
+        },
+        "edit": {
+          "title": "Edit Offer",
+          "description": "Edit offer information"
+        },
+        "offerPreview": "Offer preview",
+        "fields": {
+          "program": {
+            "label": "Program",
+            "placeholder": "Select a program"
+          },
+          "title": {
+            "label": "Offer Title",
+            "placeholder": "Ex: 100% bonus on transfer"
+          },
+          "description": {
+            "label": "Description",
+            "placeholder": "Promotion details..."
+          },
+          "bonus": {
+            "label": "Bonus",
+            "description": "Bonus percentage offered"
+          },
+          "validUntil": {
+            "label": "Valid Until"
+          },
+          "termsUrl": {
+            "label": "Terms Link",
+            "placeholder": "https://...",
+            "description": "Optional URL to promotion terms"
+          }
+        },
+        "actions": {
+          "create": "Register Offer",
+          "update": "Save Changes",
+          "cancel": "Cancel"
+        },
+        "messages": {
+          "createSuccess": "Offer registered successfully!",
+          "updateSuccess": "Offer updated successfully!",
+          "deleteSuccess": "Offer deleted successfully!",
+          "createError": "Error registering offer",
+          "updateError": "Error updating offer",
+          "deleteError": "Error deleting offer"
+        }
+      }
+    },
+    "calculator": {
+      "title": "Use Points or Pay Cash?",
+      "description": "Find out if it's worth using your points or paying cash",
+      "fields": {
+        "program": "Points Program",
+        "points": "Points Amount",
+        "cashPrice": "Cash Price ($)",
+        "cashPriceHint": "How much it would cost to pay cash for the same item"
+      },
+      "programValue": "Average value: {value}/point",
+      "enterValues": "Fill in the values to see the recommendation",
+      "result": {
+        "usePoints": "Use your points!",
+        "useCash": "Pay cash",
+        "pointsValue": "Points value",
+        "range": "Range: {min} - {max}",
+        "effectiveValue": "Effective value",
+        "effectiveValueTooltip": "How much each point is worth in this redemption. Compare with the program average to know if it's a good deal.",
+        "perPoint": "per point",
+        "avgIs": "avg: {value}",
+        "youSave": "You save",
+        "youLose": "You lose"
+      },
+      "confidence": {
+        "high": "High confidence",
+        "medium": "Medium confidence",
+        "low": "Low confidence"
+      },
+      "details": {
+        "title": "Program details",
+        "programAvg": "Average value per point",
+        "programRange": "Value range",
+        "pointsPerReal": "Points per $1",
+        "bestRedemptions": "Best redemptions:"
+      },
+      "actions": {
+        "reset": "Clear and recalculate"
       }
     }
   }
