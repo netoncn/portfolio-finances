@@ -214,7 +214,7 @@ export function BudgetsTable({
                         <span
                           className={
                             isOverBudget
-                              ? "text-red-600 dark:text-red-400 font-semibold"
+                              ? "text-finance-loss font-semibold"
                               : ""
                           }
                         >

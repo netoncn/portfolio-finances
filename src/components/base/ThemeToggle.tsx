@@ -17,15 +17,23 @@ export default function ThemeToggle() {
       : theme
     : "light";
 
+  const isDark = currentTheme === "dark";
+
   return (
     <>
       {mounted && (
         <button
           type="button"
-          onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
-          className="p-1"
+          onClick={() => setTheme(isDark ? "light" : "dark")}
+          className="p-2 rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          aria-label={isDark ? "Ativar modo claro" : "Ativar modo escuro"}
+          title={isDark ? "Ativar modo claro" : "Ativar modo escuro"}
         >
-          {currentTheme === "dark" ? <Sun size={22} /> : <Moon size={22} />}
+          {isDark ? (
+            <Sun size={22} aria-hidden="true" />
+          ) : (
+            <Moon size={22} aria-hidden="true" />
+          )}
         </button>
       )}
     </>

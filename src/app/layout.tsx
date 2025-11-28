@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { DM_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import { getServerSession } from "next-auth";
 import I18nProvider from "@/components/base/i18nProvider";
 import Providers from "@/components/base/Providers";
@@ -10,7 +10,17 @@ import { authOptions } from "@/lib/auth";
 import "@/config/validate-env";
 import "@/styles/globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Finance AI - Controle Financeiro Inteligente",
@@ -40,12 +50,24 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="pt-BR" className={inter.className} suppressHydrationWarning>
+    <html
+      lang="pt-BR"
+      className={`${dmSans.variable} ${plusJakarta.variable}`}
+      suppressHydrationWarning
+    >
       <body suppressHydrationWarning className="flex min-h-screen flex-col">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+        >
+          Ir para o conteúdo principal
+        </a>
         <Providers>
           <I18nProvider>
             <Header session={session} />
-            <main className="flex-1">{children}</main>
+            <main id="main-content" className="flex-1" tabIndex={-1}>
+              {children}
+            </main>
             <Footer />
             {session && <QuickActionsButton />}
           </I18nProvider>

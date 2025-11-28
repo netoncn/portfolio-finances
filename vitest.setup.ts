@@ -4,11 +4,60 @@
  * This file runs before all tests and sets up the test environment.
  */
 
-import { vi } from "vitest";
+import "@testing-library/jest-dom/vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach, beforeEach, vi } from "vitest";
 
 // Set required environment variables before any imports
 process.env.FIREBASE_PROJECT_ID = "test-project";
 process.env.GOOGLE_APPLICATION_CREDENTIALS = "/fake/path/to/credentials.json";
+
+// Cleanup after each test for React Testing Library
+afterEach(() => {
+  cleanup();
+});
+
+// Mock Next.js navigation
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+  }),
+  usePathname: () => "/",
+  useSearchParams: () => new URLSearchParams(),
+  useParams: () => ({}),
+}));
+
+// Mock next-intl
+vi.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => key,
+  useLocale: () => "pt-BR",
+  useFormatter: () => ({
+    number: (n: number) => n.toString(),
+    dateTime: (d: Date) => d.toISOString(),
+  }),
+}));
+
+// Mock next-auth/react
+vi.mock("next-auth/react", () => ({
+  useSession: () => ({
+    data: {
+      user: {
+        id: "test-user-id",
+        name: "Test User",
+        email: "test@example.com",
+      },
+      expires: "2099-01-01",
+    },
+    status: "authenticated",
+  }),
+  signIn: vi.fn(),
+  signOut: vi.fn(),
+  getSession: vi.fn(),
+}));
 
 // Mock firebase-admin (it requires server-side initialization)
 vi.mock("firebase-admin", () => ({
@@ -41,7 +90,7 @@ vi.mock("firebase-admin/firestore", () => ({
   },
   Timestamp: {
     now: vi.fn(() => ({ toMillis: () => Date.now() })),
-    fromMillis: vi.fn((ms) => ({ toMillis: () => ms })),
+    fromMillis: vi.fn((ms: number) => ({ toMillis: () => ms })),
   },
 }));
 

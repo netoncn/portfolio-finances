@@ -1,15 +1,25 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { AccountFormDialog } from "@/components/accounts/AccountFormDialog";
 import { AccountsTable } from "@/components/accounts/AccountsTable";
 import { BillingSection } from "@/components/accounts/BillingSection";
+import { ExportButton } from "@/components/export/ExportButton";
 import { Button } from "@/components/ui/button";
 import type { Account } from "@/domain/accounts/types/account";
 import { useAccounts } from "@/hooks/use-accounts";
+import { accountColumns } from "@/lib/export/columns";
 import { formatCurrency } from "@/lib/utils";
+
+const AccountFormDialog = dynamic(
+  () =>
+    import("@/components/accounts/AccountFormDialog").then(
+      (mod) => mod.AccountFormDialog,
+    ),
+  { ssr: false },
+);
 
 export default function AccountsPage() {
   const t = useTranslations("accounts");
@@ -64,10 +74,19 @@ export default function AccountsPage() {
             </h1>
             <p className="text-muted-foreground">{t("description")}</p>
           </div>
-          <Button size="lg" onClick={handleCreateAccount}>
-            <Plus className="size-4" />
-            {t("actions.new")}
-          </Button>
+          <div className="flex gap-2">
+            <ExportButton
+              data={accounts}
+              columns={accountColumns}
+              filename="contas"
+              module="accounts"
+              disabled={isLoading}
+            />
+            <Button size="lg" onClick={handleCreateAccount}>
+              <Plus className="size-4" />
+              {t("actions.new")}
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

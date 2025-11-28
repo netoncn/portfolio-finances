@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Session } from "next-auth";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import { memo, useState } from "react";
 import LocaleSwitcher from "../base/LocaleSwitcher";
 import ThemeToggle from "../base/ThemeToggle";
 import { BudgetAlertBadge } from "../budgets/BudgetAlertBadge";
@@ -22,7 +22,12 @@ interface NavLinkProps {
   isActive?: boolean;
 }
 
-function NavLink({ href, children, icon, isActive }: NavLinkProps) {
+const NavLink = memo(function NavLink({
+  href,
+  children,
+  icon,
+  isActive,
+}: NavLinkProps) {
   return (
     <Link
       href={href}
@@ -36,7 +41,7 @@ function NavLink({ href, children, icon, isActive }: NavLinkProps) {
       {children}
     </Link>
   );
-}
+});
 
 export default function Header({ session }: HeaderProps) {
   const pathname = usePathname();
@@ -56,7 +61,10 @@ export default function Header({ session }: HeaderProps) {
 
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav
+        aria-label="Navegação principal"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/dashboard" className="flex items-center space-x-3">
@@ -201,7 +209,10 @@ export default function Header({ session }: HeaderProps) {
               <button
                 type="button"
                 onClick={() => setIsAIMenuOpen(!isAIMenuOpen)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all font-medium ${
+                aria-expanded={isAIMenuOpen}
+                aria-haspopup="menu"
+                aria-label="Menu de funcionalidades IA"
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                   isActive("/insights") ||
                   isActive("/reviews") ||
                   isActive("/chat")
@@ -241,7 +252,11 @@ export default function Header({ session }: HeaderProps) {
               </button>
 
               {isAIMenuOpen && (
-                <div className="absolute left-0 mt-2 w-48 rounded-lg shadow-lg py-2 border bg-popover text-popover-foreground">
+                <div
+                  role="menu"
+                  aria-label="Funcionalidades IA"
+                  className="absolute left-0 mt-2 w-48 rounded-lg shadow-lg py-2 border bg-popover text-popover-foreground"
+                >
                   <Link
                     href="/insights"
                     className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-muted transition-colors"
@@ -317,7 +332,8 @@ export default function Header({ session }: HeaderProps) {
           <div className="flex items-center gap-2">
             <Link
               href="/budgets"
-              className="relative p-2 rounded-lg hover:bg-muted transition-colors"
+              className="relative p-2 rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label="Notificações de orçamento"
               title="Notificações de orçamento"
             >
               <svg
@@ -344,7 +360,10 @@ export default function Header({ session }: HeaderProps) {
               <button
                 type="button"
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center gap-2 p-1 rounded-lg hover:bg-muted transition-colors"
+                aria-expanded={isProfileOpen}
+                aria-haspopup="menu"
+                aria-label="Menu do usuário"
+                className="flex items-center gap-2 p-1 rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {session?.user?.image ? (
                   <Image
@@ -376,7 +395,11 @@ export default function Header({ session }: HeaderProps) {
               </button>
 
               {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-64 rounded-lg shadow-lg py-2 border bg-popover text-popover-foreground">
+                <div
+                  role="menu"
+                  aria-label="Opções do usuário"
+                  className="absolute right-0 mt-2 w-64 rounded-lg shadow-lg py-2 border bg-popover text-popover-foreground"
+                >
                   <div className="px-4 py-3 border-b">
                     <p className="text-sm font-medium">{session?.user?.name}</p>
                     <p className="text-xs text-muted-foreground truncate">
@@ -436,7 +459,10 @@ export default function Header({ session }: HeaderProps) {
             <button
               type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+              className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <svg
                 className="w-6 h-6"
@@ -466,7 +492,11 @@ export default function Header({ session }: HeaderProps) {
         </div>
 
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t space-y-1">
+          <nav
+            id="mobile-menu"
+            aria-label="Menu de navegação móvel"
+            className="lg:hidden py-4 border-t space-y-1"
+          >
             <div className="mb-4 flex justify-center">
               <MonthSwitcher />
             </div>
@@ -552,7 +582,7 @@ export default function Header({ session }: HeaderProps) {
                 Sair
               </button>
             </div>
-          </div>
+          </nav>
         )}
       </nav>
     </header>

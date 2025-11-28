@@ -158,7 +158,7 @@ export default function Dashboard() {
   const userName = session?.user?.name?.split(" ")[0] || "Usuário";
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
+    <div className="min-h-screen bg-background py-8">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
@@ -198,8 +198,8 @@ export default function Dashboard() {
               title={tMetrics("totalIncome")}
               value={formatCurrency(metrics.totalIncome)}
               icon={TrendingUp}
-              iconColor="text-green-600"
-              iconBgColor="bg-green-600/10"
+              iconColor="text-finance-gain"
+              iconBgColor="bg-finance-gain/10"
               trend={{
                 value: metrics.trends.income,
                 label: tMetrics("compared"),
@@ -212,8 +212,8 @@ export default function Dashboard() {
               title={tMetrics("totalExpense")}
               value={formatCurrency(metrics.totalExpense)}
               icon={TrendingDown}
-              iconColor="text-red-600"
-              iconBgColor="bg-red-600/10"
+              iconColor="text-finance-loss"
+              iconBgColor="bg-finance-loss/10"
               trend={{
                 value: metrics.trends.expense,
                 label: tMetrics("compared"),

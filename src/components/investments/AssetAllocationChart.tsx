@@ -41,7 +41,7 @@ export function AssetAllocationChart({
     if (active && payload && payload.length) {
       const item = payload[0].payload as AssetAllocationItem;
       return (
-        <div className="bg-white dark:bg-gray-800 border border-border rounded-lg p-3 shadow-lg">
+        <div className="bg-popover border border-border rounded-lg p-3 shadow-lg">
           <div className="flex items-center gap-2 mb-2">
             <div
               className="w-3 h-3 rounded-full"

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { EmptyGoals } from "@/components/empty-states";
+import { ExportButton } from "@/components/export/ExportButton";
 import { GoalCard } from "@/components/goals/GoalCard";
 import { GoalFormDialog } from "@/components/goals/GoalFormDialog";
 import { ListSkeleton } from "@/components/skeletons";
@@ -17,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import type { Goal } from "@/domain/goals";
 import { useDeleteGoal, useGoals, useGoalsSummary } from "@/hooks/use-goals";
+import { goalColumns } from "@/lib/export/columns";
 import { formatCurrency } from "@/lib/utils";
 
 export default function GoalsPage() {
@@ -73,13 +75,22 @@ export default function GoalsPage() {
                 {t("description")}
               </p>
             </div>
-            <Button
-              onClick={handleCreate}
-              className="bg-orange-500 hover:bg-orange-600 text-white shadow-lg"
-            >
-              <Plus className="size-4" />
-              {t("actions.new")}
-            </Button>
+            <div className="flex gap-2">
+              <ExportButton
+                data={goals}
+                columns={goalColumns}
+                filename="metas"
+                module="goals"
+                disabled={isLoading}
+              />
+              <Button
+                onClick={handleCreate}
+                className="bg-orange-500 hover:bg-orange-600 text-white shadow-lg"
+              >
+                <Plus className="size-4" />
+                {t("actions.new")}
+              </Button>
+            </div>
           </div>
         </div>
 

@@ -3,12 +3,14 @@
 import { Building2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { ExportButton } from "@/components/export/ExportButton";
 import { InvestmentAccountsList } from "@/components/investments/InvestmentAccountsList";
 import { InvestmentsDashboard } from "@/components/investments/InvestmentsDashboard";
 import { InvestmentTransactionsList } from "@/components/investments/InvestmentTransactionsList";
 import { useInvestmentAccounts } from "@/hooks/use-investment-accounts";
 import { useInvestmentTransactions } from "@/hooks/use-investment-transactions";
 import { usePositions } from "@/hooks/use-positions";
+import { investmentAccountColumns } from "@/lib/export/columns";
 
 export default function InvestmentsPage() {
   const t = useTranslations("investments");
@@ -47,14 +49,23 @@ export default function InvestmentsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center gap-3">
-            <Building2 className="h-8 w-8" />
-            {tCommon("investments")}
-          </h1>
-          <p className="text-muted-foreground">
-            {t("accounts.list.description")}
-          </p>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center gap-3">
+              <Building2 className="h-8 w-8" />
+              {tCommon("investments")}
+            </h1>
+            <p className="text-muted-foreground">
+              {t("accounts.list.description")}
+            </p>
+          </div>
+          <ExportButton
+            data={accounts}
+            columns={investmentAccountColumns}
+            filename="investimentos"
+            module="investments"
+            disabled={isDataLoading}
+          />
         </div>
 
         <InvestmentsDashboard

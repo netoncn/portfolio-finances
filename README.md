@@ -350,4 +350,4 @@ Projeto desenvolvido como parte do meu portfolio pessoal.
 
 ---
 
-**Última atualização:** 31 de Outubro de 2025
+**Última atualização:** 28 de Novembro de 2024

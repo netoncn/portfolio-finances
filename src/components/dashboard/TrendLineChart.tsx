@@ -20,6 +20,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { TrendDataPoint } from "@/domain/dashboard";
+import { useChartColors } from "@/hooks/use-chart-colors";
 import { formatCurrency } from "@/lib/utils";
 
 interface TrendLineChartProps {
@@ -33,11 +34,12 @@ export function TrendLineChart({
 }: TrendLineChartProps) {
   const t = useTranslations("dashboard.trendChart");
   const tCommon = useTranslations("common");
+  const chartColors = useChartColors();
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white dark:bg-gray-800 border border-border rounded-lg p-3 shadow-lg">
+        <div className="bg-popover border border-border rounded-lg p-3 shadow-lg">
           <p className="font-semibold text-sm mb-2">{label}</p>
           {payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center gap-2 text-sm">
@@ -120,7 +122,7 @@ export function TrendLineChart({
                 <Line
                   type="monotone"
                   dataKey="income"
-                  stroke="#10b981"
+                  stroke={chartColors.income}
                   strokeWidth={2}
                   dot={{ r: 4 }}
                   activeDot={{ r: 6 }}
@@ -128,7 +130,7 @@ export function TrendLineChart({
                 <Line
                   type="monotone"
                   dataKey="expense"
-                  stroke="#ef4444"
+                  stroke={chartColors.expense}
                   strokeWidth={2}
                   dot={{ r: 4 }}
                   activeDot={{ r: 6 }}
@@ -136,7 +138,7 @@ export function TrendLineChart({
                 <Line
                   type="monotone"
                   dataKey="balance"
-                  stroke="#3b82f6"
+                  stroke={chartColors.balance}
                   strokeWidth={2}
                   dot={{ r: 4 }}
                   activeDot={{ r: 6 }}
@@ -151,7 +153,7 @@ export function TrendLineChart({
                     <p className="text-xs text-muted-foreground mb-1">
                       {t("avgIncome")}
                     </p>
-                    <p className="text-sm font-bold text-green-600 dark:text-green-400">
+                    <p className="text-sm font-bold text-finance-gain">
                       {formatCurrency(
                         data.reduce((sum, d) => sum + d.income, 0) /
                           data.length,
@@ -162,7 +164,7 @@ export function TrendLineChart({
                     <p className="text-xs text-muted-foreground mb-1">
                       {t("avgExpense")}
                     </p>
-                    <p className="text-sm font-bold text-red-600 dark:text-red-400">
+                    <p className="text-sm font-bold text-finance-loss">
                       {formatCurrency(
                         data.reduce((sum, d) => sum + d.expense, 0) /
                           data.length,
@@ -173,7 +175,7 @@ export function TrendLineChart({
                     <p className="text-xs text-muted-foreground mb-1">
                       {t("avgBalance")}
                     </p>
-                    <p className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                    <p className="text-sm font-bold text-primary">
                       {formatCurrency(
                         data.reduce((sum, d) => sum + d.balance, 0) /
                           data.length,

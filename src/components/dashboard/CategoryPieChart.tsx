@@ -40,7 +40,7 @@ export function CategoryPieChart({
     if (active && payload && payload.length) {
       const data = payload[0].payload as CategoryChartData;
       return (
-        <div className="bg-white dark:bg-gray-800 border border-border rounded-lg p-3 shadow-lg">
+        <div className="bg-popover border border-border rounded-lg p-3 shadow-lg">
           <div className="flex items-center gap-2 mb-2">
             {data.categoryIcon && (
               <span className="text-lg">{data.categoryIcon}</span>

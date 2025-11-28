@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { memo } from "react";
 import { CardBrandIcon } from "@/components/accounts/CardBrandIcon";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -17,6 +18,13 @@ import { formatCurrency } from "@/lib/utils";
 interface TransactionsTableProps {
   transactions: Transaction[];
   isLoading?: boolean;
+}
+
+interface TransactionRowProps {
+  transaction: Transaction;
+  typeLabel: string;
+  statusLabel: string | null;
+  accountTypeLabel: string;
 }
 
 function getTypeVariant(
@@ -60,7 +68,75 @@ function formatDate(timestamp: number): string {
   });
 }
 
-export function TransactionsTable({
+const TransactionRow = memo(function TransactionRow({
+  transaction,
+  typeLabel,
+  statusLabel,
+  accountTypeLabel,
+}: TransactionRowProps) {
+  return (
+    <TableRow>
+      <TableCell className="font-medium">
+        {formatDate(transaction.date)}
+      </TableCell>
+      <TableCell>
+        <div className="flex flex-col">
+          <span className="font-medium">{transaction.description}</span>
+          {transaction.merchant && (
+            <span className="text-sm text-muted-foreground">
+              {transaction.merchant}
+            </span>
+          )}
+          {transaction.installmentNumber && transaction.installmentCount && (
+            <span className="text-xs text-muted-foreground">
+              {transaction.installmentNumber}/{transaction.installmentCount}
+            </span>
+          )}
+        </div>
+      </TableCell>
+      <TableCell>
+        <Badge variant={getTypeVariant(transaction.type)}>{typeLabel}</Badge>
+      </TableCell>
+      <TableCell>
+        {transaction.status && statusLabel && (
+          <Badge variant={getStatusVariant(transaction.status)}>
+            {statusLabel}
+          </Badge>
+        )}
+      </TableCell>
+      <TableCell>
+        <div className="flex items-center gap-2">
+          {transaction.cardBrand && (
+            <CardBrandIcon brand={transaction.cardBrand} className="size-4" />
+          )}
+          <span className="text-sm text-muted-foreground">
+            {accountTypeLabel}
+          </span>
+        </div>
+      </TableCell>
+      <TableCell className="text-right font-medium">
+        <span
+          className={
+            transaction.type === "income"
+              ? "text-finance-gain"
+              : transaction.type === "expense"
+                ? "text-finance-loss"
+                : ""
+          }
+        >
+          {transaction.type === "income"
+            ? "+"
+            : transaction.type === "expense"
+              ? "-"
+              : ""}
+          {formatCurrency(transaction.amount)}
+        </span>
+      </TableCell>
+    </TableRow>
+  );
+});
+
+export const TransactionsTable = memo(function TransactionsTable({
   transactions,
   isLoading,
 }: TransactionsTableProps) {
@@ -137,74 +213,18 @@ export function TransactionsTable({
         </TableHeader>
         <TableBody>
           {transactions.map((transaction) => (
-            <TableRow key={transaction.id}>
-              <TableCell className="font-medium">
-                {formatDate(transaction.date)}
-              </TableCell>
-              <TableCell>
-                <div className="flex flex-col">
-                  <span className="font-medium">{transaction.description}</span>
-                  {transaction.merchant && (
-                    <span className="text-sm text-muted-foreground">
-                      {transaction.merchant}
-                    </span>
-                  )}
-                  {transaction.installmentNumber &&
-                    transaction.installmentCount && (
-                      <span className="text-xs text-muted-foreground">
-                        {transaction.installmentNumber}/
-                        {transaction.installmentCount}
-                      </span>
-                    )}
-                </div>
-              </TableCell>
-              <TableCell>
-                <Badge variant={getTypeVariant(transaction.type)}>
-                  {t(`types.${transaction.type}`)}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                {transaction.status && (
-                  <Badge variant={getStatusVariant(transaction.status)}>
-                    {t(`status.${transaction.status}`)}
-                  </Badge>
-                )}
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-2">
-                  {transaction.cardBrand && (
-                    <CardBrandIcon
-                      brand={transaction.cardBrand}
-                      className="size-4"
-                    />
-                  )}
-                  <span className="text-sm text-muted-foreground">
-                    {t(`accountTypes.${transaction.accountType}`)}
-                  </span>
-                </div>
-              </TableCell>
-              <TableCell className="text-right font-medium">
-                <span
-                  className={
-                    transaction.type === "income"
-                      ? "text-green-600"
-                      : transaction.type === "expense"
-                        ? "text-red-600"
-                        : ""
-                  }
-                >
-                  {transaction.type === "income"
-                    ? "+"
-                    : transaction.type === "expense"
-                      ? "-"
-                      : ""}
-                  {formatCurrency(transaction.amount)}
-                </span>
-              </TableCell>
-            </TableRow>
+            <TransactionRow
+              key={transaction.id}
+              transaction={transaction}
+              typeLabel={t(`types.${transaction.type}`)}
+              statusLabel={
+                transaction.status ? t(`status.${transaction.status}`) : null
+              }
+              accountTypeLabel={t(`accountTypes.${transaction.accountType}`)}
+            />
           ))}
         </TableBody>
       </Table>
     </div>
   );
-}
+});

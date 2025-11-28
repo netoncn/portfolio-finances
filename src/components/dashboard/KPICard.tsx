@@ -45,7 +45,7 @@ export function KPICard({
         onClick && "cursor-pointer",
         featured
           ? cn(featuredColor, "text-white shadow-lg hover:shadow-xl")
-          : "bg-white dark:bg-gray-900 shadow-md hover:shadow-lg",
+          : "bg-card shadow-md hover:shadow-lg",
       )}
       onClick={onClick}
       role={onClick ? "button" : undefined}
@@ -93,7 +93,7 @@ export function KPICard({
                   <ArrowUp
                     className={cn(
                       "h-3 w-3",
-                      featured ? "text-white" : "text-green-600",
+                      featured ? "text-white" : "text-finance-gain",
                     )}
                   />
                 )}
@@ -101,7 +101,7 @@ export function KPICard({
                   <ArrowDown
                     className={cn(
                       "h-3 w-3",
-                      featured ? "text-white" : "text-red-600",
+                      featured ? "text-white" : "text-finance-loss",
                     )}
                   />
                 )}
@@ -109,8 +109,8 @@ export function KPICard({
                   className={cn(
                     "text-xs font-medium",
                     featured && "text-white",
-                    !featured && isPositiveTrend && "text-green-600",
-                    !featured && isNegativeTrend && "text-red-600",
+                    !featured && isPositiveTrend && "text-finance-gain",
+                    !featured && isNegativeTrend && "text-finance-loss",
                     !featured &&
                       !isPositiveTrend &&
                       !isNegativeTrend &&

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
+import { ExportButton } from "@/components/export/ExportButton";
 import { ExpirationAlerts } from "@/components/points/ExpirationAlerts";
 import { PointsBalanceFormDialog } from "@/components/points/PointsBalanceFormDialog";
 import { PointsBalancesTable } from "@/components/points/PointsBalancesTable";
@@ -35,6 +36,7 @@ import { usePointsBalances } from "@/hooks/use-points-balances";
 import { usePointsOffers } from "@/hooks/use-points-offers";
 import { usePointsOperations } from "@/hooks/use-points-operations";
 import { usePointsPrograms } from "@/hooks/use-points-programs";
+import { pointsProgramColumns } from "@/lib/export/columns";
 
 function formatPoints(points: number): string {
   return new Intl.NumberFormat("pt-BR").format(points);
@@ -196,6 +198,13 @@ export default function PointsPage() {
             <p className="text-muted-foreground">{t("description")}</p>
           </div>
           <div className="flex gap-2 flex-wrap">
+            <ExportButton
+              data={programs}
+              columns={pointsProgramColumns}
+              filename="pontos"
+              module="points"
+              disabled={programsLoading}
+            />
             <Button variant="outline" onClick={handleCreateOffer}>
               <Plus className="size-4" />
               {t("actions.newOffer")}

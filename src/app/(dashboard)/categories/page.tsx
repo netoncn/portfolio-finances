@@ -126,7 +126,7 @@ export default function CategoriesPage() {
                 <p className="text-sm text-muted-foreground mb-1">
                   {t("stats.expense")}
                 </p>
-                <p className="text-3xl font-bold text-red-600 dark:text-red-400">
+                <p className="text-3xl font-bold text-finance-loss">
                   {expenseCategories.length}
                 </p>
               </div>
@@ -139,7 +139,7 @@ export default function CategoriesPage() {
                 <p className="text-sm text-muted-foreground mb-1">
                   {t("stats.income")}
                 </p>
-                <p className="text-3xl font-bold text-green-600 dark:text-green-400">
+                <p className="text-3xl font-bold text-finance-gain">
                   {incomeCategories.length}
                 </p>
               </div>

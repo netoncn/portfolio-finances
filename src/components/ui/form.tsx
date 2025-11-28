@@ -142,6 +142,8 @@ const FormMessage = ({
   return (
     <p
       id={formMessageId}
+      role={error ? "alert" : undefined}
+      aria-live={error ? "polite" : undefined}
       className={cn("text-sm font-medium text-destructive", className)}
       {...props}
     >

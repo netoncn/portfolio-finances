@@ -3,9 +3,16 @@ import { withAuth } from "next-auth/middleware";
 
 export default withAuth(
   function middleware(req) {
+    const path = req.nextUrl.pathname;
+
+    // Block /dev routes in production
+    if (path.startsWith("/dev") && process.env.NODE_ENV === "production") {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
     if (process.env.NEXTAUTH_DEBUG === "true") {
       console.log("========== MIDDLEWARE ==========");
-      console.log("Path:", req.nextUrl.pathname);
+      console.log("Path:", path);
       console.log("Token exists:", !!req.nextauth.token);
       console.log("================================");
     }
@@ -20,6 +27,12 @@ export default withAuth(
         if (path === "/" || path === "/auth/error") {
           return true;
         }
+
+        // Dev routes require authentication
+        if (path.startsWith("/dev")) {
+          return !!token;
+        }
+
         if (path.startsWith("/dashboard")) {
           return !!token;
         }

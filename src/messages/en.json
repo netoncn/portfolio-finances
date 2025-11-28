@@ -23,7 +23,15 @@
     "tryAgain": "Try Again",
     "goHome": "Go Home",
     "goBack": "Go Back",
-    "contact": "Contact"
+    "contact": "Contact",
+    "export": {
+      "button": "Export",
+      "csv": "Export CSV",
+      "json": "Export JSON",
+      "success": "{count} records exported as {format}",
+      "error": "Error exporting data",
+      "noData": "No data to export"
+    }
   },
   "nav": {
     "home": "Home",
@@ -56,7 +64,12 @@
       "users": "Users",
       "transactions": "Transactions processed",
       "savings": "Average savings"
-    }
+    },
+    "security": {
+      "title": "Your data is safe with us",
+      "description": "We use end-to-end encryption and follow the highest security standards to protect your financial information."
+    },
+    "learnMore": "Learn more"
   },
   "features": {
     "title": "Features That Make a Difference",
@@ -81,9 +94,9 @@
       "title": "AI Insights",
       "description": "Personalized analysis and suggestions to improve your financial health"
     },
-    "gamification": {
-      "title": "Gamification",
-      "description": "Earn points and achievements when reaching your financial goals"
+    "points": {
+      "title": "Points Wallet",
+      "description": "Monitor and maximize the use of your card points and miles"
     }
   },
   "auth": {
@@ -751,14 +764,21 @@
       "income": "Income Categories",
       "transfer": "Transfer Categories"
     },
+    "filters": {
+      "search": "Search by name or keywords...",
+      "type": "Filter by type",
+      "allTypes": "All types"
+    },
     "table": {
       "name": "Name",
       "type": "Type",
       "keywords": "Keywords",
       "budgetLimit": "Budget Limit",
       "isSystem": "System",
+      "system": "System",
       "actions": "Actions",
       "noResults": "No categories found",
+      "adjustFilters": "Try adjusting the search filters",
       "showing": "Showing",
       "of": "of",
       "categories": "category(ies)"
@@ -796,7 +816,7 @@
         },
         "icon": {
           "label": "Icon (Emoji)",
-          "placeholder": "Ex: \ud83d\uded2",
+          "placeholder": "Ex: 🛒",
           "description": "Optional emoji to represent this category"
         },
         "color": {

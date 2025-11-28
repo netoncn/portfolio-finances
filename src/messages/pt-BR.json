@@ -23,7 +23,15 @@
     "tryAgain": "Tentar novamente",
     "goHome": "Ir para Home",
     "goBack": "Voltar",
-    "contact": "Contato"
+    "contact": "Contato",
+    "export": {
+      "button": "Exportar",
+      "csv": "Exportar CSV",
+      "json": "Exportar JSON",
+      "success": "{count} registros exportados como {format}",
+      "error": "Erro ao exportar dados",
+      "noData": "Nenhum dado para exportar"
+    }
   },
   "nav": {
     "home": "Início",
@@ -56,7 +64,12 @@
       "users": "Usuários",
       "transactions": "Transações processadas",
       "savings": "Economia média"
-    }
+    },
+    "security": {
+      "title": "Seus dados estão seguros conosco",
+      "description": "Utilizamos criptografia de ponta a ponta e seguimos os mais altos padrões de segurança para proteger suas informações financeiras."
+    },
+    "learnMore": "Saiba mais"
   },
   "features": {
     "title": "Recursos que Fazem a Diferença",
@@ -81,9 +94,9 @@
       "title": "Insights com IA",
       "description": "Análises personalizadas e sugestões para melhorar sua saúde financeira"
     },
-    "gamification": {
-      "title": "Gamificação",
-      "description": "Ganhe pontos e conquistas ao atingir suas metas financeiras"
+    "points": {
+      "title": "Carteira de Pontos",
+      "description": "Monitore e maximize o uso de pontos e milhas dos seus cartões"
     }
   },
   "auth": {
@@ -761,7 +774,9 @@
       "noResults": "Nenhuma categoria encontrada",
       "showing": "Mostrando",
       "of": "de",
-      "categories": "categoria(s)"
+      "categories": "categoria(s)",
+      "system": "Sistema",
+      "adjustFilters": "Tente ajustar os filtros de busca"
     },
     "types": {
       "expense": "Despesa",
@@ -796,7 +811,7 @@
         },
         "icon": {
           "label": "Ícone (Emoji)",
-          "placeholder": "Ex: \ud83d\uded2",
+          "placeholder": "Ex: 🛒",
           "description": "Emoji opcional para representar esta categoria"
         },
         "color": {
@@ -835,6 +850,11 @@
       "description": "Tem certeza que deseja excluir esta categoria? Esta ação não pode ser desfeita.",
       "cancel": "Cancelar",
       "confirm": "Sim, Excluir"
+    },
+    "filters": {
+      "search": "Buscar por nome ou palavras-chave...",
+      "type": "Filtrar por tipo",
+      "allTypes": "Todos os tipos"
     }
   },
   "budgets": {

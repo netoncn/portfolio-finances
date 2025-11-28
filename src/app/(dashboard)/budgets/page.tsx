@@ -1,11 +1,12 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import { BudgetFormDialog } from "@/components/budgets/BudgetFormDialog";
 import { BudgetsTable } from "@/components/budgets/BudgetsTable";
+import { ExportButton } from "@/components/export/ExportButton";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,7 +18,16 @@ import {
 } from "@/components/ui/dialog";
 import type { Budget } from "@/domain/budgets/types/budget";
 import { useBudgets, useDeleteBudget } from "@/hooks/use-budgets";
+import { budgetColumns } from "@/lib/export/columns";
 import { formatCurrency } from "@/lib/utils";
+
+const BudgetFormDialog = dynamic(
+  () =>
+    import("@/components/budgets/BudgetFormDialog").then(
+      (mod) => mod.BudgetFormDialog,
+    ),
+  { ssr: false },
+);
 
 export default function BudgetsPage() {
   const t = useTranslations("budgets");
@@ -96,10 +106,19 @@ export default function BudgetsPage() {
             </h1>
             <p className="text-muted-foreground">{t("description")}</p>
           </div>
-          <Button size="lg" onClick={handleCreateBudget}>
-            <Plus className="size-4" />
-            {t("actions.new")}
-          </Button>
+          <div className="flex gap-2">
+            <ExportButton
+              data={budgets}
+              columns={budgetColumns}
+              filename="orcamentos"
+              module="budgets"
+              disabled={isLoading}
+            />
+            <Button size="lg" onClick={handleCreateBudget}>
+              <Plus className="size-4" />
+              {t("actions.new")}
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -122,7 +141,7 @@ export default function BudgetsPage() {
                 <p className="text-sm text-muted-foreground mb-1">
                   {t("stats.totalSpent")}
                 </p>
-                <p className="text-3xl font-bold text-red-600 dark:text-red-400">
+                <p className="text-3xl font-bold text-finance-loss">
                   {formatCurrency(totalSpent)}
                 </p>
               </div>
@@ -138,8 +157,8 @@ export default function BudgetsPage() {
                 <p
                   className={`text-3xl font-bold ${
                     totalRemaining < 0
-                      ? "text-red-600 dark:text-red-400"
-                      : "text-green-600 dark:text-green-400"
+                      ? "text-finance-loss"
+                      : "text-finance-gain"
                   }`}
                 >
                   {formatCurrency(totalRemaining)}

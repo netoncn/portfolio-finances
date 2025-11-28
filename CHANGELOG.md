@@ -1,6 +1,98 @@
 # 🔄 Changelog - Correções e Melhorias
 
-## 📅 Data: 31/10/2024
+## 📅 [1.2.0] - 28/11/2024
+
+### [FIN-090][UI-009] UI Polish: Dark Mode, Empty States, Toasts
+
+#### 🎨 **Dark Mode Improvements**
+
+**Cores de Chart Dinâmicas:**
+- Criado hook `useChartColors` em `src/hooks/use-chart-colors.ts`
+- Cores de income/expense/balance agora adaptam automaticamente ao tema
+- Removidas cores hardcoded (#10b981, #ef4444, #3b82f6) do `TrendLineChart`
+- Substituído `text-blue-600 dark:text-blue-400` por `text-primary`
+
+**Arquivos Modificados:**
+- `src/components/dashboard/TrendLineChart.tsx`
+- `src/hooks/use-chart-colors.ts` (novo)
+
+---
+
+#### 📭 **Empty States Consistentes**
+
+**Traduções Adicionadas:**
+- `categories.filters.search` - Placeholder de busca
+- `categories.filters.type` - Placeholder de filtro
+- `categories.filters.allTypes` - "Todos os tipos"
+- `categories.table.adjustFilters` - "Tente ajustar os filtros"
+- `categories.table.system` - Badge "Sistema"
+
+**Arquivos Modificados:**
+- `src/components/categories/CategoriesTable.tsx` - 5 textos hardcoded removidos
+- `src/messages/en.json` - Novas traduções
+- `src/messages/pt-BR.json` - Novas traduções
+
+---
+
+#### ⏳ **Loading States (Skeleton)**
+
+**Novos Arquivos:**
+- `src/app/(dashboard)/goals/loading.tsx` - Skeleton para página de metas
+- `src/app/(dashboard)/investments/loading.tsx` - Skeleton para investimentos
+- `src/app/(dashboard)/points/loading.tsx` - Skeleton para pontos
+
+---
+
+#### 🔔 **Toast Utilities**
+
+**Novo Arquivo:** `src/lib/toast.ts`
+
+**Funções Disponíveis:**
+```typescript
+// Erro com detalhes extraídos automaticamente
+showErrorToast(error, { title?, description? })
+
+// Toasts básicos com descrição opcional
+showSuccessToast(message, description?)
+showInfoToast(message, description?)
+showWarningToast(message, description?)
+
+// Loading toast com callbacks
+const loader = showLoadingToast("Processing...")
+loader.success("Done!")
+loader.error(error)
+loader.dismiss()
+
+// Promise wrapper com feedback automático
+await toastPromise(asyncOperation, {
+  loading: "Saving...",
+  success: "Saved!",
+  error: "Failed to save"
+})
+```
+
+---
+
+#### 📊 **Impacto**
+
+| Métrica | Antes | Depois |
+|---------|-------|--------|
+| Textos hardcoded (CategoriesTable) | 5 | 0 ✅ |
+| Cores hardcoded (Charts) | 3 | 0 ✅ |
+| Páginas sem loading.tsx | 3 | 0 ✅ |
+| Toast utilities | 0 | 6 funções ✅ |
+
+---
+
+#### ✅ **Verificação**
+- Build: ✅ Passou
+- TypeScript: ✅ Sem erros
+- Dark Mode: ✅ Cores adaptativas
+
+---
+
+## 📅 [1.1.0] - 31/10/2024
+
 
 ---
 

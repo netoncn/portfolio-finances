@@ -1,18 +1,33 @@
 "use client";
 
 import { FileUp, Plus } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { ImportDialog } from "@/components/import/ImportDialog";
+import { ExportButton } from "@/components/export/ExportButton";
 import { InstallmentGroupsSection } from "@/components/installments/InstallmentGroupsSection";
 import { TransactionFilters as Filters } from "@/components/transactions/TransactionFilters";
-import { TransactionForm } from "@/components/transactions/TransactionForm";
 import { TransactionsTable } from "@/components/transactions/TransactionsTable";
 import { Button } from "@/components/ui/button";
 import {
   type TransactionFilters,
   useTransactions,
 } from "@/hooks/use-transactions";
+import { transactionColumns } from "@/lib/export/columns";
+
+const ImportDialog = dynamic(
+  () =>
+    import("@/components/import/ImportDialog").then((mod) => mod.ImportDialog),
+  { ssr: false },
+);
+
+const TransactionForm = dynamic(
+  () =>
+    import("@/components/transactions/TransactionForm").then(
+      (mod) => mod.TransactionForm,
+    ),
+  { ssr: false },
+);
 
 export default function TransactionsPage() {
   const t = useTranslations("transactions");
@@ -34,6 +49,14 @@ export default function TransactionsPage() {
           <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
         <div className="flex gap-2">
+          <ExportButton
+            data={transactions}
+            columns={transactionColumns}
+            filename="transacoes"
+            module="transactions"
+            disabled={isLoading}
+            filters={filters}
+          />
           <Button variant="outline" onClick={() => setImportOpen(true)}>
             <FileUp className="mr-2 h-4 w-4" />
             {t("actions.import")}

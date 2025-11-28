@@ -96,7 +96,7 @@ export function CategoriesTable({
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search by name or keywords..."
+              placeholder={t("filters.search")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
@@ -105,10 +105,10 @@ export function CategoriesTable({
 
           <Select value={typeFilter} onValueChange={setTypeFilter}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by type" />
+              <SelectValue placeholder={t("filters.type")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All types</SelectItem>
+              <SelectItem value="all">{t("filters.allTypes")}</SelectItem>
               <SelectItem value="expense">{t("types.expense")}</SelectItem>
               <SelectItem value="income">{t("types.income")}</SelectItem>
               <SelectItem value="transfer">{t("types.transfer")}</SelectItem>
@@ -124,7 +124,7 @@ export function CategoriesTable({
             </h3>
             <p className="text-sm text-muted-foreground">
               {searchQuery || typeFilter !== "all"
-                ? "Try adjusting the search filters"
+                ? t("table.adjustFilters")
                 : t("emptyState.description")}
             </p>
           </div>
@@ -194,7 +194,7 @@ export function CategoriesTable({
                     <TableCell className="text-center">
                       {category.isSystem ? (
                         <Badge variant="secondary" className="text-xs">
-                          System
+                          {t("table.system")}
                         </Badge>
                       ) : (
                         "-"

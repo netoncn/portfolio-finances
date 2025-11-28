@@ -87,11 +87,9 @@ export function BudgetOverview({
                 <span
                   className={cn(
                     "text-sm font-bold",
-                    isOverBudget && "text-red-600 dark:text-red-400",
-                    isNearLimit && "text-yellow-600 dark:text-yellow-400",
-                    !isOverBudget &&
-                      !isNearLimit &&
-                      "text-green-600 dark:text-green-400",
+                    isOverBudget && "text-finance-loss",
+                    isNearLimit && "text-finance-neutral",
+                    !isOverBudget && !isNearLimit && "text-finance-gain",
                   )}
                 >
                   {budgetOverview.percentageUsed.toFixed(1)}%
@@ -133,8 +131,8 @@ export function BudgetOverview({
                   className={cn(
                     "text-lg font-bold",
                     budgetOverview.totalBudgeted - budgetOverview.totalSpent < 0
-                      ? "text-red-600 dark:text-red-400"
-                      : "text-green-600 dark:text-green-400",
+                      ? "text-finance-loss"
+                      : "text-finance-gain",
                   )}
                 >
                   {formatCurrency(
@@ -157,16 +155,16 @@ export function BudgetOverview({
               <div className="space-y-2 pt-4 border-t">
                 {budgetOverview.overBudgetCount > 0 && (
                   <div className="flex items-center gap-2 text-sm">
-                    <TrendingDown className="size-4 text-red-600" />
-                    <span className="text-red-600 dark:text-red-400">
+                    <TrendingDown className="size-4 text-finance-loss" />
+                    <span className="text-finance-loss">
                       {budgetOverview.overBudgetCount} {t("overBudget")}
                     </span>
                   </div>
                 )}
                 {budgetOverview.nearLimitCount > 0 && (
                   <div className="flex items-center gap-2 text-sm">
-                    <TrendingUp className="size-4 text-yellow-600" />
-                    <span className="text-yellow-600 dark:text-yellow-400">
+                    <TrendingUp className="size-4 text-finance-neutral" />
+                    <span className="text-finance-neutral">
                       {budgetOverview.nearLimitCount} {t("nearLimit")}
                     </span>
                   </div>
