@@ -21,6 +21,17 @@ export class AnthropicProvider extends BaseLLMProvider {
     });
   }
 
+  private toAIMessages(
+    messages: LLMMessage[],
+  ): Array<{ role: "system" | "user" | "assistant"; content: string }> {
+    return messages
+      .filter((msg) => msg.role !== "tool")
+      .map((msg) => ({
+        role: msg.role as "system" | "user" | "assistant",
+        content: msg.content,
+      }));
+  }
+
   async generateText(
     messages: LLMMessage[],
     options?: LLMGenerationOptions,
@@ -34,10 +45,7 @@ export class AnthropicProvider extends BaseLLMProvider {
 
       const result = await generateText({
         model: this.client(mergedOptions.model),
-        messages: messages.map((msg) => ({
-          role: msg.role,
-          content: msg.content,
-        })),
+        messages: this.toAIMessages(messages),
         temperature: mergedOptions.temperature,
         topP: mergedOptions.topP,
         maxRetries: 3,
@@ -85,10 +93,7 @@ export class AnthropicProvider extends BaseLLMProvider {
 
       const result = await generateText({
         model: this.client(mergedOptions.model),
-        messages: enhancedMessages.map((msg) => ({
-          role: msg.role,
-          content: msg.content,
-        })),
+        messages: this.toAIMessages(enhancedMessages),
         temperature: mergedOptions.temperature,
         topP: mergedOptions.topP,
         maxRetries: 3,

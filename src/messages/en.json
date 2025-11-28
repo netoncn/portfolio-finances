@@ -1349,7 +1349,40 @@
       "Am I on track with my budget?",
       "What's my savings rate?",
       "Show me recent transactions"
-    ]
+    ],
+    "tools": {
+      "used": "{count, plural, =1 {1 tool used} other {# tools used}}",
+      "labels": {
+        "get_transactions_summary": "Transaction summary",
+        "search_transactions": "Search transactions",
+        "get_spending_by_category": "Spending by category",
+        "get_spending_trend": "Spending trend",
+        "get_largest_expenses": "Largest expenses",
+        "get_budget_status": "Budget status",
+        "get_budget_alerts": "Budget alerts",
+        "get_budget_recommendations": "Budget recommendations",
+        "list_categories": "List categories",
+        "get_category_spending": "Category spending",
+        "compare_category_periods": "Compare periods",
+        "get_accounts_summary": "Accounts summary",
+        "get_account_balance": "Account balance",
+        "get_credit_card_info": "Credit card info",
+        "get_points_summary": "Points summary",
+        "get_points_by_program": "Points by program",
+        "get_expiring_points": "Expiring points",
+        "calculate_points_value": "Calculate points value",
+        "compare_points_vs_cash": "Compare points vs cash",
+        "get_best_offers": "Best offers",
+        "get_points_history": "Points history",
+        "get_goals_progress": "Goals progress",
+        "get_goal_details": "Goal details",
+        "get_investment_summary": "Investment summary",
+        "get_positions": "Positions",
+        "get_earnings": "Earnings",
+        "get_investment_performance": "Investment performance",
+        "get_spending_cut_plan": "Spending cut plan"
+      }
+    }
   },
   "insights": {
     "title": "AI Insights",

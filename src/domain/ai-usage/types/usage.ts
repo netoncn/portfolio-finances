@@ -3,6 +3,7 @@ import type { BaseEntity } from "@/types/common";
 
 export type AIFeatureType =
   | "chat" // Financial chat
+  | "chat_with_tools" // Financial chat with tool calling
   | "classification" // Transaction classification
   | "insights" // AI insights generation
   | "review"; // Review queue processing

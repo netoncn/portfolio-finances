@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { formatMonth, getCurrentMonth, useChat } from "@/hooks/use-chat";
+import { useChatWithTools } from "@/hooks/use-chat-with-tools";
 import { ChatInput } from "./ChatInput";
 import { ChatMessage } from "./ChatMessage";
 
@@ -21,8 +21,7 @@ interface QuickChatDialogProps {
 
 export function QuickChatDialog({ open, onOpenChange }: QuickChatDialogProps) {
   const t = useTranslations("chat");
-  const currentMonth = getCurrentMonth();
-  const { messages, sendMessage, isLoading } = useChat(currentMonth);
+  const { messages, sendMessage, isLoading } = useChatWithTools();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,9 +38,7 @@ export function QuickChatDialog({ open, onOpenChange }: QuickChatDialogProps) {
             <MessageSquare className="h-5 w-5" />
             {t("title")}
           </DialogTitle>
-          <DialogDescription>
-            {t("subtitle")} {formatMonth(currentMonth)}
-          </DialogDescription>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         <div className="flex-1 overflow-y-auto px-1 min-h-[300px] max-h-[50vh]">

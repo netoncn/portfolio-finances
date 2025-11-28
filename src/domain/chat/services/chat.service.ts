@@ -1,7 +1,11 @@
 import "server-only";
+import { FinancialAggregatorService } from "@/domain/ai/rag/financial-aggregator.service";
+import type { RAGFinancialContext } from "@/domain/ai/rag/rag.types";
+import { RAGContextSerializerService } from "@/domain/ai/rag/rag-context-serializer.service";
 import { AIServiceWrapper } from "@/domain/ai-usage";
 import { BudgetService } from "@/domain/budgets/services/budget.service";
 import { CategoryService } from "@/domain/categories/services/category.service";
+import { PointsContextService } from "@/domain/points/ai";
 import { TransactionService } from "@/domain/transactions/services/transaction.service";
 import { type LLMMessage, LLMProviderFactory } from "@/lib/llm";
 import { logger } from "@/lib/logger";
@@ -20,11 +24,13 @@ export class ChatService {
       const periodStart = new Date(year, monthNum - 1, 1).getTime();
       const periodEnd = new Date(year, monthNum, 0, 23, 59, 59, 999).getTime();
 
-      const [transactions, categories, budgets] = await Promise.all([
-        TransactionService.listByUser(userId),
-        CategoryService.listByUser(userId),
-        BudgetService.listByUser(userId).catch(() => []),
-      ]);
+      const [transactions, categories, budgets, pointsContext] =
+        await Promise.all([
+          TransactionService.listByUser(userId),
+          CategoryService.listByUser(userId),
+          BudgetService.listByUser(userId).catch(() => []),
+          PointsContextService.buildPointsContext(userId).catch(() => ""),
+        ]);
 
       const monthTransactions = transactions.filter(
         (t) => t.date >= periodStart && t.date <= periodEnd,
@@ -125,6 +131,7 @@ export class ChatService {
         topCategories,
         budgets: budgetStatus,
         recentTransactions,
+        pointsContext: pointsContext || undefined,
       };
     } catch (error) {
       logger.error("Failed to build financial context", error as Error);
@@ -198,8 +205,14 @@ export class ChatService {
     context: FinancialContext,
     locale: string,
   ): string {
-    const { month, summary, topCategories, budgets, recentTransactions } =
-      context;
+    const {
+      month,
+      summary,
+      topCategories,
+      budgets,
+      recentTransactions,
+      pointsContext,
+    } = context;
 
     const monthName = new Date(`${month}-01`).toLocaleDateString("en-US", {
       month: "long",
@@ -255,6 +268,10 @@ TOP SPENDING CATEGORIES:
       }
     }
 
+    if (pointsContext) {
+      prompt += pointsContext;
+    }
+
     prompt += `\nGUIDELINES:
 - Answer questions clearly and concisely in the user's language (${locale})
 - Use the financial data provided above to give accurate answers
@@ -262,9 +279,119 @@ TOP SPENDING CATEGORIES:
 - If asked about specific transactions or categories not in the data, politely indicate you can only see the summary data provided
 - Provide helpful insights and suggestions when appropriate
 - If the user asks about a different time period, remind them you currently only have data for ${monthName}
+- For points/miles questions, use the POINTS & MILES data above; recommend using points before expiration and highlight good bonus offers
 - Be conversational and friendly, but professional
 - Keep responses concise (2-4 sentences unless more detail is specifically requested)`;
 
     return prompt;
+  }
+
+  static async buildRAGContext(userId: string): Promise<RAGFinancialContext> {
+    return FinancialAggregatorService.buildRAGContext(userId);
+  }
+
+  static async processMessageWithRAG(
+    userId: string,
+    userMessage: string,
+    history: ChatMessage[] = [],
+  ): Promise<string> {
+    try {
+      if (!LLMProviderFactory.isAnyProviderAvailable()) {
+        return "I'm sorry, but the AI service is currently unavailable. Please check your configuration.";
+      }
+
+      const locale = await getUserLocale();
+
+      const ragContext = await ChatService.buildRAGContext(userId);
+
+      const systemPrompt = ChatService.buildRAGSystemPrompt(ragContext, locale);
+
+      const messages: LLMMessage[] = [
+        {
+          role: "system",
+          content: systemPrompt,
+        },
+      ];
+
+      const recentHistory = history.slice(-5);
+      for (const msg of recentHistory) {
+        if (msg.role === "user" || msg.role === "assistant") {
+          messages.push({
+            role: msg.role,
+            content: msg.content,
+          });
+        }
+      }
+
+      const sanitizedMessage = PrivacyService.sanitizeChatMessage({
+        content: userMessage,
+        role: "user",
+      });
+
+      messages.push({
+        role: "user",
+        content: sanitizedMessage.content,
+      });
+
+      const result = await AIServiceWrapper.generateText(
+        userId,
+        "chat",
+        messages,
+        {
+          temperature: 0.7,
+        },
+        {
+          month: ragContext.currentPeriod.month,
+          historyLength: recentHistory.length,
+          ragEnabled: true,
+        },
+      );
+
+      return result.text;
+    } catch (error) {
+      logger.error("Failed to process chat message with RAG", error as Error);
+      throw error;
+    }
+  }
+
+  private static buildRAGSystemPrompt(
+    context: RAGFinancialContext,
+    locale: string,
+  ): string {
+    const languageInstruction =
+      locale === "pt-BR"
+        ? "You MUST respond in Brazilian Portuguese (pt-BR). All your responses should be in Portuguese."
+        : "You should respond in English.";
+
+    const currencySymbol = locale === "pt-BR" ? "R$" : "$";
+
+    const serializedContext = RAGContextSerializerService.serialize(context, {
+      locale,
+      currencySymbol,
+    });
+
+    return `You are a helpful financial assistant. You help users understand their financial situation and answer questions about their spending, income, budgets, goals, and investments.
+
+IMPORTANT LANGUAGE INSTRUCTION:
+${languageInstruction}
+
+${serializedContext}
+
+GUIDELINES:
+- Answer questions clearly and concisely in the user's language (${locale})
+- Use the financial data provided above to give accurate, personalized answers
+- When discussing money, always format as currency with the ${currencySymbol} symbol and 2 decimal places
+- Reference specific insights, trends, and patterns from the data when relevant
+- Proactively highlight important alerts or warnings if they relate to the user's question
+- For budget questions, consider historical averages and projections
+- For goal questions, provide progress updates and suggestions to stay on track
+- For points/miles questions, recommend using points before expiration and highlight good bonus offers
+- Be conversational and friendly, but professional
+- Keep responses concise (2-4 sentences unless more detail is specifically requested)
+- If you don't have enough data to answer a question, explain what data you have access to`;
+  }
+
+  static invalidateRAGCache(userId: string): void {
+    FinancialAggregatorService.invalidateUserCache(userId);
   }
 }

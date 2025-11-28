@@ -75,7 +75,10 @@ export type AuditEventType =
   // Points operation events
   | "points_operation.created"
   | "points_operation.updated"
-  | "points_operation.deleted";
+  | "points_operation.deleted"
+  // AI tool events
+  | "ai_tool.executed"
+  | "ai_tool.failed";
 
 export type AuditResourceType =
   | "account"
@@ -92,7 +95,8 @@ export type AuditResourceType =
   | "earning"
   | "points_program"
   | "points_balance"
-  | "points_operation";
+  | "points_operation"
+  | "ai_tool";
 
 export interface AuditEventMetadata {
   changedFields?: string[];
@@ -102,7 +106,7 @@ export interface AuditEventMetadata {
   newValues?: Record<string, unknown>;
 
   reason?: string;
-  source?: "web" | "mobile" | "api" | "system" | "import";
+  source?: "web" | "mobile" | "api" | "system" | "import" | "ai";
   ipAddress?: string;
   userAgent?: string;
 
@@ -125,6 +129,13 @@ export interface AuditEventMetadata {
   targetAmount?: number;
   percentageComplete?: number;
   deletedValues?: Record<string, unknown>;
+
+  // AI tool-specific metadata
+  toolName?: string;
+  status?: string;
+  input?: Record<string, unknown>;
+  month?: string;
+  locale?: string;
 }
 
 export interface AuditEvent extends BaseEntity {

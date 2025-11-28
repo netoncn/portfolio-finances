@@ -1349,7 +1349,40 @@
       "Estou dentro do orçamento?",
       "Qual é minha taxa de economia?",
       "Mostre transações recentes"
-    ]
+    ],
+    "tools": {
+      "used": "{count, plural, =1 {1 ferramenta usada} other {# ferramentas usadas}}",
+      "labels": {
+        "get_transactions_summary": "Resumo de transações",
+        "search_transactions": "Buscar transações",
+        "get_spending_by_category": "Gastos por categoria",
+        "get_spending_trend": "Tendência de gastos",
+        "get_largest_expenses": "Maiores despesas",
+        "get_budget_status": "Status de orçamentos",
+        "get_budget_alerts": "Alertas de orçamento",
+        "get_budget_recommendations": "Recomendações de orçamento",
+        "list_categories": "Listar categorias",
+        "get_category_spending": "Gastos por categoria",
+        "compare_category_periods": "Comparar períodos",
+        "get_accounts_summary": "Resumo de contas",
+        "get_account_balance": "Saldo da conta",
+        "get_credit_card_info": "Info cartão de crédito",
+        "get_points_summary": "Resumo de pontos",
+        "get_points_by_program": "Pontos por programa",
+        "get_expiring_points": "Pontos expirando",
+        "calculate_points_value": "Calcular valor de pontos",
+        "compare_points_vs_cash": "Comparar pontos vs dinheiro",
+        "get_best_offers": "Melhores ofertas",
+        "get_points_history": "Histórico de pontos",
+        "get_goals_progress": "Progresso das metas",
+        "get_goal_details": "Detalhes da meta",
+        "get_investment_summary": "Resumo de investimentos",
+        "get_positions": "Posições",
+        "get_earnings": "Rendimentos",
+        "get_investment_performance": "Performance de investimentos",
+        "get_spending_cut_plan": "Plano de corte de gastos"
+      }
+    }
   },
   "insights": {
     "title": "Insights Financeiros",

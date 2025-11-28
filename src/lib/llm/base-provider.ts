@@ -7,6 +7,7 @@ import type {
   LLMMessage,
   LLMProviderConfig,
   LLMProviderType,
+  LLMStreamResult,
 } from "./types";
 
 export abstract class BaseLLMProvider implements ILLMProvider {
@@ -68,7 +69,7 @@ export abstract class BaseLLMProvider implements ILLMProvider {
 
   protected mergeOptions(
     options?: LLMGenerationOptions,
-  ): Required<LLMGenerationOptions> {
+  ): LLMGenerationOptions & { model: string } {
     return {
       model: options?.model || this.config.model,
       temperature:
@@ -85,6 +86,15 @@ export abstract class BaseLLMProvider implements ILLMProvider {
         this.config.defaultOptions?.presencePenalty ??
         0,
       stop: options?.stop ?? this.config.defaultOptions?.stop ?? [],
+      tools: options?.tools,
+      toolChoice: options?.toolChoice,
     };
+  }
+
+  async streamText(
+    _messages: LLMMessage[],
+    _options?: LLMGenerationOptions,
+  ): Promise<LLMStreamResult> {
+    throw new Error(`Streaming not supported by ${this.type} provider`);
   }
 }
